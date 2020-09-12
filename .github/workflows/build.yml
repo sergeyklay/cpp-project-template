@@ -57,6 +57,7 @@ jobs:
           # servers are unstable or even offline.
           # sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           # sudo rm -f /etc/apt/sources.list.d/azure*.list
+          ls -1 /etc/apt/sources.list.d/
 
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
