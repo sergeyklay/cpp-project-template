@@ -59,9 +59,9 @@ jobs:
           # sudo rm -f /etc/apt/sources.list.d/azure*.list
           ls -1 /etc/apt/sources.list.d/
 
-          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
-          sudo apt-get update --quiet --yes 1>/dev/null
+          #echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          #sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
+          #sudo apt-get update --quiet --yes 1>/dev/null
 
           if [ "${{ matrix.compiler }}" = "gcc" ]; then
             sudo apt-get install --no-install-recommends -q -y gcc-${{ matrix.version }}
