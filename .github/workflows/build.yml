@@ -20,7 +20,7 @@ on:
 jobs:
   simple_build:
 
-    name: "${{ project }}: ${{ matrix.toolchain }}"
+    name: "${{ matrix.project }}: ${{ matrix.toolchain }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
