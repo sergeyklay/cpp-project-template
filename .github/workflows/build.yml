@@ -96,7 +96,8 @@ jobs:
           cmake \
             -S . \
             -Bbuild \
-            -DCMAKE_BUILD_TYPE=Debug
+            -DCMAKE_BUILD_TYPE=Debug \
+            -GNinja
 
           popd
 
