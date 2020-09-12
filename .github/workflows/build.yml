@@ -30,7 +30,7 @@ jobs:
         toolchain:
           - linux-gcc-7
           - linux-clang-5.0
-          # - macOS-latest
+          - macOS-latest
 
         include:
           - toolchain: linux-gcc-7
@@ -45,11 +45,11 @@ jobs:
             libcxx: libstdc++11
             version: '5.0'
 
-#          - toolchain: macOS-latest
-#            os: macOS-latest
-#            compiler: apple-clang
-#            libcxx: libc++
-#            version: '11.0'
+          - toolchain: macOS-latest
+            os: macOS-latest
+            compiler: apple-clang
+            libcxx: libc++
+            version: '11.0'
 
     steps:
       - name: Checkout Code
@@ -71,6 +71,16 @@ jobs:
           # Install compiler
           source "$GITHUB_WORKSPACE/.ci/install-compiler-ubuntu.sh" \
             "${{ matrix.compiler }}" "${{ matrix.version }}"
+
+      - name: Setup Prerequisites (macOS)
+        if: startsWith(runner.os, 'macOS')
+        run: |
+          sudo xcode-select -switch /Applications/Xcode.app
+
+          echo "::set-env name=CC::$(xcrun -f clang)"
+          echo "::set-env name=CXX::$(xcrun -f clang++)"
+          echo "::set-env name=SDKROOT::$(xcodebuild -version -sdk macosx Path)"
+          echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
 
       - name: Configure x64 Debug
         run: |
