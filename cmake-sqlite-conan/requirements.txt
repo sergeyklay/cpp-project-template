@@ -1,3 +1,4 @@
 cmakelang ~= 0.6.13
 clang-format ~= 9.0 ; sys_platform == 'linux'
+cpplint ~= 1.5
 PyYAML

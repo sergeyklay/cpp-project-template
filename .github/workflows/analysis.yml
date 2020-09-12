@@ -82,3 +82,7 @@ jobs:
           popd
 
           git diff --exit-code
+
+      - name: Run Cpplint Check
+        if: always()
+        run: cpplint --counting=detailed --recursive src include

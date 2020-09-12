@@ -18,3 +18,4 @@ external/*      linguist-vendored
 .editorconfig   export-ignore
 .gitattributes  export-ignore
 .github         export-ignore
+CPPLINT.cfg     export-ignore

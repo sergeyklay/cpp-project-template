@@ -9,6 +9,9 @@ cmake_minimum_required(VERSION 3.14)
 
 project(Stars LANGUAGES CXX)
 
+# Provide path for additional CMake scripts
+list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/../cmake)
+
 # Determine if Stars is built as a subproject (using add_subdirectory) or if it
 # is the master project.
 set(MASTER_PROJECT OFF)
@@ -17,6 +20,9 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   # Print the version number of CMake if this is the main project
   message(STATUS "CMake version: ${CMAKE_VERSION}")
 endif()
+
+# CMake Script Includes
+include(Bootstrap)
 
 # Provide path for additional CMake scripts
 list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/../external/cmake-scripts)

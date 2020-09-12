@@ -24,6 +24,7 @@ To build Stars you'll need the following requirements:
 
 Optional prerequisites are:
 
+- Static analysis tool for C/C++ code: [Cpplint][cpplint]
  - CMake formatting tool: [cmake-format][cmake-format]
  - C, C++ formatting tool: [clang-format][clang-format]
 
@@ -45,6 +46,7 @@ using [pip][pip]:
 
 - `cmakelang`
 - `clang-format`
+- `cpplint`
 
 ### Build
 
@@ -106,6 +108,7 @@ See the [LICENSE][license] file for more information.
 [cmake]: https://cmake.org/
 [make generator]: https://cmake.org/cmake/help/latest/generator/Unix%20Makefiles.html
 [ninja generator]: https://cmake.org/cmake/help/latest/generator/Ninja.html
+[cpplint]: https://github.com/cpplint/cpplint
 [cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
 [pip]: https://pip.pypa.io/
