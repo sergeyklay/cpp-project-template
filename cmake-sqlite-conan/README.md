@@ -19,12 +19,13 @@ To build Stars you'll need the following requirements:
   - [Clang][clang] >= 5.0.0
   - [Apple Clang][apple clang] >= 10.0.0
 - [CMake][cmake] 3.14 or later
-- Any supported CMake generator like [Unix Makefiles][make-generator],
-  [Ninja][ninja-generator] and so on
+- Any supported CMake generator like [Unix Makefiles][make generator],
+  [Ninja][ninja generator] and so on
 
 Optional prerequisites are:
 
  - CMake formatting tool: [cmake-format][cmake-format]
+ - C, C++ formatting tool: [clang-format][clang-format]
 
 If you're using Ubuntu, you can install the required packages this way:
 
@@ -43,12 +44,15 @@ reading this guide may vary. The following dependencies is recommended install
 using [pip][pip]:
 
 - `cmakelang`
+- `clang-format`
 
 They can be installed using pip as follows:
 
 ```shell script
 $ pip install --user -r requirements.txt
 ```
+
+**Note:** On macOS to install `clang-format` you'll need use `brew`.
 
 ### Build
 
@@ -94,9 +98,10 @@ See the [LICENSE][license] file for more information.
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
 [cmake]: https://cmake.org/
-[Unix Makefiles][make-generator]: https://cmake.org/cmake/help/latest/generator/Unix%20Makefiles.html
-[Ninja][ninja-generator]: https://cmake.org/cmake/help/latest/generator/Ninja.html
+[make generator]: https://cmake.org/cmake/help/latest/generator/Unix%20Makefiles.html
+[ninja generator]: https://cmake.org/cmake/help/latest/generator/Ninja.html
 [cmake-format]: https://github.com/cheshirekow/cmake_format
+[clang-format]: https://clang.llvm.org/docs/ClangFormat.html
 [pip]: https://pip.pypa.io/
 [cmake-cli]: https://cmake.org/cmake/help/latest/manual/cmake.1.html
 [cmake-buildsystem]: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html

@@ -7,9 +7,9 @@
 
 #include <stars/ChuckNorris.hpp>
 
-stars::ChuckNorris::ChuckNorris() {}
+stars::ChuckNorris::ChuckNorris() = default;
 
-stars::ChuckNorris::~ChuckNorris() {}
+stars::ChuckNorris::~ChuckNorris() = default;
 
 std::string stars::ChuckNorris::getFact() {
   return "Chuck Norris can slam a revolving door.";

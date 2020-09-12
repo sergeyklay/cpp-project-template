@@ -32,20 +32,25 @@ jobs:
           submodules: true
           fetch-depth: 1
 
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          architecture: x64
+
+      - name: Get PIP Cache Key
+        id: pip-cache
+        run: |
+          python -c "from pip._internal.locations import USER_CACHE_DIR; \
+                  print('::set-output name=dir::' + USER_CACHE_DIR)"
+
       - name: Setup pip Cache
-        id: analysis-tools-pip-cache
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.x
-          architecture: x64
 
       - name: Install Dependencies
         run: |
@@ -59,5 +64,21 @@ jobs:
         run: |
           cmake-format --version
           cmake-format -i $(find ./cmake -name '*.cmake')
-          cmake-format -i $(find "${{ matrix.project }}" -name CMakeLists.txt)
+
+          pushd "${{ matrix.project }}"
+          cmake-format -i $(find . -name CMakeLists.txt)
+          popd
+
+          git diff --exit-code
+
+      - name: Run C++ Coding Style Check
+        if: always()
+        run: |
+          clang-format --version
+
+          pushd "${{ matrix.project }}"
+          clang-format -i $(find ./src -name '*.[hc]pp')
+          clang-format -i $(find ./include -name '*.[hc]pp')
+          popd
+
           git diff --exit-code

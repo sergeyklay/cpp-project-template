@@ -15,20 +15,20 @@
 
 namespace stars {
 
-  /// \brief Chuck Norris class.
-  class ChuckNorris {
-  public:
-    ChuckNorris();
-    ~ChuckNorris();
+/// \brief Chuck Norris class.
+class ChuckNorris {
+ public:
+  ChuckNorris();
+  ~ChuckNorris();
 
-    // Make sure you cannot copy Chuck Norris
-    ChuckNorris(ChuckNorris const&) = delete;
-    ChuckNorris(ChuckNorris &&) = delete;
-    ChuckNorris& operator=(ChuckNorris const&) =delete;
-    ChuckNorris& operator=(ChuckNorris &&) =delete;
+  // Make sure you cannot copy Chuck Norris
+  ChuckNorris(ChuckNorris const &) = delete;
+  ChuckNorris(ChuckNorris &&) = delete;
+  ChuckNorris &operator=(ChuckNorris const &) = delete;
+  ChuckNorris &operator=(ChuckNorris &&) = delete;
 
-    std::string getFact();
-  };
-} // namespace ChuckNorris
+  std::string getFact();
+};
+}  // namespace stars
 
 #endif  // STARS_CHUCKNORRIS_HPP_
