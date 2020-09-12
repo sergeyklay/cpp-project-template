@@ -1,0 +1,81 @@
+name: build
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+    pull_request:
+      branches:
+        - master
+
+jobs:
+  simple_build:
+
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        name:
+          - linux-gcc-7
+          - linux-clang-5.0
+          # - macOS-latest
+
+        include:
+          - name: linux-gcc-7
+            os: ubuntu-18.04
+            compiler: gcc
+            libcxx: libstdc++11
+            version: '7'
+
+          - name: linux-clang-5.0
+            os: ubuntu-18.04
+            compiler: clang
+            libcxx: libstdc++11
+            version: '5.0'
+
+#          - name: macOS-latest
+#            os: macOS-latest
+#            compiler: apple-clang
+#            libcxx: libc++
+#            version: '11.0'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 5
+
+      - name: Setup Prerequisites (Linux)
+        if: startsWith(runner.os, 'Linux')
+        run: |
+          # We don't need this at all, and our
+          # builds often fails because Microsoft
+          # servers are unstable or even offline.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
+          sudo apt-get update --quiet --yes 1>/dev/null
+
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            sudo apt-get install --no-install-recommends -q -y gcc-${{ matrix.version }}
+            echo "::set-env name=CC::gcc-${{ matrix.version }}"
+            echo "::set-env name=CXX::g++-${{ matrix.version }}"
+          else
+            sudo apt-get install --no-install-recommends -q -y \
+              clang-${{ matrix.version }} llvm-${{ matrix.version }}
+            sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov \
+              /usr/bin/llvm-cov-${{ matrix.version }} 90
+
+            echo "::set-env name=CC::clang-${{ matrix.version }}"
+            echo "::set-env name=CXX::clang++-${{ matrix.version }}"
+
+      - name: Configure x64 Debug
+        run: |
+          $CC --version
+          cmake --version
