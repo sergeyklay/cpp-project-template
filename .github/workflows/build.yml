@@ -60,7 +60,7 @@ jobs:
         if: startsWith(runner.os, 'Linux')
         run: |
           # Prune unneeded ppas
-          bash .ci/prune-ppas.sh
+          bash "$GITHUB_WORKSPACE/.ci/prune-ppas.sh"
 
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -68,7 +68,8 @@ jobs:
           sudo apt-get update --quiet --yes 1>/dev/null
 
           # Install compiler
-          source .ci/install-compiler-ubuntu.sh "${{ matrix.compiler }}" "${{ matrix.version }}"
+          source "$GITHUB_WORKSPACE/.ci/install-compiler-ubuntu.sh" \
+            "${{ matrix.compiler }}" "${{ matrix.version }}"
 
       - name: Configure x64 Debug
         run: |

@@ -8,12 +8,15 @@
 # the LICENSE file that was distributed with this source code.
 
 declare -a sources=(
-  'ansible-ubuntu-ansible*'
+  'ansible*'
   'azure*'
+  'bazel'
+  '*libcontainers*'
   'google-chrome'
   'google-cloud-sdk'
   'heroku'
   'hvr-ubuntu-ghc-bionic'
+  'kubernetes'
   'microsoft-prod'
   'mongodb*'
   'mono-official-stable'
@@ -24,7 +27,8 @@ declare -a sources=(
 )
 
 for i in "${sources[@]}"; do
-  set -x
   sudo rm -f "/etc/apt/sources.list.d/${i}.list"
-  set +x
+  sudo rm -f "/etc/apt/sources.list.d/${i}.list.save"
 done
+
+ls -l /etc/apt/sources.list.d/
