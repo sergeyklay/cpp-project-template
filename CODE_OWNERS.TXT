@@ -1,0 +1,19 @@
+This file is a list of the people responsible for ensuring that patches for a
+particular part of Repository Templates for C++ Projects are reviewed, either
+by themselves or by someone else. They are also the gatekeepers for their par
+of Repository Templates for C++ Projects, with the final word on what goes in
+or not.
+
+The list is sorted by last name and formatted to allow easy grepping and
+beautification by scripts.  The fields are: name (N), email (E), web-address
+(W), PGP key ID and fingerprint (P), description (D), and snail-mail address
+(S).
+
+The sample of querying command to search "All" keyword:
+  awk -v RS='' -v ORS='\n\n' '/\nD: .*All/' CODE_OWNERS.TXT
+
+N: Serghei Iakovlev
+E: egrep@protonmail.ch
+W: https://serghei.blog
+P: 0x1E0B5331219BEA88
+D: All parts of Repository Templates for C++ Projects not covered by someone else
