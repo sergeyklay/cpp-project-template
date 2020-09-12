@@ -55,8 +55,8 @@ jobs:
           # We don't need this at all, and our
           # builds often fails because Microsoft
           # servers are unstable or even offline.
-          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          sudo rm -f /etc/apt/sources.list.d/azure*.list
+          # sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          # sudo rm -f /etc/apt/sources.list.d/azure*.list
 
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
