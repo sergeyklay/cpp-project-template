@@ -59,20 +59,11 @@ jobs:
       - name: Setup Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
-          # We don't need this at all, and our
-          # builds often fails because Microsoft
-          # servers are unstable or even offline.
-          # sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
-          # sudo rm -f /etc/apt/sources.list.d/azure*.list
-          ls -1 /etc/apt/sources.list.d/
-
-          #echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-          #sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
-          #sudo apt-get update --quiet --yes 1>/dev/null
+          # Prune unneeded ppas
+          bash .ci/prune-ppas.sh
 
           # Install compiler
-          source .ci/install-compiler-ubuntu.sh \
-            "${{ matrix.compiler }}" "${{ matrix.version }}"
+          source .ci/install-compiler-ubuntu.sh "${{ matrix.compiler }}" "${{ matrix.version }}"
 
       - name: Configure x64 Debug
         run: |
