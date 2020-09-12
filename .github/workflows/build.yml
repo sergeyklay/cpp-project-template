@@ -27,25 +27,25 @@ jobs:
       fail-fast: false
 
       matrix:
-        name:
+        toolchain:
           - linux-gcc-7
           - linux-clang-5.0
           # - macOS-latest
 
         include:
-          - name: linux-gcc-7
+          - toolchain: linux-gcc-7
             os: ubuntu-18.04
             compiler: gcc
             libcxx: libstdc++11
             version: '7'
 
-          - name: linux-clang-5.0
+          - toolchain: linux-clang-5.0
             os: ubuntu-18.04
             compiler: clang
             libcxx: libstdc++11
             version: '5.0'
 
-#          - name: macOS-latest
+#          - toolchain: macOS-latest
 #            os: macOS-latest
 #            compiler: apple-clang
 #            libcxx: libc++
@@ -87,7 +87,10 @@ jobs:
           popd
 
       - name: Build with ${{ matrix.compiler }}
-        run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
+        run: |
+          pushd cmake-sqlite-conan
+          cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
+          popd
 
       - name: Success Reporting
         if: success()
