@@ -2,11 +2,9 @@
 
 This repository contains my personal repository templates for C++ projects.
 
-## Contents
+## Projects
 
-- [Stars](./cmake-sqlite-conan)
-  - C++ version: `C++17`
-  - [CMake][cmake]
+- [Stars](./cmake-sqlite-conan): C++17, CMake
 
 ## License
 

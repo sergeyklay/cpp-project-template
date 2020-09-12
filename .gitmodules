@@ -1,0 +1,4 @@
+[submodule "external/cmake-scripts"]
+	path = external/cmake-scripts
+	url = https://github.com/StableCoder/cmake-scripts.git
+    branch = master

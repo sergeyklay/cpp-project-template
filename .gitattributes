@@ -1,5 +1,9 @@
 # Automatically normalize line endings for all text-based files
 * text=auto
 
+external/*      linguist-vendored
+
+.cmake-format   export-ignore linguist-language=YAML
+.editorconfig   export-ignore
 .gitattributes  export-ignore
 .github         export-ignore

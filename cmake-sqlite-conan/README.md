@@ -1,7 +1,7 @@
 # Stars
 
 A template project with with integrations of the following tools:
-  
+
 - [CMake][cmake]
 
 ## How to try it out
@@ -19,6 +19,10 @@ To build Stars you'll need the following requirements:
   - [Apple Clang][apple clang] >= 10.0.0
 - [CMake][cmake] 3.14 or later
 
+Optional prerequisites are:
+
+ - CMake formatting tool: [cmake-format][cmake-format]
+
 If you're using Ubuntu, you can install the required packages this way:
 
 ```shell script
@@ -32,7 +36,16 @@ $ brew install cmake
 ```
 
 Please note that specific versions of libraries and programs at the time of
-reading this guide may vary. 
+reading this guide may vary. The following dependencies is recommended install
+using [pip][pip]:
+
+- `cmakelang`
+
+They can be installed using pip as follows:
+
+```shell script
+$ pip install --user -r requirements.txt
+```
 
 ### Build
 
@@ -40,12 +53,21 @@ First you'll need clone the project:
 
 ```shell script
 $ git clone https://github.com/sergeyklay/cpp-project-templates
-$ cd cpp-project-templates/cmake-sqlite-conan
+$ git submodule init
+$ git submodule update
+```
+
+And wait for load any required dependencies. For git 1.6.1 or above you can
+use something similar to command bellow to pull latest of all submodules:
+
+```shell script
+$ git submodule update --remote --merge
 ```
 
 Finally configure and build project as follows:
 
 ```shell script
+$ cd cpp-project-templates/cmake-sqlite-conan
 $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
 $ cmake --build build
 ```
@@ -61,7 +83,9 @@ See the [LICENSE][license] file for more information.
 
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
-[apple clang]: https://apps.apple.com/us/app/xcode/id497799835 
+[apple clang]: https://apps.apple.com/us/app/xcode/id497799835
 [cmake]: https://cmake.org/
+[cmake-format]: https://github.com/cheshirekow/cmake_format
+[pip]: https://pip.pypa.io/
 [cmake-buildsystem]: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
 [license]: https://github.com/sergeyklay/cpp-project-templates/blob/master/LICENSE
