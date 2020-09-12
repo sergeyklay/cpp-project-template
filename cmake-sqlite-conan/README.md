@@ -52,6 +52,7 @@ First you'll need clone the project:
 
 ```shell script
 $ git clone https://github.com/sergeyklay/cpp-project-templates
+$ cd cpp-project-templates
 $ git submodule init
 $ git submodule update
 ```
@@ -63,18 +64,23 @@ use something similar to command bellow to pull latest of all submodules:
 $ git submodule update --remote --merge
 ```
 
-You can install optional dependencies using pip as follows:
+Nex, you can install optional dependencies using pip as follows:
 
 ```shell script
+$ cmake-sqlite-conan
 $ pip install --user -r requirements.txt
 ```
 
-**Note:** On macOS to install `clang-format` you'll need use `brew`.
+**Note:** On macOS to install `clang-format` you'll need use `brew`:
+
+```shell script
+$ brew install clang-format
+```
 
 Finally configure and build project as follows:
 
 ```shell script
-$ cd cpp-project-templates/cmake-sqlite-conan
+$ cmake-sqlite-conan
 $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
 $ cmake --build build
 ```
