@@ -1,3 +1,10 @@
+# This file is part of the Repository Templates for C++ Projects.
+#
+# (c) Serghei Iakovlev <egrep@protonmail.ch>
+#
+# For the full copyright and license information, please view
+# the LICENSE file that was distributed with this source code.
+
 name: build
 
 on:
@@ -63,18 +70,9 @@ jobs:
           #sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
           #sudo apt-get update --quiet --yes 1>/dev/null
 
-          if [ "${{ matrix.compiler }}" = "gcc" ]; then
-            sudo apt-get install --no-install-recommends -q -y gcc-${{ matrix.version }}
-            echo "::set-env name=CC::gcc-${{ matrix.version }}"
-            echo "::set-env name=CXX::g++-${{ matrix.version }}"
-          else
-            sudo apt-get install --no-install-recommends -q -y \
-              clang-${{ matrix.version }} llvm-${{ matrix.version }}
-            sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov \
-              /usr/bin/llvm-cov-${{ matrix.version }} 90
-
-            echo "::set-env name=CC::clang-${{ matrix.version }}"
-            echo "::set-env name=CXX::clang++-${{ matrix.version }}"
+          # Install compiler
+          source .ci/install-compiler-ubuntu.sh \
+            "${{ matrix.compiler }}" "${{ matrix.version }}"
 
       - name: Configure x64 Debug
         run: |
