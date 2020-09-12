@@ -46,14 +46,6 @@ using [pip][pip]:
 - `cmakelang`
 - `clang-format`
 
-They can be installed using pip as follows:
-
-```shell script
-$ pip install --user -r requirements.txt
-```
-
-**Note:** On macOS to install `clang-format` you'll need use `brew`.
-
 ### Build
 
 First you'll need clone the project:
@@ -70,6 +62,14 @@ use something similar to command bellow to pull latest of all submodules:
 ```shell script
 $ git submodule update --remote --merge
 ```
+
+You can install optional dependencies using pip as follows:
+
+```shell script
+$ pip install --user -r requirements.txt
+```
+
+**Note:** On macOS to install `clang-format` you'll need use `brew`.
 
 Finally configure and build project as follows:
 
