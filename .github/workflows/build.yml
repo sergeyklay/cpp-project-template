@@ -76,10 +76,16 @@ jobs:
           source "$GITHUB_WORKSPACE/.ci/install-compiler-ubuntu.sh" \
             "${{ matrix.compiler }}" "${{ matrix.version }}"
 
+          # Install build tools
+          sudo apt-get install --no-install-recommends -q -y ninja-build
+
       - name: Setup Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
+
+          # Install build tools
+          brew ninja
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
