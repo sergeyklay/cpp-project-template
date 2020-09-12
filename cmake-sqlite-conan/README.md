@@ -1,7 +1,15 @@
-## Getting Started
+# Stars
+
+A template project with with integrations of the following tools:
+  
+- [CMake][cmake]
+
+## How to try it out
 
 These instructions will get you a copy of the Stars project up and running on
 your local machine for development and testing purposes.
+
+### Prerequisites
 
 To build Stars you'll need the following requirements:
 
@@ -26,7 +34,6 @@ $ brew install cmake
 Please note that specific versions of libraries and programs at the time of
 reading this guide may vary. 
 
-### Prerequisites
 ### Build
 
 First you'll need clone the project:
@@ -43,7 +50,18 @@ $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
 $ cmake --build build
 ```
 
+### Further Reading
+
+- [`cmake-buildsystem(7)`][cmake-buildsystem]
+
+## License
+
+This project is open source software licensed under the Apache License 2.0.
+See the [LICENSE][license] file for more information.
+
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835 
 [cmake]: https://cmake.org/
+[cmake-buildsystem]: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
+[license]: https://github.com/sergeyklay/cpp-project-templates/blob/master/LICENSE

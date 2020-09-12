@@ -1,0 +1,5 @@
+# Automatically normalize line endings for all text-based files
+* text=auto
+
+.gitattributes  export-ignore
+.github         export-ignore
