@@ -85,7 +85,7 @@ jobs:
           sudo xcode-select -switch /Applications/Xcode.app
 
           # Install build tools
-          brew ninja
+          brew install ninja
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
