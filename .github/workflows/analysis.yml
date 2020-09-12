@@ -11,6 +11,8 @@ on:
   pull_request:
     branches:
       - master
+      - development
+  push:
 
 jobs:
   code_style:
@@ -27,6 +29,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
+          submodules: true
           fetch-depth: 1
 
       - name: Setup pip Cache
