@@ -5,6 +5,17 @@
 # For the full copyright and license information, please view
 # the LICENSE file that was distributed with this source code.
 
+parse:
+  additional_commands:
+    target_include_directories:
+      pargs: 1
+      flags:
+        - SYSTEM
+        - BEFORE
+      kwargs:
+        INTERFACE: '*'
+        PUBLIC: '*'
+        PRIVATE: '*'
 markup:
   bullet_char: '*'
   enum_char: .

@@ -58,9 +58,6 @@ jobs:
       - name: Run CMake Coding Style Check
         run: |
           cmake-format --version
-
-          pushd "${{ matrix.project }}"
           cmake-format -i $(find ./cmake -name '*.cmake')
-          cmake-format -i $(find . -name CMakeLists.txt)
+          cmake-format -i $(find "${{ matrix.project }}" -name CMakeLists.txt)
           git diff --exit-code
-          popd
