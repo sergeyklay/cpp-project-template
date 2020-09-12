@@ -20,7 +20,7 @@ on:
 jobs:
   simple_build:
 
-    name: ${{ matrix.toolchain }}
+    name: "${{ matrix.project }}: ${{ matrix.toolchain }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -31,6 +31,9 @@ jobs:
           - linux-gcc-7
           - linux-clang-5.0
           - macOS-latest
+
+        project:
+          - cmake-sqlite-conan
 
         include:
           - toolchain: linux-gcc-7
@@ -87,7 +90,7 @@ jobs:
           $CC --version
           cmake --version
 
-          pushd cmake-sqlite-conan
+          pushd "${{ matrix.project }}"
 
           cmake \
             -S . \
@@ -98,7 +101,7 @@ jobs:
 
       - name: Build with ${{ matrix.compiler }}
         run: |
-          pushd cmake-sqlite-conan
+          pushd "${{ matrix.project }}"
           cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
           popd
 
