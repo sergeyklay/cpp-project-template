@@ -23,10 +23,8 @@ declare -a sources=(
   'yarn'
 )
 
-set -x
-
 for i in "${sources[@]}"; do
-   sudo rm -f "/etc/apt/sources.list.d/${i}.list"
+  set -x
+  sudo rm -f "/etc/apt/sources.list.d/${i}.list"
+  set +x
 done
-
-set +x

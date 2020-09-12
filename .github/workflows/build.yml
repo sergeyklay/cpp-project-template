@@ -62,6 +62,11 @@ jobs:
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
 
+          # Add more toolchains
+          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
+          sudo apt-get update --quiet --yes 1>/dev/null
+
           # Install compiler
           source .ci/install-compiler-ubuntu.sh "${{ matrix.compiler }}" "${{ matrix.version }}"
 
