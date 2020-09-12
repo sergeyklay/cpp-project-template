@@ -1,0 +1,63 @@
+# This file is part of the Repository Templates for C++ Projects.
+#
+# (c) Serghei Iakovlev <egrep@protonmail.ch>
+#
+# For the full copyright and license information, please view
+# the LICENSE file that was distributed with this source code.
+
+name: analysis
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  code_style:
+
+    name: "${{ matrix.project }}: analysis"
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        project:
+          - cmake-sqlite-conan
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Setup pip Cache
+        id: analysis-tools-pip-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          version: 3.x
+          architecture: x64
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+          pushd "${{ matrix.project }}"
+          pip install -r requirements.txt
+          popd
+
+      - name: Run CMake Coding Style Check
+        run: |
+          cmake-format --version
+
+          pushd "${{ matrix.project }}"
+          cmake-format -i $(find ./cmake -name '*.cmake')
+          cmake-format -i $(find . -name CMakeLists.txt)
+          git diff --exit-code
+          popd
