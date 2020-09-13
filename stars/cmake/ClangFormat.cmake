@@ -74,10 +74,10 @@ function(clang_format TARGET_NAME)
                                                  -style=file ${FORMAT_FILES})
 
         if(NOT TARGET format)
-          add_custom_target(format)
+          add_custom_target(clang-format)
         endif()
 
-        add_dependencies(format ${TARGET_NAME})
+        add_dependencies(clang-format ${TARGET_NAME})
       endif()
     endif()
 

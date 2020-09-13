@@ -15,6 +15,8 @@
 # Add definition for cli library.
 add_library(chucknorris SHARED ChuckNorris.cpp)
 
+target_link_libraries(chucknorris CONAN_PKG::sqlite3)
+
 target_include_directories(
   chucknorris PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)

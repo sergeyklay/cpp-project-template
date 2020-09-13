@@ -18,6 +18,8 @@
 #ifndef STARS_INCLUDE_STARS_CHUCKNORRIS_HPP_
 #define STARS_INCLUDE_STARS_CHUCKNORRIS_HPP_
 
+#include <sqlite3.h>
+
 #include <string>
 
 namespace stars {
@@ -35,6 +37,9 @@ class ChuckNorris {
   ChuckNorris &operator=(ChuckNorris &&) = delete;
 
   std::string getFact();
+
+ private:
+  sqlite3 *db;
 };
 }  // namespace stars
 
