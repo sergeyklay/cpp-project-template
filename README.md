@@ -15,8 +15,8 @@ This repository contains my personal repository templates for C++ projects.
   - Package manager: [Conan][conan]
   - Build system: [CMake][cmake] with [Ninja][ninja]
   - Libraries: STL, [`sqlite3`][sqlite]
-  - Formatters: [cmake-format][cmake-format] and [clang-format][clang-format]
-  - Linters:[Cpplint][cpplint]
+  - Formatting tools: [cmake-format][cmake-format], [clang-format][clang-format]
+  - Static analysis tools:[Cpplint][cpplint], [Cppcheck][cppcheck]
   - CI: [GitHub Actions][actions]
   - Tested OS: macOS, Ubuntu
 
@@ -38,6 +38,7 @@ See the [LICENSE][license] file for more information.
 [sqlite]: https://www.sqlite.org/index.html
 [actions]: https://github.com/features/actions
 [cpplint]: https://github.com/cpplint/cpplint
+[cppcheck]: https://github.com/danmar/cppcheck
 [cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
 [license]: https://github.com/sergeyklay/cpp-project-templates/blob/master/LICENSE
