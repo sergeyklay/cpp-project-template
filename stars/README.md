@@ -1,11 +1,9 @@
 # Stars
 
-A template project with integrations of the following tools:
-
-- [CMake][cmake]
-- [Ninja][ninja]
-- [SQLite][sqlite]
-- [Conan][conan]
+This is a small C++ template program showing a project build using [CMake][cmake]
+as build generator with integrated [Conan][conan] package manager consuming (using
+and linking) with [SQLite][sqlite] library. This project uses [Ninja][ninja]
+build tools, but it can build with other tools like [GNU Make][make].
 
 ## How to try it out
 
@@ -101,14 +99,18 @@ $ pip install --user -r requirements.txt
 $ brew install clang-format
 ```
 
-Install project dependencies from `stars` directory using `conan` as follows:
+Initialize project with `conan` - this is using the `conanfile.txt` specifying
+that SQLite is an dependency and that `conan` should integrate with CMake:
 
 ```shell script
 $ conan install . -if=$(pwd)/build --build=missing
 ```
 
-For a detailed instruction on how to use and customize `conan` please refer
-[here][conan-start]. Next configure project as follows:
+This example establishes out-of-source `build/` folder, so that source folder
+is not polluted. For a detailed instruction on how to use and customize `conan`
+please refer [here][conan-start].
+
+Next, generate the build files using CMake:
 
 ```shell script
 $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
@@ -133,10 +135,25 @@ database and populate it by test data using following command from `stars` direc
 $ sqlite3 ./build/bin/stars.db < ./data/stars.sqlite
 ```
 
-Then run the demo application:
+If everything went successfully, you can run the built executable:
 
 ```shell script
 $ for i in {1..10}; do echo "  $i. $(./build/bin/stars)"; done
+```
+
+Expected output will something like:
+
+```
+  1. Chuck Norris counted to infinity. Twice.
+  2. Chuck Norris can kill two stones with one bird.
+  3. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
+  4. If, by some incredible space-time paradox, Chuck Norris would ever fight himself, he'd win. Period.
+  5. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
+  6. Chuck Norris counted to infinity. Twice.
+  7. Chuck Norris can slam a revolving door.
+  8. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
+  9. Chuck Norris can kill two stones with one bird.
+  10. Chuck Norris can slam a revolving door.
 ```
 
 ### Further Reading

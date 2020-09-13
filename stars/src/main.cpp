@@ -21,7 +21,10 @@ int main() {
   stars::ChuckNorris chuckNorris;
 
   std::string const fact = chuckNorris.getFact();
-  std::cout << fact << std::endl;
+
+  if (chuckNorris.getStatus() == 1) {
+    std::cout << fact << std::endl;
+  }
 
   return 0;
 }

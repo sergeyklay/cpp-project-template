@@ -14,18 +14,17 @@
 
 #include <sqlite3.h>
 
+#include <iostream>
+
 #include <stars/ChuckNorris.hpp>
 
 #include "Database.hpp"
 
 stars::ChuckNorris::ChuckNorris() {
-  auto database =
-      "file://" + std::string(STARS_DB_PATH) + "/" + std::string(STARS_DB_NAME);
-
-  if (sqlite3_open_v2(database.c_str(), &db,
-                      SQLITE_OPEN_URI | SQLITE_OPEN_READONLY,
-                      nullptr) != SQLITE_OK) {
-    // TODO(serghei): Unable to open database. Log me.
+  int flags = SQLITE_OPEN_URI | SQLITE_OPEN_READONLY;
+  if (sqlite3_open_v2(STARS_DB_URI, &db, flags, nullptr) != SQLITE_OK) {
+    std::cerr << "General error: " << sqlite3_errmsg(db) << std::endl;
+    dbStatus = -1;
     sqlite3_close(db);
   } else {
     dbStatus = 1;
@@ -38,10 +37,10 @@ stars::ChuckNorris::~ChuckNorris() {
     sqlite3_close(db);
   }
 }
+int stars::ChuckNorris::getStatus() { return dbStatus; }
 
 std::string stars::ChuckNorris::getFact() {
   if (dbStatus != 1) {
-    // TODO(serghei): Log me.
     return "";
   }
 
@@ -52,26 +51,32 @@ std::string stars::ChuckNorris::getFact() {
 
   rc = sqlite3_prepare_v2(db, q, -1, &stmt, nullptr);
   if (rc != SQLITE_OK) {
-    // TODO(serghei): Something went wrong. Log me.
+    std::cerr << "Failed to prepare database query: " << sqlite3_errmsg(db)
+              << std::endl;
+    dbStatus = -2;
+
+    sqlite3_finalize(stmt);
     return "";
   }
 
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_ROW) {
-    // TODO(serghei): Something went wrong. Log me.
+    if (rc != SQLITE_DONE) {
+      std::cerr << "Failed to select fact: " << sqlite3_errmsg(db) << std::endl;
+      dbStatus = -2;
+    } else {
+      std::cerr << "Failed to select fact: database is empty" << std::endl;
+      dbStatus = -1;
+    }
+
+    sqlite3_finalize(stmt);
     return "";
   }
 
   auto sqlite_row = sqlite3_column_text(stmt, 0);
-  if (sqlite_row != nullptr) {
-    auto row = reinterpret_cast<const char*>(sqlite_row);
-    res = std::string(row);
-  } else {
-    // Nothing to say. Database is empty
-    res = "";
-  }
+  auto row = reinterpret_cast<const char*>(sqlite_row);
+  res = std::string(row);
 
   sqlite3_finalize(stmt);
-
   return res;
 }

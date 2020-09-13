@@ -37,9 +37,11 @@ class ChuckNorris {
   ChuckNorris &operator=(ChuckNorris &&) = delete;
 
   std::string getFact();
+  int getStatus();
 
  private:
   sqlite3 *db = nullptr;
+  char **errMsg = nullptr;
   int dbStatus = 0;
 };
 }  // namespace stars
