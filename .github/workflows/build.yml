@@ -24,10 +24,6 @@ on:
         - master
         - development
 
-defaults:
-  run:
-    working-directory: ${{ matrix.project }}
-
 jobs:
   simple_build:
     name: "${{ matrix.project }}: ${{ matrix.toolchain }}"
@@ -171,6 +167,7 @@ jobs:
           popd
 
       - name: Minimal Load Test
+        working-directory: ${{ matrix.project }}
         run: ./build/bin/${{ matrix.project }}
 
       - name: Success Reporting
