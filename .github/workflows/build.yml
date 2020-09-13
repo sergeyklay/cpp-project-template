@@ -109,7 +109,7 @@ jobs:
           fi
 
       - name: Setup Project Prerequisites (macOS)
-        if: startsWith(runner.os, 'Linux')
+        if: startsWith(runner.os, 'macOS')
         run: |
           # Install Ninja
           if [ ${{ env.USE_NINJA }} -eq 1 ]; then

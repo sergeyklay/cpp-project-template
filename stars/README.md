@@ -5,7 +5,7 @@ A template project with integrations of the following tools:
 - [CMake][cmake]
 - [Ninja][ninja]
 - [SQLite][sqlite]
-- [conan][conan]
+- [Conan][conan]
 
 ## How to try it out
 
@@ -22,7 +22,7 @@ To build Stars you'll need the following requirements:
   - [Apple Clang][apple clang] >= 10.0.0
 - [CMake][cmake] 3.14 or later
 - Any supported by CMake build tools like [GNU Make][make], [Ninja][ninja] and so on
-- [conan][conan] decentralized package manager with a client-server architecture
+- [Conan][conan] decentralized package manager with a client-server architecture
 
 For project dependencies list see `conanfile.txt` bundled with this project.
 
