@@ -85,16 +85,10 @@ jobs:
           source "$GITHUB_WORKSPACE/.ci/install-compiler-ubuntu.sh" \
             "${{ matrix.compiler }}" "${{ matrix.version }}"
 
-          # Install build tools
-          sudo apt-get install --no-install-recommends -q -y ninja-build
-
       - name: Setup Common Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
-
-          # Install build tools
-          brew install ninja
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
@@ -104,8 +98,22 @@ jobs:
       - name: Setup Project Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
+          # Install SQLite
           if [ ${{ env.USE_SQLITE }} -eq 1 ]; then
             sudo apt-get install --no-install-recommends -q -y sqlite3
+          fi
+
+          # Install Ninja
+          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+            sudo apt-get install --no-install-recommends -q -y ninja-build
+          fi
+
+      - name: Setup Project Prerequisites (macOS)
+        if: startsWith(runner.os, 'Linux')
+        run: |
+          # Install Ninja
+          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+            brew install ninja
           fi
 
       - name: Setup Python
@@ -155,7 +163,10 @@ jobs:
           conan profile update settings.compiler=${{ matrix.compiler }} default
           conan profile update settings.compiler.version=${{ matrix.version }} default
           conan profile update settings.compiler.libcxx=${{ matrix.libcxx }} default
-          conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
+
+          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+            conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
+          fi
 
           # WARN: Remotes registry file missing, creating default one
           cp tools/conan/remotes.json ~/.conan/remotes.json
@@ -170,9 +181,8 @@ jobs:
 
           cmake \
             -S . \
-            -Bbuild \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -GNinja
+            -Bbuild $( (( ${{ env.USE_NINJA }} -eq 1 )) && printf %s '-GNinja' ) \
+            -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
