@@ -121,7 +121,22 @@ To use Ninja CMake's generator, simply use CMake's `-G` [command-line option][cm
 $ cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
 ```
 
-Finally build it:
+You can use `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` when generating the build
+to have CMake create a `compile_commands.json` file for you. This is useful
+for all sorts of tools (`clang-tidy`, `cppcheck`, `oclint`, `include-what-you-use`,
+etc). Also you can specify the build type by using `CMAKE_BUILD_TYPE`. Supported
+build types are `Debug`, `Release`, `RelWithDebInfo` and `MinSizeRel`:
+
+```shell script
+$ cmake                    \
+  -H.                      \
+  -Bbuild                  \
+  -GNinja                  \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+```
+
+Finally build project:
 ```shell script
 $ cmake --build build
 ```
