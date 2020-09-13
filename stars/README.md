@@ -26,6 +26,7 @@ For project dependencies list see `conanfile.txt` bundled with this project.
 
 Optional prerequisites are:
 
+- Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
 - Static analysis tool for C/C++ code: [Cpplint][cpplint]
 - CMake formatting tool: [cmake-format][cmake-format]
 - C, C++ formatting tool: [clang-format][clang-format]
@@ -140,6 +141,36 @@ Finally build project:
 ```shell script
 $ cmake --build build
 ```
+#### Configure flags
+
+To enable any feature use CMake flags at configure time.
+To enable `FEATURE` use `-DFEATURE=ON` and to disable `FEATURE` use `-DFEATURE=OFF`.
+Supported CMake flags are:
+
+| Flag                            | Description                                          |
+| ------------------------------- |------------------------------------------------------|
+| `CPPCHECK`                      | Add `cppcheck` step to the compilation.              |
+| `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation. |
+
+
+To use `cppcheck` you will need to install it as follows:
+
+```shell script
+# Arch Linux
+$ sudo pacman -S cppcheck
+
+# Fedora
+$ sudo dnf install cppcheck
+
+# Debian/Ubuntu
+$ sudo apt install cppcheck
+ 
+# Gentoo
+$ sudo emerge dev-util/cppcheck
+
+# macOS
+$ brew install cppcheck
+```
 
 ### Run
 
@@ -189,6 +220,7 @@ See the [LICENSE][license] file for more information.
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
 [cmake]: https://cmake.org/
 [make]: https://www.gnu.org/software/make/
+[cppcheck]: https://github.com/danmar/cppcheck
 [cpplint]: https://github.com/cpplint/cpplint
 [cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html

@@ -31,6 +31,7 @@ endif()
 
 # CMake Script Includes
 include(Bootstrap)
+include(Cppcheck)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -54,5 +55,8 @@ cmake_format(cmake-format "${glob_files}")
 
 # Conan helpers
 include(ConanHelper)
+
+# Project specific variables
+include(ProjectInfo)
 
 add_subdirectory(src)

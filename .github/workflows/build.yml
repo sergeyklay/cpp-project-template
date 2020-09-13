@@ -85,6 +85,9 @@ jobs:
           source "$GITHUB_WORKSPACE/.ci/install-compiler-ubuntu.sh" \
             "${{ matrix.compiler }}" "${{ matrix.version }}"
 
+          # Install cppcheck
+          sudo apt-get install --no-install-recommends -q -y cppcheck
+
       - name: Setup Common Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
@@ -95,16 +98,19 @@ jobs:
           echo "::set-env name=SDKROOT::$(xcodebuild -version -sdk macosx Path)"
           echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
 
+          # Install cppcheck
+          brew install cppcheck
+
       - name: Setup Project Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
           # Install SQLite
-          if [ ${{ env.USE_SQLITE }} -eq 1 ]; then
+          if [ ${{ env.WITH_SQLITE }} -eq 1 ]; then
             sudo apt-get install --no-install-recommends -q -y sqlite3
           fi
 
           # Install Ninja
-          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
             sudo apt-get install --no-install-recommends -q -y ninja-build
           fi
 
@@ -112,7 +118,7 @@ jobs:
         if: startsWith(runner.os, 'macOS')
         run: |
           # Install Ninja
-          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
             brew install ninja
           fi
 
@@ -164,7 +170,7 @@ jobs:
           conan profile update settings.compiler.version=${{ matrix.version }} default
           conan profile update settings.compiler.libcxx=${{ matrix.libcxx }} default
 
-          if [ ${{ env.USE_NINJA }} -eq 1 ]; then
+          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
             conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
           fi
 
@@ -181,8 +187,10 @@ jobs:
 
           cmake \
             -S . \
-            -Bbuild $( (( "${{ env.USE_NINJA }}" == 1 )) && printf %s '-GNinja' ) \
-            -DCMAKE_BUILD_TYPE=Debug
+            -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' ) \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCPPCHECK=ON \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
@@ -191,7 +199,7 @@ jobs:
 
       - name: Populate Database
         working-directory: ${{ matrix.project }}
-        if: env.USE_SQLITE == 1
+        if: env.WITH_SQLITE == 1
         run: sqlite3 ./build/bin/${{ matrix.project }}.db < ./data/${{ matrix.project }}.sqlite
 
       - name: Minimal Load Test

@@ -12,17 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Stars libraries
-add_subdirectory(ChuckNorris)
-
-# Demo
-add_executable(${PROJECT_BIN})
-target_sources(${PROJECT_BIN} PRIVATE main.cpp)
-
-target_include_directories(
-  ${PROJECT_BIN}
-  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
-  PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
-
-target_link_libraries(stars PUBLIC chucknorris)
+string(TOLOWER ${PROJECT_NAME} PROJECT_BIN)
