@@ -181,7 +181,7 @@ jobs:
 
           cmake \
             -S . \
-            -Bbuild $( (( ${{ env.USE_NINJA }} -eq 1 )) && printf %s '-GNinja' ) \
+            -Bbuild $( (( "${{ env.USE_NINJA }}" == 1 )) && printf %s '-GNinja' ) \
             -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build with ${{ matrix.compiler }}
