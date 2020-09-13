@@ -21,7 +21,7 @@
 conanfile.txt  text linguist-language=INI linguist-vendored
 
 *.hpp.in       text diff=cpp linguist-language=C++ linguist-detectable=true
-*.sqlite       text diff=sql linguist-language=SQL linguist-detectable=true
+*.sqlite       text linguist-language=SQL linguist-detectable=true
 
 .ci            export-ignore
 .github        export-ignore
