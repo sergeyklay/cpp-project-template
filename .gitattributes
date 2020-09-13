@@ -15,13 +15,10 @@
 # Automatically normalize line endings for all text-based files
 * text=auto
 
-.clang-format  linguist-language=YAML
-.cmake-format  linguist-language=YAML
-conanfile.txt  linguist-language=INI
+.clang-format  text linguist-detectable=true linguist-language=YAML
+.cmake-format  text linguist-detectable=true linguist-language=YAML
+conanfile.txt  text linguist-detectable=true linguist-language=INI
+*.sqlite       text linguist-detectable=true linguist-language=SQL
 
-.clang-format   export-ignore
-.cmake-format   export-ignore
-.editorconfig   export-ignore
-.gitattributes  export-ignore
-.github         export-ignore
-CPPLINT.cfg     export-ignore
+.ci            export-ignore
+.github        export-ignore
