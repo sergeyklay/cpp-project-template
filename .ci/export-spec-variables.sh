@@ -14,17 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ls -al ./
-
-# Export tests environment variables
+# Set GitHub Actions env variables
 if [ -f ./spec.env ]; then
-  # shellcheck disable=SC1090
-  source ./spec.env
-
-  # shellcheck disable=SC2046
-  export $(cut -d= -f1 ./spec.env)
-
-  # Set GitHub Actions env variables
   while IFS="" read -r v || [ -n "$v" ]
   do
     echo "::set-env name=${v//=/::}"

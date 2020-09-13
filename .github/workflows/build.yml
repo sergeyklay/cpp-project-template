@@ -70,7 +70,7 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: source "$GITHUB_WORKSPACE/.ci/export-spec-variables.sh"
 
-      - name: Setup Prerequisites (Linux)
+      - name: Setup Common Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
           # Prune unneeded ppas
@@ -88,10 +88,7 @@ jobs:
           # Install build tools
           sudo apt-get install --no-install-recommends -q -y ninja-build
 
-          # Install other prerequisites
-          # sudo apt-get install --no-install-recommends -q -y sqlite3
-
-      - name: Setup Prerequisites (macOS)
+      - name: Setup Common Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
@@ -103,6 +100,13 @@ jobs:
           echo "::set-env name=CXX::$(xcrun -f clang++)"
           echo "::set-env name=SDKROOT::$(xcodebuild -version -sdk macosx Path)"
           echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
+
+      - name: Setup Project Prerequisites (Linux)
+        if: startsWith(runner.os, 'Linux')
+        run: |
+          if [ ${{ env.USE_SQLITE }} -eq 1 ]; then
+            sudo apt-get install --no-install-recommends -q -y sqlite3
+          fi
 
       - name: Setup Python
         uses: actions/setup-python@v2
