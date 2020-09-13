@@ -39,7 +39,7 @@ jobs:
           - macOS-latest
 
         project:
-          - cmake-sqlite-conan
+          - stars
 
         include:
           - toolchain: linux-gcc-7

@@ -58,9 +58,10 @@ $ cd cpp-project-templates
 ```
 
 You may want to install optional dependencies to perform additional code style checks.
-To install them use `pip` from `cpp-project-templates` directory as follows:
+To install them use `pip` from `stars` directory as follows:
 
 ```shell script
+$ cd stars
 $ pip install --user -r requirements.txt
 ```
 
