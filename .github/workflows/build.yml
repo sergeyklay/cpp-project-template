@@ -43,13 +43,13 @@ jobs:
 
         include:
           - toolchain: linux-gcc-7
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             compiler: gcc
             libcxx: libstdc++11
             version: '7'
 
           - toolchain: linux-clang-5.0
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             compiler: clang
             libcxx: libstdc++11
             version: '5.0'
