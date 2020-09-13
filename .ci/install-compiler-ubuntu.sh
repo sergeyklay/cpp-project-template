@@ -17,10 +17,27 @@
 if [ "$1" = "gcc" ]; then
   sudo apt-get install --no-install-recommends -q -y "gcc-${2}"
 
+  if [ ! -f "/usr/bin/gcc-${2}" ] || [ ! -f "/usr/bin/g++-${2}" ]; then
+    echo "No such version gcc/g++ installed" 1>&2
+    exit 1
+  fi
+
+  sudo update-alternatives --set gcc "/usr/bin/gcc-${2}"
+  sudo update-alternatives --set g++ "/usr/bin/g++-${2}"
+
   echo "::set-env name=CC::gcc-${2}"
   echo "::set-env name=CXX::g++-${2}"
 else
   sudo apt-get install --no-install-recommends -q -y "clang-${2}" "llvm-${2}"
+
+  if [ ! -f "/usr/bin/clang-${2}" ] || [ ! -f "/usr/bin/clang++-${2}" ]; then
+    echo "No such version clang/clang++ installed" 1>&2
+    exit 1
+  fi
+
+  sudo update-alternatives --set gcc "/usr/bin/clang-${2}"
+  sudo update-alternatives --set g++ "/usr/bin/clang++-${2}"
+
   sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov \
     "/usr/bin/llvm-cov-${2}" 90
 
