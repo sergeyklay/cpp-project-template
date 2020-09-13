@@ -48,7 +48,6 @@ else
     exit 1
   fi
 
-  set -x
   sudo update-alternatives --remove-all clang || true
   sudo update-alternatives --install /usr/bin/clang clang "/usr/bin/clang-${2}" 90
   sudo update-alternatives --set clang "/usr/bin/clang-${2}"
@@ -62,7 +61,7 @@ else
   sudo update-alternatives --set clang++ "/usr/bin/clang++-${2}"
 
   sudo update-alternatives --remove-all c++ || true
-  sudo update-alternatives --install /usr/bin/c++ c++ "/usr/bin/clang++-${2}"
+  sudo update-alternatives --install /usr/bin/c++ c++ "/usr/bin/clang++-${2}" 90
   sudo update-alternatives --set c++ "/usr/bin/clang++-${2}"
 
   sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov \
@@ -70,5 +69,4 @@ else
 
   echo "::set-env name=CC::clang"
   echo "::set-env name=CXX::clang++"
-  set +x
 fi
