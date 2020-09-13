@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.14)
 project(Stars LANGUAGES CXX)
 
 # Provide path for additional CMake scripts
-list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/../cmake)
+list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/cmake)
 
 # Determine if Stars is built as a subproject (using add_subdirectory) or if it
 # is the master project.
@@ -24,22 +24,19 @@ endif()
 # CMake Script Includes
 include(Bootstrap)
 
-# Provide path for additional CMake scripts
-list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/../external/cmake-scripts)
-
-include(formatting)
-
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Tools
+include(ClangFormat)
 file(GLOB_RECURSE glob_files #
      ${Stars_SOURCE_DIR}/include/*.[hc] ${Stars_SOURCE_DIR}/include/*.[hc]pp
      ${Stars_SOURCE_DIR}/src/*.[hc] ${Stars_SOURCE_DIR}/src/*.[hc]pp)
 clang_format(cpp-format ${glob_files})
 
+include(CMakeFormat)
 file(GLOB_RECURSE glob_files #
      "${Stars_SOURCE_DIR}/../cmake/*.cmake"
      "${Stars_SOURCE_DIR}/src/CMakeLists.txt")
