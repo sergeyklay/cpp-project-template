@@ -32,6 +32,7 @@ See the [LICENSE][license] file for more information.
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
+[conan]: https://conan.io/
 [cmake]: https://cmake.org/
 [ninja]: https://ninja-build.org/
 [sqlite]: https://www.sqlite.org/index.html

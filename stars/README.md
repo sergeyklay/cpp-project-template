@@ -124,6 +124,13 @@ Finally build it:
 $ cmake --build build
 ```
 
+To make demo application works, you'll need a SQLite database. You can create
+database and populate it by test data using following command from `stars` directory:
+
+```shell script
+$ sqlite3 ./build/bin/stars.db < ./data/stars.sqlite
+```
+ 
 ### Further Reading
 
 - [`cmake-buildsystem(7)`][cmake-buildsystem]
