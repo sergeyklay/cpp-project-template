@@ -16,7 +16,6 @@ on:
 
 jobs:
   code_style:
-
     name: "${{ matrix.project }}: analysis"
     runs-on: ubuntu-latest
 
