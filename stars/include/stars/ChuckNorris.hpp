@@ -39,7 +39,8 @@ class ChuckNorris {
   std::string getFact();
 
  private:
-  sqlite3 *db;
+  sqlite3 *db = nullptr;
+  int dbStatus = 0;
 };
 }  // namespace stars
 

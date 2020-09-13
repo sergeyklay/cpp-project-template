@@ -189,9 +189,14 @@ jobs:
         run: |
           cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
 
+      - name: Populate Database
+        working-directory: ${{ matrix.project }}
+        if: env.USE_SQLITE == 1
+        run: sqlite3 ./build/bin/${{ matrix.project }}.db < ./data/${{ matrix.project }}.sqlite
+
       - name: Minimal Load Test
         working-directory: ${{ matrix.project }}
-        run: ./build/bin/${{ matrix.project }}
+        run: for i in {1..10}; do echo "  $i. $(./build/bin/${{ matrix.project }})"; done
 
       - name: Success Reporting
         if: success()

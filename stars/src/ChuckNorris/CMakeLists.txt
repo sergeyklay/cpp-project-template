@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Database configuration
+configure_file(Database.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Database.hpp")
+
 # Add definition for cli library.
 add_library(chucknorris SHARED ChuckNorris.cpp)
 

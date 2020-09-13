@@ -16,14 +16,35 @@
 
 #include <stars/ChuckNorris.hpp>
 
-stars::ChuckNorris::ChuckNorris() = default;
+#include "Database.hpp"
+
+stars::ChuckNorris::ChuckNorris() {
+  auto database =
+      "file://" + std::string(STARS_DB_PATH) + "/" + std::string(STARS_DB_NAME);
+
+  if (sqlite3_open_v2(database.c_str(), &db,
+                      SQLITE_OPEN_URI | SQLITE_OPEN_READONLY,
+                      nullptr) != SQLITE_OK) {
+    // TODO(serghei): Unable to open database. Log me.
+    sqlite3_close(db);
+  } else {
+    dbStatus = 1;
+  }
+}
 
 stars::ChuckNorris::~ChuckNorris() {
-  // Closing a database connection
-  sqlite3_close(db);
+  if (dbStatus == 1) {
+    // Closing a database connection
+    sqlite3_close(db);
+  }
 }
 
 std::string stars::ChuckNorris::getFact() {
+  if (dbStatus != 1) {
+    // TODO(serghei): Log me.
+    return "";
+  }
+
   sqlite3_stmt* stmt;
   int rc;
   std::string res;
@@ -31,14 +52,14 @@ std::string stars::ChuckNorris::getFact() {
 
   rc = sqlite3_prepare_v2(db, q, -1, &stmt, nullptr);
   if (rc != SQLITE_OK) {
-    // Something went wrong.
-    // TODO(serghei): Log me.
+    // TODO(serghei): Something went wrong. Log me.
+    return "";
   }
 
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_ROW) {
-    // Something went wrong.
-    // TODO(serghei): Log me.
+    // TODO(serghei): Something went wrong. Log me.
+    return "";
   }
 
   auto sqlite_row = sqlite3_column_text(stmt, 0);
@@ -46,7 +67,8 @@ std::string stars::ChuckNorris::getFact() {
     auto row = reinterpret_cast<const char*>(sqlite_row);
     res = std::string(row);
   } else {
-    res = "Nothing to say. Database is empty :(";
+    // Nothing to say. Database is empty
+    res = "";
   }
 
   sqlite3_finalize(stmt);
