@@ -40,6 +40,16 @@ On macOS you most likely have a compiler so you'll need only CMake:
 $ brew install cmake
 ```
 
+To use Ninja CMake's generator you will need to install `ninja-build` on Ubuntu or `ninja` on macOS:
+
+```shell script
+# Ubuntu
+$ sudo apt install ninja-build
+
+# macOS
+$ brew install ninja
+```
+
 Please note that specific versions of libraries and programs at the time of
 reading this guide may vary. The following dependencies is recommended install
 using [pip][pip]:
@@ -71,16 +81,20 @@ $ pip install --user -r requirements.txt
 $ brew install clang-format
 ```
 
-Finally configure and build project as follows:
+Next configure project as follows:
 
 ```shell script
 $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
-$ cmake --build build
 ```
 
-**Note:** To use Ninja CMake's generator, simply use CMake's `-G` [command-line option][cmake-cli]:
+To use Ninja CMake's generator, simply use CMake's `-G` [command-line option][cmake-cli]:
 ```shell script
 $ cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+```
+
+Finally build it:
+```shell script
+$ cmake --build build
 ```
 
 ### Further Reading
