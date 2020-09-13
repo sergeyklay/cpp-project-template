@@ -66,6 +66,10 @@ jobs:
         with:
           fetch-depth: 5
 
+      - name: Read Project Specification
+        working-directory: ${{ matrix.project }}
+        run: source "$GITHUB_WORKSPACE/.ci/export-spec-variables.sh"
+
       - name: Setup Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
@@ -83,6 +87,9 @@ jobs:
 
           # Install build tools
           sudo apt-get install --no-install-recommends -q -y ninja-build
+
+          # Install other prerequisites
+          # sudo apt-get install --no-install-recommends -q -y sqlite3
 
       - name: Setup Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
