@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2019 by George Cave - gcave@stablecoder.ca
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
