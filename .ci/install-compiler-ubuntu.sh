@@ -22,11 +22,16 @@ if [ "$1" = "gcc" ]; then
     exit 1
   fi
 
+  sudo update-alternatives --install /usr/bin/gcc gcc "/usr/bin/gcc-${2}" 90
   sudo update-alternatives --set gcc "/usr/bin/gcc-${2}"
-  sudo update-alternatives --set g++ "/usr/bin/g++-${2}"
+  sudo update-alternatives --set cc "/usr/bin/gcc-${2}"
 
-  echo "::set-env name=CC::gcc-${2}"
-  echo "::set-env name=CXX::g++-${2}"
+  sudo update-alternatives --install /usr/bin/g++ g++ "/usr/bin/g++-${2}" 90
+  sudo update-alternatives --set g++ "/usr/bin/g++-${2}"
+  sudo update-alternatives --set c++ "/usr/bin/g++-${2}"
+
+  echo "::set-env name=CC::gcc"
+  echo "::set-env name=CXX::g++"
 else
   sudo apt-get install --no-install-recommends -q -y "clang-${2}" "llvm-${2}"
 
@@ -35,12 +40,17 @@ else
     exit 1
   fi
 
-  sudo update-alternatives --set gcc "/usr/bin/clang-${2}"
-  sudo update-alternatives --set g++ "/usr/bin/clang++-${2}"
+  sudo update-alternatives --install /usr/bin/clang clang "/usr/bin/clang-${2}" 90
+  sudo update-alternatives --set clang "/usr/bin/clang-${2}"
+  sudo update-alternatives --set cc "/usr/bin/clang-${2}"
+
+  sudo update-alternatives --install /usr/bin/clang++ clang++ "/usr/bin/clang++-${2}" 90
+  sudo update-alternatives --set clang++ "/usr/bin/clang++-${2}"
+  sudo update-alternatives --set c++ "/usr/bin/clang++-${2}"
 
   sudo update-alternatives --install /usr/bin/llvm-cov llvm-cov \
     "/usr/bin/llvm-cov-${2}" 90
 
-  echo "::set-env name=CC::clang-${2}"
-  echo "::set-env name=CXX::clang++-${2}"
+  echo "::set-env name=CC::clang"
+  echo "::set-env name=CXX::clang++"
 fi
