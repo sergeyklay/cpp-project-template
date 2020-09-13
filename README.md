@@ -9,16 +9,17 @@ This repository contains my personal repository templates for C++ projects.
 
 - [**Stars**](./stars)
   - Type: Shared Library
-  - C++ version: `C++17`
-  - C++ compiler: [Gcc][gcc], [Clang][clang] or [Apple Clang][apple clang]
   - Source: multiple files
+  - C++ version: `C++17`
+  - Tested OS: macOS, Ubuntu
+  - C++ compiler: [Gcc][gcc], [Clang][clang] or [Apple Clang][apple clang]
   - Package manager: [Conan][conan]
   - Build system: [CMake][cmake] with [Ninja][ninja]
   - Libraries: STL, [`sqlite3`][sqlite]
   - Formatting tools: [cmake-format][cmake-format], [clang-format][clang-format]
   - Static analysis tools:[Cpplint][cpplint], [Cppcheck][cppcheck]
   - CI: [GitHub Actions][actions]
-  - Tested OS: macOS, Ubuntu
+  
 
 ## License
 
