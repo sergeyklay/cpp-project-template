@@ -12,16 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Automatically normalize line endings for all text-based files
-* text=auto
+message(STATUS "Searching conanbuildinfo.cmake in ${Stars_BINARY_DIR}")
+find_file(CONANBUILDINFO "conanbuildinfo.cmake" PATHS ${Stars_BINARY_DIR})
 
-.clang-format  linguist-language=YAML
-.cmake-format  linguist-language=YAML
-conanfile.txt  linguist-language=INI
+if(NOT CONANBUILDINFO)
+    message(FATAL_ERROR "The \"conanbuildinfo.cmake\" file is missing!"
+            " You must run conan install first.")
+endif()
 
-.clang-format   export-ignore
-.cmake-format   export-ignore
-.editorconfig   export-ignore
-.gitattributes  export-ignore
-.github         export-ignore
-CPPLINT.cfg     export-ignore
+message(STATUS "Conan: Found conanbuildinfo.cmake at ${CONANBUILDINFO}")
+
+set(CONAN_CMAKE_CXX_STANDARD ${CMAKE_CXX_STANDARD})
+set(CONAN_CMAKE_CXX_EXTENSIONS ${CMAKE_CXX_EXTENSIONS})
+include(${CONANBUILDINFO})
+
+conan_basic_setup(TARGETS KEEP_RPATHS)

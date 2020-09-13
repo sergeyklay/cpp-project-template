@@ -52,4 +52,7 @@ list(APPEND glob_files ${Stars_SOURCE_DIR}/CMakeLists.txt
      ${Stars_SOURCE_DIR}/../external/CMakeLists.txt)
 cmake_format(cmake-format "${glob_files}")
 
+# Conan helpers
+include(ConanHelper)
+
 add_subdirectory(src)

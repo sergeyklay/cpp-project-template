@@ -4,7 +4,7 @@ This repository contains my personal repository templates for C++ projects.
 
 ## Projects
 
-- [Stars](./stars): C++17, CMake, Ninja, cmake-format, clang-format, cpplint
+- [Stars](./stars): C++17, CMake, Ninja, conan, cmake-format, clang-format, cpplint
 
 ## License
 

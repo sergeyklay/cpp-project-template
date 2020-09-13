@@ -19,8 +19,10 @@ To build Stars you'll need the following requirements:
   - [Clang][clang] >= 5.0.0
   - [Apple Clang][apple clang] >= 10.0.0
 - [CMake][cmake] 3.14 or later
-- Any supported CMake generator like [Unix Makefiles][make generator],
-  [Ninja][ninja generator] and so on
+- Any supported by CMake build tools like [GNU Make][make], [Ninja][ninja] and so on
+- [conan][conan] decentralized package manager with a client-server architecture
+
+For project dependencies list see `conanfile.txt` bundled with this project.
 
 Optional prerequisites are:
 
@@ -40,7 +42,8 @@ On macOS you most likely have a compiler so you'll need only CMake:
 $ brew install cmake
 ```
 
-To use Ninja CMake's generator you will need to install `ninja-build` on Ubuntu or `ninja` on macOS:
+To use Ninja CMake's generator you will need to install `ninja-build` on Ubuntu
+or `ninja` on macOS:
 
 ```shell script
 # Ubuntu
@@ -54,9 +57,16 @@ Please note that specific versions of libraries and programs at the time of
 reading this guide may vary. The following dependencies is recommended install
 using [pip][pip]:
 
+- `conan`
 - `cmakelang`
 - `clang-format`
 - `cpplint`
+
+They can be installed using pip as follows:
+
+```shell script
+$ pip install --user -r requirements.txt
+```
 
 ### Build
 
@@ -81,7 +91,14 @@ $ pip install --user -r requirements.txt
 $ brew install clang-format
 ```
 
-Next configure project as follows:
+Install project dependencies from `stars` directory using `conan` as follows:
+
+```shell script
+$ conan install . -if=$(pwd)/build --build=missing
+```
+
+For a detailed instruction on how to use and customize `conan` please refer
+[here][conan-start]. Next configure project as follows:
 
 ```shell script
 $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
@@ -107,12 +124,13 @@ This project is open source software licensed under the Apache License 2.0.
 See the [LICENSE][license] file for more information.
 
 [ninja]: https://ninja-build.org/
+[conan]: https://conan.io/
+[conan-start]: https://docs.conan.io/en/latest/getting_started.html
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
 [cmake]: https://cmake.org/
-[make generator]: https://cmake.org/cmake/help/latest/generator/Unix%20Makefiles.html
-[ninja generator]: https://cmake.org/cmake/help/latest/generator/Ninja.html
+[make]: https://www.gnu.org/software/make/
 [cpplint]: https://github.com/cpplint/cpplint
 [cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html

@@ -1,0 +1,19 @@
+[requires]
+sqlite3/3.32.3
+
+[options]
+sqlite3:shared=True
+sqlite3:fPIC=True
+
+[generators]
+cmake
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+
+# Local Variables:
+# mode: conf
+# tab-width: 2
+# indent-tabs-mode: nil
+# End:
