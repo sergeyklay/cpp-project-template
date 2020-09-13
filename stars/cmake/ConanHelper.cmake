@@ -16,8 +16,8 @@ message(STATUS "Searching conanbuildinfo.cmake in ${Stars_BINARY_DIR}")
 find_file(CONANBUILDINFO "conanbuildinfo.cmake" PATHS ${Stars_BINARY_DIR})
 
 if(NOT CONANBUILDINFO)
-    message(FATAL_ERROR "The \"conanbuildinfo.cmake\" file is missing!"
-            " You must run conan install first.")
+  message(FATAL_ERROR "The \"conanbuildinfo.cmake\" file is missing!"
+                      " You must run conan install first.")
 endif()
 
 message(STATUS "Conan: Found conanbuildinfo.cmake at ${CONANBUILDINFO}")

@@ -45,11 +45,10 @@ clang_format(cpp-format ${glob_files})
 
 include(CMakeFormat)
 file(GLOB_RECURSE glob_files #
-     "${Stars_SOURCE_DIR}/../cmake/*.cmake"
+     "${Stars_SOURCE_DIR}/cmake/*.cmake"
      "${Stars_SOURCE_DIR}/src/CMakeLists.txt")
 
-list(APPEND glob_files ${Stars_SOURCE_DIR}/CMakeLists.txt
-     ${Stars_SOURCE_DIR}/../external/CMakeLists.txt)
+list(APPEND glob_files ${Stars_SOURCE_DIR}/CMakeLists.txt)
 cmake_format(cmake-format "${glob_files}")
 
 # Conan helpers

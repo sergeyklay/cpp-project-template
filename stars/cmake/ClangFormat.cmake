@@ -15,9 +15,9 @@
 find_program(CLANG_FORMAT_EXE "clang-format")
 mark_as_advanced(FORCE CLANG_FORMAT_EXE)
 if(CLANG_FORMAT_EXE)
-    message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
+  message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
 else()
-    message(STATUS "clang-format not found!")
+  message(STATUS "clang-format not found!")
 endif()
 
 # Generates a 'format' target using a custom name, files, and include
@@ -35,54 +35,51 @@ endif()
 # paths are accepted.
 # ~~~
 function(clang_format TARGET_NAME)
-    if(CLANG_FORMAT_EXE)
-        set(FORMAT_FILES)
-        # Check through the ARGN's, determine existent files
-        foreach(item IN LISTS ARGN)
-            if(TARGET ${item})
-                # If the item is a target, then we'll attempt to grab the associated
-                # source files from it.
-                get_target_property(_TARGET_TYPE ${item} TYPE)
-                if(NOT
-                        _TARGET_TYPE
-                        STREQUAL
-                        "INTERFACE_LIBRARY")
-                    get_property(
-                            _TEMP
-                            TARGET ${item}
-                            PROPERTY SOURCES)
-                    foreach(iter IN LISTS _TEMP)
-                        if(EXISTS ${iter})
-                            set(FORMAT_FILES ${FORMAT_FILES} ${iter})
-                        endif()
-                    endforeach()
-                endif()
-            elseif(EXISTS ${item})
-                # Check if it's a full file path
-                set(FORMAT_FILES ${FORMAT_FILES} ${item})
-            elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${item})
-                # Check if it's based on the current source dir
-                set(FORMAT_FILES ${FORMAT_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${item})
+  if(CLANG_FORMAT_EXE)
+    set(FORMAT_FILES)
+    # Check through the ARGN's, determine existent files
+    foreach(item IN LISTS ARGN)
+      if(TARGET ${item})
+        # If the item is a target, then we'll attempt to grab the associated
+        # source files from it.
+        get_target_property(_TARGET_TYPE ${item} TYPE)
+        if(NOT _TARGET_TYPE STREQUAL "INTERFACE_LIBRARY")
+          get_property(
+            _TEMP
+            TARGET ${item}
+            PROPERTY SOURCES)
+          foreach(iter IN LISTS _TEMP)
+            if(EXISTS ${iter})
+              set(FORMAT_FILES ${FORMAT_FILES} ${iter})
             endif()
-        endforeach()
+          endforeach()
+        endif()
+      elseif(EXISTS ${item})
+        # Check if it's a full file path
+        set(FORMAT_FILES ${FORMAT_FILES} ${item})
+      elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${item})
+        # Check if it's based on the current source dir
+        set(FORMAT_FILES ${FORMAT_FILES} ${CMAKE_CURRENT_SOURCE_DIR}/${item})
+      endif()
+    endforeach()
 
-        # Make the target
-        if(FORMAT_FILES)
-            if(TARGET ${TARGET_NAME})
-                message(
-                        ERROR
-                        "Cannot create clang-format target '${TARGET_NAME}', already exists.")
-            else()
-                add_custom_target(${TARGET_NAME} COMMAND ${CLANG_FORMAT_EXE} -i
-                        -style=file ${FORMAT_FILES})
+    # Make the target
+    if(FORMAT_FILES)
+      if(TARGET ${TARGET_NAME})
+        message(
+          ERROR
+          "Cannot create clang-format target '${TARGET_NAME}', already exists.")
+      else()
+        add_custom_target(${TARGET_NAME} COMMAND ${CLANG_FORMAT_EXE} -i
+                                                 -style=file ${FORMAT_FILES})
 
-                if(NOT TARGET format)
-                    add_custom_target(format)
-                endif()
-
-                add_dependencies(format ${TARGET_NAME})
-            endif()
+        if(NOT TARGET format)
+          add_custom_target(format)
         endif()
 
+        add_dependencies(format ${TARGET_NAME})
+      endif()
     endif()
+
+  endif()
 endfunction()
