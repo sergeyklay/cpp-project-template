@@ -23,19 +23,18 @@ if [ "$1" = "gcc" ]; then
   fi
 
   sudo update-alternatives --remove-all gcc || true
-  sudo update-alternatives --remove-all g++ || true
-  sudo update-alternatives --remove-all cc || true
-  sudo update-alternatives --remove-all c++ || true
-
   sudo update-alternatives --install /usr/bin/gcc gcc "/usr/bin/gcc-${2}" 90
   sudo update-alternatives --set gcc "/usr/bin/gcc-${2}"
 
+  sudo update-alternatives --remove-all cc || true
   sudo update-alternatives --install /usr/bin/cc cc "/usr/bin/gcc-${2}" 90
   sudo update-alternatives --set cc "/usr/bin/gcc-${2}"
 
+  sudo update-alternatives --remove-all g++ || true
   sudo update-alternatives --install /usr/bin/g++ g++ "/usr/bin/g++-${2}" 90
   sudo update-alternatives --set g++ "/usr/bin/g++-${2}"
 
+  sudo update-alternatives --remove-all c++ || true
   sudo update-alternatives --install /usr/bin/c++ c++ "/usr/bin/g++-${2}" 90
   sudo update-alternatives --set c++ "/usr/bin/g++-${2}"
 
@@ -49,20 +48,20 @@ else
     exit 1
   fi
 
+  set -x
   sudo update-alternatives --remove-all clang || true
-  sudo update-alternatives --remove-all clang++ || true
-  sudo update-alternatives --remove-all cc || true
-  sudo update-alternatives --remove-all c++ || true
-
   sudo update-alternatives --install /usr/bin/clang clang "/usr/bin/clang-${2}" 90
   sudo update-alternatives --set clang "/usr/bin/clang-${2}"
 
+  sudo update-alternatives --remove-all cc || true
   sudo update-alternatives --install /usr/bin/cc cc "/usr/bin/clang-${2}" 90
   sudo update-alternatives --set cc "/usr/bin/clang-${2}"
 
+  sudo update-alternatives --remove-all clang++ || true
   sudo update-alternatives --install /usr/bin/clang++ clang++ "/usr/bin/clang++-${2}" 90
   sudo update-alternatives --set clang++ "/usr/bin/clang++-${2}"
 
+  sudo update-alternatives --remove-all c++ || true
   sudo update-alternatives --install /usr/bin/c++ c++ "/usr/bin/clang++-${2}"
   sudo update-alternatives --set c++ "/usr/bin/clang++-${2}"
 
@@ -71,4 +70,5 @@ else
 
   echo "::set-env name=CC::clang"
   echo "::set-env name=CXX::clang++"
+  set +x
 fi
