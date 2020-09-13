@@ -15,7 +15,7 @@ your local machine for development and testing purposes.
 To build Stars you'll need the following requirements:
 
 - A C++17 compatible compiler such as
-  - [Gcc][gcc] >= 7.0.0
+  - [GCC][gcc] >= 7.0.0
   - [Clang][clang] >= 5.0.0
   - [Apple Clang][apple clang] >= 10.0.0
 - [CMake][cmake] 3.14 or later
@@ -162,7 +162,10 @@ $ sudo pacman -S cppcheck
 # Fedora
 $ sudo dnf install cppcheck
 
-# Debian/Ubuntu
+# Ubuntu
+$ sudo snap install cppcheck
+
+# Debian
 $ sudo apt install cppcheck
  
 # Gentoo
