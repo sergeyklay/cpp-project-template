@@ -133,6 +133,7 @@ jobs:
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
       - name: Install Conan Dependencies
+        working-directory: ${{ matrix.project }}
         run: |
           # Remove default profile (if any)
           conan profile remove default 2>/dev/null || true

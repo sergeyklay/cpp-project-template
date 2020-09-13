@@ -4,6 +4,8 @@ A template project with integrations of the following tools:
 
 - [CMake][cmake]
 - [Ninja][ninja]
+- [SQLite][sqlite]
+- [conan][conan]
 
 ## How to try it out
 
@@ -27,8 +29,8 @@ For project dependencies list see `conanfile.txt` bundled with this project.
 Optional prerequisites are:
 
 - Static analysis tool for C/C++ code: [Cpplint][cpplint]
- - CMake formatting tool: [cmake-format][cmake-format]
- - C, C++ formatting tool: [clang-format][clang-format]
+- CMake formatting tool: [cmake-format][cmake-format]
+- C, C++ formatting tool: [clang-format][clang-format]
 
 If you're using Ubuntu, you can install the required packages this way:
 
@@ -42,12 +44,20 @@ On macOS you most likely have a compiler so you'll need only CMake:
 $ brew install cmake
 ```
 
-To use Ninja CMake's generator you will need to install `ninja-build` on Ubuntu
-or `ninja` on macOS:
+To use Ninja CMake's generator you will need to install `ninja-build`:
 
 ```shell script
-# Ubuntu
+# Arch Linux
+$ sudo pacman -S ninja
+
+# Fedora
+$ sudo dnf install ninja-build
+
+# Debian/Ubuntu
 $ sudo apt install ninja-build
+ 
+# Gentoo
+$ sudo emerge dev-util/ninja
 
 # macOS
 $ brew install ninja
@@ -123,6 +133,7 @@ $ cmake --build build
 This project is open source software licensed under the Apache License 2.0.
 See the [LICENSE][license] file for more information.
 
+[sqlite]: https://www.sqlite.org/index.html
 [ninja]: https://ninja-build.org/
 [conan]: https://conan.io/
 [conan-start]: https://docs.conan.io/en/latest/getting_started.html
