@@ -45,19 +45,19 @@ jobs:
           - toolchain: linux-gcc-7
             os: ubuntu-18.04
             compiler: gcc
-            libcxx: libstdc++11
+            arch: x86_64
             version: '7'
 
           - toolchain: linux-clang-5.0
             os: ubuntu-18.04
             compiler: clang
-            libcxx: libstdc++11
+            arch: x86_64
             version: '5.0'
 
           - toolchain: macOS-latest
             os: macOS-latest
             compiler: apple-clang
-            libcxx: libc++
+            arch: x86_64
             version: '11.0'
 
     steps:
@@ -158,26 +158,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
-      - name: Install Conan Dependencies
+      - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
-          # Remove default profile (if any)
-          conan profile remove default 2>/dev/null || true
-          conan profile new default --detect
-
-          conan profile update settings.build_type=Debug default
-          conan profile update settings.compiler=${{ matrix.compiler }} default
-          conan profile update settings.compiler.version=${{ matrix.version }} default
-          conan profile update settings.compiler.libcxx=${{ matrix.libcxx }} default
-
-          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
-            conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
-          fi
+          # Install conan profiles
+          cp tools/conan/profiles/* ~/.conan/profiles
 
           # WARN: Remotes registry file missing, creating default one
           cp tools/conan/remotes.json ~/.conan/remotes.json
 
-          conan install $(pwd) -if=$(pwd)/build -pr=default --build=missing
+      - name: Install The Requirements Using Conan
+        working-directory: ${{ matrix.project }}
+        run: |
+          profile="${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}"
+          profile="${profile}-debug$( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-ninja' )"
+
+          echo "Installs the requirements using profile: $profile"
+          conan install $(pwd) -if=$(pwd)/build -pr=$profile --build=missing
 
       - name: Configure x64 Debug
         working-directory: ${{ matrix.project }}
