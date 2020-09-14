@@ -20,7 +20,7 @@ add_library(chucknorris SHARED ChuckNorris.cpp)
 
 target_link_libraries(
   chucknorris
-  PUBLIC CONAN_PKG::sqlite3
+  PUBLIC CONAN_PKG::sqlite3 CONAN_PKG::spdlog
   PRIVATE compilerwarnings)
 
 target_include_directories(

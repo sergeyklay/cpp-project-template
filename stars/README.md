@@ -2,8 +2,8 @@
 
 This is a small C++ template program showing a project build using [CMake][cmake]
 as build generator with integrated [Conan][conan] package manager consuming (using
-and linking) with [SQLite][sqlite] library. This project uses [Ninja][ninja]
-build tools, but it can build with other tools like [GNU Make][make].
+and linking) with [SQLite][sqlite] and [spdlog][spdlog] libraries. This project uses
+[Ninja][ninja] build tools, but it can build with other tools like [GNU Make][make].
 
 ## How to try it out
 
@@ -215,9 +215,10 @@ Expected output will something like:
 This project is open source software licensed under the Apache License 2.0.
 See the [LICENSE][license] file for more information.
 
-[sqlite]: https://www.sqlite.org/index.html
 [ninja]: https://ninja-build.org/
 [conan]: https://conan.io/
+[sqlite]: https://www.sqlite.org/index.html
+[spdlog]: https://github.com/gabime/spdlog
 [conan-start]: https://docs.conan.io/en/latest/getting_started.html
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/

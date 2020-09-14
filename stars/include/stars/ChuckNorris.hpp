@@ -37,7 +37,7 @@ class ChuckNorris {
   ChuckNorris &operator=(ChuckNorris &&) = delete;
 
   std::string getFact();
-  int getStatus();
+  [[nodiscard]] int getStatus() const;
 
  private:
   sqlite3 *db = nullptr;

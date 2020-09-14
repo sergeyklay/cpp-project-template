@@ -38,7 +38,7 @@ set(msvc-warnings /W4)
 
 # This is recognized as a valid compiler flag only by GCC
 if(CMAKE_COMPILER_IS_GNUCXX)
-  #  Warn for constructs that violate guidelines in Effective C++
+  # Warn for constructs that violate guidelines in Effective C++
   list(APPEND unix-warnings -Weffc++)
 endif()
 
