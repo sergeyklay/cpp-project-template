@@ -30,23 +30,26 @@ add_library(compilerwarnings INTERFACE)
 set(unix-warnings -Wall -Wextra -Wpedantic -Wshadow -Wsign-conversion
                   -Wswitch-enum)
 
-# This is recognized as a valid compiler flag only by gcc
+# MSVC:
+# ~~~
+# /WX Baseline reasonable warnings
+# ~~~
+set(msvc-warnings /W4)
+
+# This is recognized as a valid compiler flag only by GCC
 if(CMAKE_COMPILER_IS_GNUCXX)
+  #  Warn for constructs that violate guidelines in Effective C++
   list(APPEND unix-warnings -Weffc++)
 endif()
 
-# MSVC:
+# Treat compiler warnings as errors
 # ~~~
-# /W4       Baseline reasonable warnings
-# /WX       Treat compiler warnings as errors
-# ~~~
-#
-# MSVC / Clang / GCC:
-# ~~~
-# -Werror
+# MSVC:        /W4
+# Clang / GCC: -Werror
 # ~~~
 target_compile_options(
   compilerwarnings
-  INTERFACE $<$<CXX_COMPILER_ID:MSVC>:/W4 $<$<BOOL:${WARNINGS_AS_ERRORS}>:/WX>>
+  INTERFACE $<$<CXX_COMPILER_ID:MSVC>:${msvc-warnings}
+            $<$<BOOL:${WARNINGS_AS_ERRORS}>:/WX>>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${unix-warnings}
             $<$<BOOL:${WARNINGS_AS_ERRORS}>:-Werror>>)
