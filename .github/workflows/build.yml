@@ -161,6 +161,8 @@ jobs:
       - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
+          mkdir --parents --verbose ~/.conan/profiles
+
           # Install conan profiles
           cp tools/conan/profiles/* ~/.conan/profiles
 
