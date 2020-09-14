@@ -18,7 +18,10 @@ configure_file(Database.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Database.hpp")
 # Add definition for cli library.
 add_library(chucknorris SHARED ChuckNorris.cpp)
 
-target_link_libraries(chucknorris CONAN_PKG::sqlite3)
+target_link_libraries(
+  chucknorris
+  PUBLIC CONAN_PKG::sqlite3
+  PRIVATE cppwarnings)
 
 target_include_directories(
   chucknorris PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

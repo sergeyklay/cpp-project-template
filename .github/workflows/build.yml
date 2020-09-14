@@ -190,6 +190,7 @@ jobs:
             -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' ) \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCPPCHECK=ON \
+            -DWARNINGS_AS_ERRORS=ON \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
