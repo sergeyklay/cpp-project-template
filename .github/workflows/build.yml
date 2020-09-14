@@ -161,7 +161,7 @@ jobs:
       - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
-          mkdir --parents --verbose ~/.conan/profiles
+          mkdir -p ~/.conan/profiles
 
           # WARN: Remotes registry file missing, creating default one
           cp tools/conan/remotes.json ~/.conan/remotes.json
