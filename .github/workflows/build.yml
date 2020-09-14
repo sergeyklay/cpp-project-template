@@ -163,11 +163,12 @@ jobs:
         run: |
           mkdir --parents --verbose ~/.conan/profiles
 
-          # Install conan profiles
-          cp tools/conan/profiles/* ~/.conan/profiles
-
           # WARN: Remotes registry file missing, creating default one
           cp tools/conan/remotes.json ~/.conan/remotes.json
+
+          # Install conan profiles
+          cp tools/conan/profiles/* ~/.conan/profiles
+          conan profile list
 
       - name: Install The Requirements Using Conan
         working-directory: ${{ matrix.project }}
