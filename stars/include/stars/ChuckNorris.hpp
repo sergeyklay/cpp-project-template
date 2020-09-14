@@ -41,7 +41,6 @@ class ChuckNorris {
 
  private:
   sqlite3 *db = nullptr;
-  char **errMsg = nullptr;
   int dbStatus = 0;
 };
 }  // namespace stars
