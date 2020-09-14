@@ -21,7 +21,7 @@ add_library(chucknorris SHARED ChuckNorris.cpp)
 target_link_libraries(
   chucknorris
   PUBLIC CONAN_PKG::sqlite3
-  PRIVATE cppwarnings)
+  PRIVATE compilerwarnings)
 
 target_include_directories(
   chucknorris PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>

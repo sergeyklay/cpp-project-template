@@ -28,4 +28,4 @@ target_include_directories(
 target_link_libraries(
   stars
   PUBLIC chucknorris
-  PRIVATE cppwarnings)
+  PRIVATE compilerwarnings)

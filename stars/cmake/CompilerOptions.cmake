@@ -16,7 +16,7 @@ include(CMakeDependentOption)
 
 option(WARNINGS_AS_ERRORS "Turn all build warnings into errors")
 
-add_library(cppwarnings INTERFACE)
+add_library(compilerwarnings INTERFACE)
 
 # Setup initial compiler flags to use on UNIX systems
 set(unix-warnings -Wall -Wextra -pedantic -Wshadow -Wsign-conversion
@@ -28,7 +28,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 target_compile_options(
-  cppwarnings
+  compilerwarnings
   INTERFACE $<$<CXX_COMPILER_ID:MSVC>:/W4 $<$<BOOL:${WARNINGS_AS_ERRORS}>:/WX>>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${unix-warnings}
             $<$<BOOL:${WARNINGS_AS_ERRORS}>:-Werror>>)
