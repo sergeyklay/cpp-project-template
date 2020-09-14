@@ -25,4 +25,7 @@ target_include_directories(
          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
 
-target_link_libraries(stars PUBLIC chucknorris)
+target_link_libraries(
+  stars
+  PUBLIC chucknorris
+  PRIVATE compilerwarnings)

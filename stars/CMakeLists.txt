@@ -32,6 +32,7 @@ endif()
 # CMake Script Includes
 include(Bootstrap)
 include(Cppcheck)
+include(CompilerOptions)
 
 # Require C++17
 set(CMAKE_CXX_STANDARD 17)

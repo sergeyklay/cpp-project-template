@@ -151,6 +151,7 @@ Supported CMake flags are:
 | ------------------------------- |------------------------------------------------------|
 | `CPPCHECK`                      | Add `cppcheck` step to the compilation.              |
 | `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation. |
+| `WARNINGS_AS_ERRORS`            | Turn all build warnings into errors.                 |
 
 
 To use `cppcheck` you will need to install it as follows:
