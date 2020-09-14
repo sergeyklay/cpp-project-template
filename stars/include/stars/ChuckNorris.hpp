@@ -32,8 +32,10 @@ class ChuckNorris {
 
   // Make sure you cannot copy Chuck Norris
   ChuckNorris(ChuckNorris const &) = delete;
-  ChuckNorris(ChuckNorris &&) = delete;
   ChuckNorris &operator=(ChuckNorris const &) = delete;
+
+  // Make sure you cannot move Chuck Norris
+  ChuckNorris(ChuckNorris &&) = delete;
   ChuckNorris &operator=(ChuckNorris &&) = delete;
 
   std::string getFact();
