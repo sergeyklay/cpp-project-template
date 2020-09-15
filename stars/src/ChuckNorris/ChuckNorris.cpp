@@ -12,9 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <spdlog/spdlog.h>
 #include <sqlite3.h>
-
-#include <iostream>
 
 #include <stars/ChuckNorris.hpp>
 
@@ -23,7 +22,7 @@
 stars::ChuckNorris::ChuckNorris() {
   int flags = SQLITE_OPEN_URI | SQLITE_OPEN_READONLY;
   if (sqlite3_open_v2(STARS_DB_URI, &db, flags, nullptr) != SQLITE_OK) {
-    std::cerr << "General error: " << sqlite3_errmsg(db) << std::endl;
+    spdlog::critical("General error: {}", sqlite3_errmsg(db));
     dbStatus = -1;
     sqlite3_close(db);
   } else {
@@ -33,11 +32,11 @@ stars::ChuckNorris::ChuckNorris() {
 
 stars::ChuckNorris::~ChuckNorris() {
   if (dbStatus == 1) {
-    // Closing a database connection
+    spdlog::debug("Closing a database connection...");
     sqlite3_close(db);
   }
 }
-int stars::ChuckNorris::getStatus() { return dbStatus; }
+int stars::ChuckNorris::getStatus() const { return dbStatus; }
 
 std::string stars::ChuckNorris::getFact() {
   if (dbStatus != 1) {
@@ -51,8 +50,7 @@ std::string stars::ChuckNorris::getFact() {
 
   rc = sqlite3_prepare_v2(db, q, -1, &stmt, nullptr);
   if (rc != SQLITE_OK) {
-    std::cerr << "Failed to prepare database query: " << sqlite3_errmsg(db)
-              << std::endl;
+    spdlog::error("Failed to prepare database query: {}", sqlite3_errmsg(db));
     dbStatus = -2;
 
     sqlite3_finalize(stmt);
@@ -62,10 +60,10 @@ std::string stars::ChuckNorris::getFact() {
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_ROW) {
     if (rc != SQLITE_DONE) {
-      std::cerr << "Failed to select fact: " << sqlite3_errmsg(db) << std::endl;
+      spdlog::error("Failed to select fact: {}", sqlite3_errmsg(db));
       dbStatus = -2;
     } else {
-      std::cerr << "Failed to select fact: database is empty" << std::endl;
+      spdlog::info("Unable to select fact: database is empty");
       dbStatus = -1;
     }
 
