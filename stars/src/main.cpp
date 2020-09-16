@@ -24,7 +24,9 @@ int main() {
 
   if (chuckNorris.getStatus() == 1) {
     std::cout << fact << std::endl;
+
+    return 0;
   }
 
-  return 0;
+  return 1;
 }

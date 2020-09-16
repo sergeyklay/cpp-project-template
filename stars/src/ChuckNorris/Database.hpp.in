@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef STARS_SRC_CHUCKNORRIS_DATABASE_HPP_
-#define STARS_SRC_CHUCKNORRIS_DATABASE_HPP_
+#ifndef STARS_CHUCKNORRIS_DATABASE_HPP_
+#define STARS_CHUCKNORRIS_DATABASE_HPP_
 
 #define STARS_DB_PATH "${Stars_BINARY_DIR}/bin"
 #define STARS_DB_NAME "stars.db"
 #define STARS_DB_URI  "file://" STARS_DB_PATH "/" STARS_DB_NAME
 
-#endif  // STARS_SRC_CHUCKNORRIS_DATABASE_HPP_
+#endif  // STARS_CHUCKNORRIS_DATABASE_HPP_
