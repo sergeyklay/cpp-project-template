@@ -219,7 +219,7 @@ jobs:
         if: startsWith(runner.os, 'macOS')
         working-directory: ${{ matrix.project }}
         env:
-          PATH: "/usr/local/opt/binutils/bin:$PATH"
+          PATH: "/usr/local/opt/binutils/bin:${{ env.PATH }}"
         run: |
           file ./build/bin/${{ matrix.project }}
           otool -L ./build/bin/${{ matrix.project }}
