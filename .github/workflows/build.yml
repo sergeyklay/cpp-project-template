@@ -98,7 +98,7 @@ jobs:
           echo "::set-env name=SDKROOT::$(xcodebuild -version -sdk macosx Path)"
           echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
 
-          # Install cppcheck
+          # Install common tools
           brew install cppcheck
 
       - name: Setup Project Prerequisites (Linux)
@@ -206,6 +206,21 @@ jobs:
       - name: Minimal Load Test
         working-directory: ${{ matrix.project }}
         run: for i in {1..10}; do echo "  $i. $(./build/bin/${{ matrix.project }})"; done
+
+      - name: Inspect Build (Linux)
+        if: startsWith(runner.os, 'Linux')
+        working-directory: ${{ matrix.project }}
+        run: |
+          file ./build/bin/${{ matrix.project }}
+          ldd ./build/bin/${{ matrix.project }}
+          readelf --program-headers --wide ./build/bin/${{ matrix.project }}
+
+      - name: Inspect Build (macOS)
+        if: startsWith(runner.os, 'macOS')
+        working-directory: ${{ matrix.project }}
+        run: |
+          file ./build/bin/${{ matrix.project }}
+          otool -L ./build/bin/${{ matrix.project }}
 
       - name: Success Reporting
         if: success()

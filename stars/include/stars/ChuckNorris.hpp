@@ -15,8 +15,8 @@
 /// \file ChuckNorris.hpp
 /// \brief Provides simple interface to interact with Chuck Norris.
 
-#ifndef STARS_INCLUDE_STARS_CHUCKNORRIS_HPP_
-#define STARS_INCLUDE_STARS_CHUCKNORRIS_HPP_
+#ifndef STARS_CHUCKNORRIS_HPP_
+#define STARS_CHUCKNORRIS_HPP_
 
 #include <sqlite3.h>
 
@@ -47,4 +47,4 @@ class ChuckNorris {
 };
 }  // namespace stars
 
-#endif  // STARS_INCLUDE_STARS_CHUCKNORRIS_HPP_
+#endif  // STARS_CHUCKNORRIS_HPP_

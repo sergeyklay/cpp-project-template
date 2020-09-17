@@ -15,7 +15,7 @@
 # Database configuration
 configure_file(Database.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Database.hpp")
 
-# Add definition for cli library.
+# Add definition for chucknorris library
 add_library(chucknorris SHARED ChuckNorris.cpp)
 
 target_link_libraries(
