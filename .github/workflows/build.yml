@@ -99,7 +99,7 @@ jobs:
           echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
 
           # Install common tools
-          brew install cppcheck binutils
+          brew install cppcheck
 
       - name: Setup Project Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
@@ -218,12 +218,9 @@ jobs:
       - name: Inspect Build (macOS)
         if: startsWith(runner.os, 'macOS')
         working-directory: ${{ matrix.project }}
-        env:
-          PATH: "/usr/local/opt/binutils/bin:${{ env.PATH }}"
         run: |
           file ./build/bin/${{ matrix.project }}
           otool -L ./build/bin/${{ matrix.project }}
-          greadelf --program-headers --wide ./build/bin/${{ matrix.project }}
 
       - name: Success Reporting
         if: success()
