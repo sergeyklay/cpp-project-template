@@ -98,8 +98,8 @@ jobs:
           echo "::set-env name=SDKROOT::$(xcodebuild -version -sdk macosx Path)"
           echo "::set-env name=PATH::$(dirname $(xcrun -f clang)):$PATH"
 
-          # Install cppcheck
-          brew install cppcheck
+          # Install common tools
+          brew install cppcheck binutils
 
       - name: Setup Project Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
@@ -211,7 +211,6 @@ jobs:
         if: startsWith(runner.os, 'Linux')
         working-directory: ${{ matrix.project }}
         run: |
-          otool -L
           file ./build/bin/${{ matrix.project }}
           ldd ./build/bin/${{ matrix.project }}
           readelf --program-headers --wide ./build/bin/${{ matrix.project }}
@@ -222,7 +221,7 @@ jobs:
         run: |
           file ./build/bin/${{ matrix.project }}
           otool -L ./build/bin/${{ matrix.project }}
-          readelf --program-headers --wide ./build/bin/${{ matrix.project }}
+          greadelf --program-headers --wide ./build/bin/${{ matrix.project }}
 
       - name: Success Reporting
         if: success()
