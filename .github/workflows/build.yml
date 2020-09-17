@@ -207,6 +207,13 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: for i in {1..10}; do echo "  $i. $(./build/bin/${{ matrix.project }})"; done
 
+      - name: Inspect Build
+        working-directory: ${{ matrix.project }}
+        run: |
+          file ./build/bin/${{ matrix.project }}
+          ldd ./build/bin/${{ matrix.project }}
+          readelf --program-headers --wide ./build/bin/${{ matrix.project }}
+
       - name: Success Reporting
         if: success()
         run: git log --format=fuller -5
