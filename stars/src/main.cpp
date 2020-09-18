@@ -16,11 +16,18 @@
 #include <string>
 
 #include <stars/ChuckNorris.hpp>
+#include <stars/Version.hpp>
 
 int main() {
   stars::ChuckNorris chuckNorris;
 
   std::string const fact = chuckNorris.getFact();
+
+  std::cout << STARS_VERSION_FULL << " (built: " << STARS_PACKAGE_BUILD_DATE
+            << ") " << std::endl;
+  std::cout << "Copyright " << STARS_COPYRIGHT << " (" << STARS_PACKAGE_URL
+            << ")" << std::endl
+            << std::endl;
 
   if (chuckNorris.getStatus() == 1) {
     std::cout << fact << std::endl;

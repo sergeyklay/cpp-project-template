@@ -188,7 +188,7 @@ $ sqlite3 ./build/bin/stars.db < ./data/stars.sqlite
 If everything went successfully, you can run the built executable:
 
 ```shell script
-$ for i in {1..10}; do echo "  $i. $(./build/bin/stars)"; done
+./build/bin/stars
 ```
 
 Expected output will something like:

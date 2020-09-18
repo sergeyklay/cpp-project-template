@@ -16,11 +16,11 @@
 add_subdirectory(ChuckNorris)
 
 # Demo
-add_executable(${PROJECT_BIN})
-target_sources(${PROJECT_BIN} PRIVATE main.cpp)
+add_executable(stars)
+target_sources(stars PRIVATE main.cpp)
 
 target_include_directories(
-  ${PROJECT_BIN}
+  stars
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
@@ -29,3 +29,5 @@ target_link_libraries(
   stars
   PUBLIC chucknorris
   PRIVATE compilerwarnings)
+
+set_target_properties(stars PROPERTIES VERSION ${STARS_VERSION})
