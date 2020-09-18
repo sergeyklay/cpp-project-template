@@ -15,8 +15,8 @@
 # limitations under the License.
 
 if [ "$#" -ne 1 ]; then
-    echo "Illegal number of parameters" 1>&2
-    echo "Usage: analyze-build.sh <PROJECT_NAME>" 1>&2
+  echo "Illegal number of parameters" 1>&2
+  echo "Usage: analyze-build.sh <PROJECT_NAME>" 1>&2
 fi
 
 echo "==========================================="
@@ -24,20 +24,15 @@ echo "Executable"
 echo "==========================================="
 echo
 
-objtype="ELF"
-ftype="$(file "build/bin/$1")"
+ftype="$(file "build/bin/${1}")"
 echo "$ftype"
 
 if [[ "$ftype" =~ .*"Mach-O".* ]]; then
-  objtype="Mach-"
-fi
-
-if [ "$objtype" = "Mach-O" ]; then
-  otool -L "build/bin/$1"
-  otool -hv "build/bin/$1"
+  otool -L "build/bin/${1}"
+  otool -hv "build/bin/${1}"
 else
-  ldd "build/bin/$1"
-  readelf --program-headers --wide "build/bin/$1"
+  ldd "build/bin/${1}"
+  readelf --program-headers --wide "build/bin/${1}"
 fi
 
 echo "==========================================="
@@ -48,13 +43,13 @@ echo
 # shellcheck disable=SC2066
 # shellcheck disable=SC2010
 for f in "$(ls -gG build/lib/ | grep '^-' | awk '{print $NF}')"; do
-  file "build/lib/$f"
+  file "build/lib/${f}"
 
-  if [ "$objtype" = "Mach-O" ]; then
-    otool -L "build/lib/$f"
-    otool -hv "build/lib/$f"
+  if [[ "$ftype" =~ .*"Mach-O".* ]]; then
+    otool -L "build/lib/${f}"
+    otool -hv "build/lib/${f}"
   else
-    ldd "build/lib/$f"
-    readelf --program-headers --wide "build/lib/$f"
+    ldd "build/lib/${f}"
+    readelf --program-headers --wide "build/lib/${f}"
   fi
 done
