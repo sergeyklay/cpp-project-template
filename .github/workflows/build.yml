@@ -220,6 +220,8 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: |
           # Executable
+          ls -l build/bin/
+
           file build/bin/${{ matrix.project }}
           otool -L build/bin/${{ matrix.project }}
           otool -hv build/bin/${{ matrix.project }}

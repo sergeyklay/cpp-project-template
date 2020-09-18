@@ -19,7 +19,7 @@
 #define STARS_VERSION_HPP_
 
 /// \file Version.hpp
-/// \brief Provides compiler version information.
+/// \brief Provides application version information.
 
 /// \brief Represents compiler major version.
 #define STARS_VERSION_MAJOR "@STARS_VERSION_MAJOR@"
