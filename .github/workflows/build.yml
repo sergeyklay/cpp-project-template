@@ -201,27 +201,35 @@ jobs:
       - name: Populate Database
         working-directory: ${{ matrix.project }}
         if: env.WITH_SQLITE == 1
-        run: sqlite3 ./build/bin/${{ matrix.project }}.db < ./data/${{ matrix.project }}.sqlite
+        run: sqlite3 build/bin/${{ matrix.project }}.db < data/${{ matrix.project }}.sqlite
 
       - name: Minimal Load Test
         working-directory: ${{ matrix.project }}
-        run: for i in {1..10}; do echo "  $i. $(./build/bin/${{ matrix.project }})"; done
+        run: for i in {1..10}; do echo "  $i. $(build/bin/${{ matrix.project }})"; done
 
       - name: Analyze Build (Linux)
         if: startsWith(runner.os, 'Linux')
         working-directory: ${{ matrix.project }}
         run: |
-          file ./build/bin/${{ matrix.project }}
-          ldd ./build/bin/${{ matrix.project }}
-          readelf --program-headers --wide ./build/bin/${{ matrix.project }}
+          # Executable
+          file build/bin/${{ matrix.project }}
+          ldd build/bin/${{ matrix.project }}
+          readelf --program-headers --wide build/bin/${{ matrix.project }}
+
+          # Libraries
+          ls -l build/lib/
 
       - name: Analyze Build (macOS)
         if: startsWith(runner.os, 'macOS')
         working-directory: ${{ matrix.project }}
         run: |
-          file ./build/bin/${{ matrix.project }}
-          otool -L ./build/bin/${{ matrix.project }}
-          otool -hv ./build/bin/${{ matrix.project }}
+          # Executable
+          file build/bin/${{ matrix.project }}
+          otool -L build/bin/${{ matrix.project }}
+          otool -hv build/bin/${{ matrix.project }}
+
+          # Libraries
+          ls -l build/lib/
 
       - name: Success Reporting
         if: success()

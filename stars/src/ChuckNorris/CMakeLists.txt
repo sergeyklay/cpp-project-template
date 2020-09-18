@@ -13,7 +13,8 @@
 # limitations under the License.
 
 # Database configuration
-configure_file(Database.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Database.hpp")
+get_filename_component(_MOD_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 
 # Add definition for chucknorris library
 add_library(chucknorris SHARED ChuckNorris.cpp)
@@ -26,3 +27,21 @@ target_link_libraries(
 target_include_directories(
   chucknorris PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+# Version info
+set(CHUCKNORRIS_VERSION_MAJOR 1)
+set(CHUCKNORRIS_VERSION_MINOR 13)
+set(CHUCKNORRIS_VERSION_PATCH 42)
+
+set(CHUCKNORRIS_VERSION_STRING
+    ${CHUCKNORRIS_VERSION_MAJOR}.${CHUCKNORRIS_VERSION_MINOR}.${CHUCKNORRIS_VERSION_PATCH}
+)
+
+# The SOVERSION is not necessarily the same as the major version. The rule is
+# that any breakage of the ABI must be indicated by incrementing the SOVERSION.
+# So, adding e.g. functions is no problem, modifying argument lists or removing
+# functions would required the SOVERSION to be incremented. Similar rules hold
+# of course for non-opaque data-structures.
+set_target_properties(
+  chucknorris PROPERTIES VERSION ${CHUCKNORRIS_VERSION_STRING}
+                         SOVERSION ${CHUCKNORRIS_VERSION_MAJOR})
