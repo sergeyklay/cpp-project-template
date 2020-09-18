@@ -203,15 +203,9 @@ jobs:
         if: env.WITH_SQLITE == 1
         run: sqlite3 build/bin/${{ matrix.project }}.db < data/${{ matrix.project }}.sqlite
 
-      - name: Analyze Build (Linux)
-        if: startsWith(runner.os, 'Linux')
+      - name: Analyze Build
         working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/analyze-build.sh" ${{ matrix.project }} ELF
-
-      - name: Analyze Build (macOS)
-        if: startsWith(runner.os, 'macOS')
-        working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/analyze-build.sh" ${{ matrix.project }} Mach-O
+        run: bash "$GITHUB_WORKSPACE/.ci/analyze-build.sh" ${{ matrix.project }}
 
       - name: Minimal Load Test
         working-directory: ${{ matrix.project }}
