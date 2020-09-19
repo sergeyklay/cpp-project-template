@@ -88,6 +88,9 @@ jobs:
           # Install cppcheck
           sudo snap install cppcheck
 
+          # Install common tools
+          sudo apt-get install --no-install-recommends -q -y chrpath
+
       - name: Setup Common Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
