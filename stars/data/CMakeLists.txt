@@ -13,35 +13,34 @@
 # limitations under the License.
 
 if(UNIX)
-    find_program(
-            SQLITE3_EXE
-            NAMES sqlite3
-            PATHS /usr /usr/local
-            PATH_SUFFIXES bin)
+  find_program(
+    SQLITE3_EXE
+    NAMES sqlite3
+    PATHS /usr /usr/local
+    PATH_SUFFIXES bin)
 elseif(WIN32)
-    find_program(
-            SQLITE3_EXE
-            NAMES sqlite3.exe
-            PATHS C:/
-            PATH_SUFFIXES "")
+  find_program(
+    SQLITE3_EXE
+    NAMES sqlite3.exe
+    PATHS C:/
+    PATH_SUFFIXES "")
 endif()
 
 mark_as_advanced(SQLITE3_EXE)
 
 if(SQLITE3_EXE)
-    get_filename_component(_DB_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+  get_filename_component(_DB_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
 
-    execute_process(
-            COMMAND ${SQLITE3_EXE} ${_DB_DIR}/stars.db ".read ${_DB_DIR}/stars.sqlite"
-            RESULT_VARIABLE SQLITE3_RESULT
-            ERROR_VARIABLE SQLITE3_ERROR)
+  execute_process(
+    COMMAND ${SQLITE3_EXE} ${_DB_DIR}/stars.db ".read ${_DB_DIR}/stars.sqlite"
+    RESULT_VARIABLE SQLITE3_RESULT
+    ERROR_VARIABLE SQLITE3_ERROR)
 
-    if(SQLITE3_RESULT)
-        message(FATAL_ERROR "${SQLITE3_ERROR}")
-    else()
-        install(FILES stars.db
-                DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/db/stars)
-    endif()
+  if(SQLITE3_RESULT)
+    message(FATAL_ERROR "${SQLITE3_ERROR}")
+  else()
+    install(FILES stars.db DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/db/stars)
+  endif()
 else()
-    message(SEND_ERROR "sqlite3 executable not found!")
+  message(SEND_ERROR "sqlite3 executable not found!")
 endif()
