@@ -191,25 +191,30 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DCPPCHECK=ON \
             -DWARNINGS_AS_ERRORS=ON \
+            -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }} \
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
-        run: |
-          cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
+        run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
 
-      - name: Populate Database
+      - name: Install Program
         working-directory: ${{ matrix.project }}
-        if: env.WITH_SQLITE == 1
-        run: sqlite3 build/bin/${{ matrix.project }}.db < data/${{ matrix.project }}.sqlite
+        run: cmake --build build --target install
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/analyze-build.sh" ${{ matrix.project }}
+        run: |
+          tree -a /opt/${{ matrix.project }}
+
+          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/${{ matrix.project }}/lib" \
+          bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
 
       - name: Minimal Load Test
         working-directory: ${{ matrix.project }}
-        run: build/bin/${{ matrix.project }}
+        run: |
+          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/${{ matrix.project }}/lib" \
+          build/bin/${{ matrix.project }}
 
       - name: Success Reporting
         if: success()

@@ -31,3 +31,10 @@ target_link_libraries(
   PRIVATE compilerwarnings)
 
 set_target_properties(stars PROPERTIES VERSION ${STARS_VERSION})
+
+# cmake-format: off
+install(TARGETS stars
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# cmake-format: on

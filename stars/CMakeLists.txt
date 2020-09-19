@@ -63,4 +63,8 @@ include(ConanHelper)
 # Project specific variables
 include(ProjectInfo)
 
+# Use a standard directory layout
+include(GNUInstallDirs)
+
 add_subdirectory(src)
+add_subdirectory(data)

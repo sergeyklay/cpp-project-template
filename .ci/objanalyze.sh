@@ -16,7 +16,13 @@
 
 if [ "$#" -ne 1 ]; then
   echo "Illegal number of parameters" 1>&2
-  echo "Usage: analyze-build.sh <PROJECT_NAME>" 1>&2
+  echo "Usage: objanalyze.sh <PROJECT_NAME> [ PREFIX ]" 1>&2
+fi
+
+if [ "x$2" != "x" ]; then
+  prefix="$2"
+else
+  prefix="$(pwd)/build"
 fi
 
 echo "==========================================="
@@ -24,15 +30,15 @@ echo "Executable"
 echo "==========================================="
 echo
 
-ftype="$(file "build/bin/${1}")"
+ftype="$(file "${prefix}/bin/${1}")"
 echo "$ftype"
 
 if [[ "$ftype" =~ .*"Mach-O".* ]]; then
-  otool -L "build/bin/${1}"
-  otool -hv "build/bin/${1}"
+  otool -L "${prefix}/bin/${1}"
+  otool -hv "${prefix}/bin/${1}"
 else
-  ldd "build/bin/${1}"
-  readelf --program-headers --wide "build/bin/${1}"
+  ldd "${prefix}/bin/${1}"
+  readelf --program-headers --wide "${prefix}/bin/${1}"
 fi
 
 echo "==========================================="
@@ -42,14 +48,14 @@ echo
 
 # shellcheck disable=SC2066
 # shellcheck disable=SC2010
-for f in "$(ls -gG build/lib/ | grep '^-' | awk '{print $NF}')"; do
-  file "build/lib/${f}"
+for f in "$(ls -gG "${prefix}/lib/" | grep '^-' | awk '{print $NF}')"; do
+  file "${prefix}/lib/${f}"
 
   if [[ "$ftype" =~ .*"Mach-O".* ]]; then
-    otool -L "build/lib/${f}"
-    otool -hv "build/lib/${f}"
+    otool -L "${prefix}/lib/${f}"
+    otool -hv "${prefix}/lib/${f}"
   else
-    ldd "build/lib/${f}"
-    readelf --program-headers --wide "build/lib/${f}"
+    ldd "${prefix}/lib/${f}"
+    readelf --program-headers --wide "${prefix}/lib/${f}"
   fi
 done

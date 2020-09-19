@@ -45,3 +45,9 @@ set(CHUCKNORRIS_VERSION_STRING
 set_target_properties(
   chucknorris PROPERTIES VERSION ${CHUCKNORRIS_VERSION_STRING}
                          SOVERSION ${CHUCKNORRIS_VERSION_MAJOR})
+
+# cmake-format: off
+install(TARGETS chucknorris
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+# cmake-format: on
