@@ -200,7 +200,7 @@ jobs:
 
       - name: Install Program
         working-directory: ${{ matrix.project }}
-        run: cmake --build build --target install
+        run: sudo cmake --build build --target install
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
