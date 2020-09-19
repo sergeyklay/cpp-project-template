@@ -42,6 +42,7 @@ if [[ "$ftype" =~ .*"Mach-O".* ]]; then
 else
   ldd "${prefix}/bin/${1}"
   chrpath -l "${prefix}/bin/${1}"
+  objdump -p "${prefix}/bin/${1}"
   readelf --program-headers --wide "${prefix}/bin/${1}"
 fi
 
@@ -57,12 +58,14 @@ for f in "$(ls -gG "${prefix}/lib/" | grep '^-' | awk '{print $NF}')"; do
   file "${prefix}/lib/${f}"
 
   if [[ "$ftype" =~ .*"Mach-O".* ]]; then
+    otool -D "${prefix}/lib/${f}"
     otool -L "${prefix}/lib/${f}"
     otool -l "${prefix}/lib/${f}"
     otool -hv "${prefix}/lib/${f}"
   else
     ldd "${prefix}/lib/${f}"
     chrpath -l "${prefix}/lib/${f}"
+    objdump -p "${prefix}/lib/${f}"
     readelf --program-headers --wide "${prefix}/lib/${f}"
   fi
 done

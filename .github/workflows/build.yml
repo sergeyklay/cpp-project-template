@@ -217,6 +217,7 @@ jobs:
         env:
           LD_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
           DYLD_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
+          DYLD_PRINT_LIBRARIES: 1
         run: ./${{ matrix.project }}
 
       - name: Success Reporting
