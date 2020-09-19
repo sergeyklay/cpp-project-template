@@ -37,7 +37,7 @@ echo "$ftype"
 
 if [[ "$ftype" =~ .*"Mach-O".* ]]; then
   otool -L "${prefix}/bin/${1}"
-  otool -l "${prefix}/bin/${1}" | grep RPATH -A2
+  otool -l "${prefix}/bin/${1}"
   otool -hv "${prefix}/bin/${1}"
 else
   ldd "${prefix}/bin/${1}"
@@ -58,7 +58,7 @@ for f in "$(ls -gG "${prefix}/lib/" | grep '^-' | awk '{print $NF}')"; do
 
   if [[ "$ftype" =~ .*"Mach-O".* ]]; then
     otool -L "${prefix}/lib/${f}"
-    otool -l "${prefix}/lib/${f}" | grep RPATH -A2
+    otool -l "${prefix}/lib/${f}"
     otool -hv "${prefix}/lib/${f}"
   else
     ldd "${prefix}/lib/${f}"
