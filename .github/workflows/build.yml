@@ -184,15 +184,16 @@ jobs:
 
       - name: Configure x64 Debug
         working-directory: ${{ matrix.project }}
-        run: >-
-          cmake
-            -S .
-            -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' )
-            -DCMAKE_BUILD_TYPE=Debug
-            -DCPPCHECK=ON
-            -DWARNINGS_AS_ERRORS=ON
-            -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }}
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        run:
+          - >
+            cmake
+              -S .
+              -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' )
+              -DCMAKE_BUILD_TYPE=Debug
+              -DCPPCHECK=ON
+              -DWARNINGS_AS_ERRORS=ON
+              -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }}
+              -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
