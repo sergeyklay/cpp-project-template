@@ -213,6 +213,7 @@ jobs:
         working-directory: /opt/${{ matrix.project }}/bin
         env:
           LD_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
+          DYLD_FALLBACK_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
         run: ./${{ matrix.project }}
 
       - name: Success Reporting
