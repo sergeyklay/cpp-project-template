@@ -14,9 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -lt 1 ]; then
   echo "Illegal number of parameters" 1>&2
   echo "Usage: objanalyze.sh <PROJECT_NAME> [ PREFIX ]" 1>&2
+  exit 1
 fi
 
 if [ "x$2" != "x" ]; then
@@ -25,6 +26,7 @@ else
   prefix="$(pwd)/build"
 fi
 
+echo
 echo "==========================================="
 echo "Executable"
 echo "==========================================="
@@ -43,6 +45,7 @@ else
   readelf --program-headers --wide "${prefix}/bin/${1}"
 fi
 
+echo
 echo "==========================================="
 echo "Libraries"
 echo "==========================================="
