@@ -42,20 +42,26 @@ if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
 endif(MSVC)
 
-# Tools
 include(ClangFormat)
-file(GLOB_RECURSE glob_files #
-     ${Stars_SOURCE_DIR}/include/*.[hc] ${Stars_SOURCE_DIR}/include/*.[hc]pp
-     ${Stars_SOURCE_DIR}/src/*.[hc] ${Stars_SOURCE_DIR}/src/*.[hc]pp)
-clang_format(cpp-format ${glob_files})
-
 include(CMakeFormat)
-file(GLOB_RECURSE glob_files #
-     "${Stars_SOURCE_DIR}/cmake/*.cmake"
-     "${Stars_SOURCE_DIR}/src/CMakeLists.txt")
 
-list(APPEND glob_files ${Stars_SOURCE_DIR}/CMakeLists.txt)
-cmake_format(cmake-format "${glob_files}")
+# cmake-format: off
+file(GLOB_RECURSE cpp_files
+  ${Stars_SOURCE_DIR}/include/*.[hc]
+  ${Stars_SOURCE_DIR}/include/*.[hc]pp
+  ${Stars_SOURCE_DIR}/src/*.[hc]
+  ${Stars_SOURCE_DIR}/src/*.[hc]pp)
+
+file(GLOB_RECURSE cmake_files
+  ${Stars_SOURCE_DIR}/cmake/*.cmake
+  ${Stars_SOURCE_DIR}/src/CMakeLists.txt)
+# cmake-format: on
+
+list(APPEND cmake_files ${Stars_SOURCE_DIR}/CMakeLists.txt)
+list(APPEND cmake_files ${Stars_SOURCE_DIR}/data/CMakeLists.txt)
+
+clang_format(cpp-format ${cpp_files})
+cmake_format(cmake-format "${cmake_files}")
 
 # Conan helpers
 include(ConanHelper)

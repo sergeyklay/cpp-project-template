@@ -19,25 +19,25 @@ option(CPPCHECK "Turns on cppcheck processing if it is found." OFF)
 
 if(UNIX)
   find_program(
-    CPPCHECK_BIN
+    CPPCHECK_EXE
     NAMES cppcheck
-    PATHS /opt/local /opt /usr/local /usr
+    PATHS /usr /usr/local
     PATH_SUFFIXES bin)
 elseif(WIN32)
   find_program(
-    CPPCHECK_BIN
+    CPPCHECK_EXE
     NAMES cppcheck.exe
     PATHS C:/
     PATH_SUFFIXES "")
 endif()
 
-mark_as_advanced(CPPCHECK_BIN)
+mark_as_advanced(CPPCHECK_EXE)
 
 set(_base_message "Check for cppcheck")
-if(CPPCHECK_BIN)
+if(CPPCHECK_EXE)
   # Version number checking for '-std=c++17' compatibility
   execute_process(
-    COMMAND ${CPPCHECK_BIN} --version
+    COMMAND ${CPPCHECK_EXE} --version
     OUTPUT_VARIABLE CPPCHECK_VERSION_CALL_OUTPUT
     RESULT_VARIABLE CPPCHECK_VERSION_RESULT
     ERROR_VARIABLE CPPCHECK_VERSION_ERROR
@@ -45,7 +45,7 @@ if(CPPCHECK_BIN)
 
   if(CPPCHECK_VERSION_RESULT)
     string(CONCAT CPPCHECK_FIND_ERROR
-                  "Command \"${CPPCHECK_BIN} --version\" failed "
+                  "Command \"${CPPCHECK_EXE} --version\" failed "
                   "with output:\n${CPPCHECK_VERSION_ERROR}")
 
     message(FATAL_ERROR "${CPPCHECK_FIND_ERROR}")
@@ -61,10 +61,10 @@ if(CPPCHECK_BIN)
     )
   endif()
 
-  message(STATUS "${_base_message}: ${CPPCHECK_BIN}")
+  message(STATUS "${_base_message}: ${CPPCHECK_EXE}")
   if(CPPCHECK)
     set(CMAKE_CXX_CPPCHECK
-        "${CPPCHECK_BIN}"
+        "${CPPCHECK_EXE}"
         "--enable=warning,performance,portability,missingInclude"
         "--language=c++"
         "--std=c++17"

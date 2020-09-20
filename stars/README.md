@@ -184,7 +184,7 @@ Use `-DCMAKE_INSTALL_PREFIX=/new/location` to change the prefix, e.g.:
 
 ```shell script
 # Configure
-$ cmake -DCMAKE_INSTALL_PREFIX=~/local build
+$ cmake -DCMAKE_INSTALL_PREFIX=~/.local build
 
 # Build program
 $ cmake --build build
@@ -210,10 +210,10 @@ Chuck Norris can kill two stones with one bird.
 If you used a custom prefix, you'll need to use appropriate path: 
 
 ```shell script
-$ cmake -DCMAKE_INSTALL_PREFIX=~/local build
+$ cmake -DCMAKE_INSTALL_PREFIX=~/.local build
 $ cmake --build build
 $ cmake --build build --target install
-$ ~/local/bin/stars
+$ ~/.local/bin/stars
 ```
 
 ### Further Reading

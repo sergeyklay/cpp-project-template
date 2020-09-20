@@ -13,7 +13,6 @@
 // limitations under the License.
 
 #include <iostream>
-#include <string>
 
 #include <stars/ChuckNorris.hpp>
 #include <stars/Version.hpp>
