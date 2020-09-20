@@ -201,11 +201,15 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
 
+      - name: Analyze Build
+        working-directory: ${{ matrix.project }}
+        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }}
+
       - name: Install Program
         working-directory: ${{ matrix.project }}
         run: sudo cmake --build build --target install
 
-      - name: Analyze Build
+      - name: Analyze Install
         working-directory: ${{ matrix.project }}
         run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
 
