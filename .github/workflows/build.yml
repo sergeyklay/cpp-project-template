@@ -207,14 +207,10 @@ jobs:
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
-        env:
-          LD_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
         run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
 
       - name: Minimal Load Test
         working-directory: /opt/${{ matrix.project }}/bin
-        env:
-          LD_LIBRARY_PATH: /opt/${{ matrix.project }}/lib
         run: ./${{ matrix.project }}
 
       - name: Success Reporting
