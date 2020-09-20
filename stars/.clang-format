@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Stars clang-format configuration file.
+# Defines the Stars style for automatic reformatting.
 #
 # Please seek consensus from the Serghei Iakovlev before
 # modifying this file.
 #
-#
 # See also:
+#   http://clang.llvm.org/docs/ClangFormatStyleOptions.html
 #   https://google.github.io/styleguide/cppguide.html#
 #
 # To compare these settings with all available clang-format options:
@@ -27,7 +27,7 @@
 ---
 DisableFormat: false
 Language: Cpp
-Standard: Auto
+Standard: c++17
 
 # Indentation & whitespace
 AccessModifierOffset: -1
@@ -101,7 +101,7 @@ AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Left
 AlignOperands: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: All
 AllowShortIfStatementsOnASingleLine: WithoutElse
@@ -125,7 +125,7 @@ BreakAfterJavaFieldAnnotations: false
 BraceWrapping:
   AfterCaseLabel:        false
   AfterClass:            false
-  AfterControlStatement: false
+  AfterControlStatement: Never
   AfterEnum:             false
   AfterFunction:         false
   AfterNamespace:        false
