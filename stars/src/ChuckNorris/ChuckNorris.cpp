@@ -22,7 +22,7 @@
 stars::ChuckNorris::ChuckNorris() {
   int flags = SQLITE_OPEN_URI | SQLITE_OPEN_READONLY;
   if (sqlite3_open_v2(STARS_DB_URI, &db, flags, nullptr) != SQLITE_OK) {
-    spdlog::critical("General error: {}", sqlite3_errmsg(db));
+    spdlog::critical("Can't open database: {}", sqlite3_errmsg(db));
     dbStatus = -1;
     sqlite3_close(db);
   } else {
