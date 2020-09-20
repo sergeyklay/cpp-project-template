@@ -30,29 +30,29 @@ target_link_libraries(
   PUBLIC chucknorris
   PRIVATE compilerwarnings)
 
-file(RELATIVE_PATH _rel ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
-     ${CMAKE_INSTALL_PREFIX})
+# cmake-format: off
+file(RELATIVE_PATH _rel
+  ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
+  ${CMAKE_INSTALL_PREFIX})
+
 if(APPLE)
   set(_rpath "@loader_path/${_rel}")
 else()
   set(_rpath "\$ORIGIN/${_rel}")
 endif()
-file(TO_NATIVE_PATH "${_rpath}/${INSTALL_LIBDIR}" message_RPATH)
 
-# cmake-format: off
+file(TO_NATIVE_PATH
+  "${_rpath}/${CMAKE_INSTALL_LIBDIR}"
+  message_RPATH)
+
 set_target_properties(stars PROPERTIES
   VERSION ${STARS_VERSION}
   MACOSX_RPATH ON
-  # Tells CMake to generate an appropriate RPATH so as to be
-  # able to run the executable from within the build tree.
+  # Don't skip the full RPATH for the build tree.
   SKIP_BUILD_RPATH OFF
-  # Turns off generating executable targets with their
-  # RPATH geared to be the same as the one for the install tree.
-  # This would prevent us from running the executable from within
-  # the build tree.
+  # When building, don't use the install RPATH already.
   BUILD_WITH_INSTALL_RPATH OFF
-  # Sets the RPATH for the installed executable target to a path
-  # previously computed.
+  # The RPATH to be used when installing.
   INSTALL_RPATH "${message_RPATH}"
   # Tells CMake to append linker search paths to
   # the RPATH executable.
