@@ -88,6 +88,9 @@ jobs:
           # Install cppcheck
           sudo snap install cppcheck
 
+          # Install common tools
+          sudo apt-get install --no-install-recommends -q -y chrpath
+
       - name: Setup Common Prerequisites (macOS)
         if: startsWith(runner.os, 'macOS')
         run: |
@@ -149,6 +152,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Verify Toolchain Version
+        run: $CC --version && cmake --version && conan --version
+
       - name: Setup Conan Cache
         id: conan-cache
         uses: actions/cache@v2
@@ -181,35 +187,35 @@ jobs:
 
       - name: Configure x64 Debug
         working-directory: ${{ matrix.project }}
-        run: |
-          $CC --version
-          cmake --version
-
-          cmake \
-            -S . \
-            -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' ) \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCPPCHECK=ON \
-            -DWARNINGS_AS_ERRORS=ON \
-            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+        run: >-
+          cmake
+          -S .
+          -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' )
+          -DCMAKE_BUILD_TYPE=Debug
+          -DCPPCHECK=ON
+          -DWARNINGS_AS_ERRORS=ON
+          -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }}
+          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
-        run: |
-          cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
-
-      - name: Populate Database
-        working-directory: ${{ matrix.project }}
-        if: env.WITH_SQLITE == 1
-        run: sqlite3 build/bin/${{ matrix.project }}.db < data/${{ matrix.project }}.sqlite
+        run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/analyze-build.sh" ${{ matrix.project }}
+        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }}
+
+      - name: Install Program
+        working-directory: ${{ matrix.project }}
+        run: sudo cmake --build build --target install
+
+      - name: Analyze Install
+        working-directory: ${{ matrix.project }}
+        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
 
       - name: Minimal Load Test
-        working-directory: ${{ matrix.project }}
-        run: build/bin/${{ matrix.project }}
+        working-directory: /opt/${{ matrix.project }}/bin
+        run: ./${{ matrix.project }}
 
       - name: Success Reporting
         if: success()

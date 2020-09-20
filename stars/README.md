@@ -12,7 +12,7 @@ your local machine for development and testing purposes.
 
 ### Prerequisites
 
-To build Stars you'll need the following requirements:
+To build and run Stars you'll need the following requirements:
 
 - A C++17 compatible compiler such as
   - [GCC][gcc] >= 7.0.0
@@ -21,6 +21,7 @@ To build Stars you'll need the following requirements:
 - [CMake][cmake] 3.14 or later
 - Any build tool supported by CMake like [GNU Make][make], [Ninja][ninja] and so on
 - [Conan][conan] decentralized package manager with a client-server architecture
+- [SQLite][sqlite] >= 3.0
 
 For project dependencies list see `conanfile.txt` bundled with this project.
 
@@ -34,10 +35,10 @@ Optional prerequisites are:
 If you're using Ubuntu, you can install the required packages this way:
 
 ```shell script
-$ sudo apt install gcc cmake build-essential
+$ sudo apt install gcc cmake build-essential sqlite3
 ```
 
-On macOS you most likely have a compiler so you'll need only CMake:
+On macOS you most likely have a compiler and SQLite so you'll need only CMake:
 
 ```shell script
 $ brew install cmake
@@ -77,20 +78,46 @@ They can be installed using pip as follows:
 $ pip install --user -r requirements.txt
 ```
 
-### Build
+#### Configure flags
 
-First you'll need clone the project:
+To enable any feature use CMake flags at configure time.
+To enable `FEATURE` use `-DFEATURE=ON` and to disable `FEATURE` use `-DFEATURE=OFF`.
+Supported CMake flags are:
+
+| Flag                            | Description                                               |
+| ------------------------------- |-----------------------------------------------------------|
+| `CPPCHECK`                      | Add `cppcheck` step to the compilation.                   |
+| `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation.      |
+| `WARNINGS_AS_ERRORS`            | Turn all build warnings into errors.                      |
+
+To use `cppcheck` you will need to install it as follows:
 
 ```shell script
-$ git clone https://github.com/sergeyklay/cpp-project-templates
-$ cd cpp-project-templates
+# Arch Linux
+$ sudo pacman -S cppcheck
+
+# Fedora
+$ sudo dnf install cppcheck
+
+# Ubuntu
+$ sudo snap install cppcheck
+
+# Debian
+$ sudo apt install cppcheck
+ 
+# Gentoo
+$ sudo emerge dev-util/cppcheck
+
+# macOS
+$ brew install cppcheck
 ```
 
+### Build
+
 You may want to install optional dependencies to perform additional code style checks.
-To install them use `pip` from `stars` directory as follows:
+To install them use `pip` from the project directory as follows:
 
 ```shell script
-$ cd stars
 $ pip install --user -r requirements.txt
 ```
 
@@ -118,6 +145,7 @@ $ cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release
 ```
 
 To use Ninja CMake's generator, simply use CMake's `-G` [command-line option][cmake-cli]:
+
 ```shell script
 $ cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
 ```
@@ -138,72 +166,54 @@ $ cmake                    \
 ```
 
 Finally build project:
+
 ```shell script
 $ cmake --build build
 ```
-#### Configure flags
 
-To enable any feature use CMake flags at configure time.
-To enable `FEATURE` use `-DFEATURE=ON` and to disable `FEATURE` use `-DFEATURE=OFF`.
-Supported CMake flags are:
+#### Install
 
-| Flag                            | Description                                          |
-| ------------------------------- |------------------------------------------------------|
-| `CPPCHECK`                      | Add `cppcheck` step to the compilation.              |
-| `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation. |
-| `WARNINGS_AS_ERRORS`            | Turn all build warnings into errors.                 |
-
-
-To use `cppcheck` you will need to install it as follows:
+To install program simple use `install` target:
 
 ```shell script
-# Arch Linux
-$ sudo pacman -S cppcheck
+$ cmake --build build --target install
+```
 
-# Fedora
-$ sudo dnf install cppcheck
+To be able install program in non standard location you'll need to change the installation prefix.
+Use `-DCMAKE_INSTALL_PREFIX=/new/location` to change the prefix, e.g.:
 
-# Ubuntu
-$ sudo snap install cppcheck
+```shell script
+# Configure
+$ cmake -DCMAKE_INSTALL_PREFIX=~/local build
 
-# Debian
-$ sudo apt install cppcheck
- 
-# Gentoo
-$ sudo emerge dev-util/cppcheck
+# Build program
+$ cmake --build build
 
-# macOS
-$ brew install cppcheck
+# Install. Thi will use custom prefix now
+$ cmake --build build --target install
 ```
 
 ### Run
 
-To make demo application works, you'll need a SQLite database. You can create a
-database and populate it by test data using following command from `stars` directory:
-
-```shell script
-$ sqlite3 ./build/bin/stars.db < ./data/stars.sqlite
-```
-
 If everything went successfully, you can run the built executable:
 
 ```shell script
-./build/bin/stars
+$ /usr/local/bin/stars
 ```
 
 Expected output will something like:
 
 ```
-  1. Chuck Norris counted to infinity. Twice.
-  2. Chuck Norris can kill two stones with one bird.
-  3. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
-  4. If, by some incredible space-time paradox, Chuck Norris would ever fight himself, he'd win. Period.
-  5. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
-  6. Chuck Norris counted to infinity. Twice.
-  7. Chuck Norris can slam a revolving door.
-  8. The easiest way to determine Chuck Norris's age is to cut him in half and count the rings.
-  9. Chuck Norris can kill two stones with one bird.
-  10. Chuck Norris can slam a revolving door.
+Chuck Norris can kill two stones with one bird.
+```
+
+If you used a custom prefix, you'll need to use appropriate path: 
+
+```shell script
+$ cmake -DCMAKE_INSTALL_PREFIX=~/local build
+$ cmake --build build
+$ cmake --build build --target install
+$ ~/local/bin/stars
 ```
 
 ### Further Reading
