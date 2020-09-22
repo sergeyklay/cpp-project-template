@@ -131,7 +131,7 @@ Next, initialize project with `conan` - this is using the `conanfile.txt` specif
 that SQLite is an dependency and that `conan` should integrate with CMake:
 
 ```shell script
-$ conan install . -if=$(pwd)/build --build=missing
+$ conan install . -if=.build --build=missing
 ```
 
 This example establishes out-of-source `build/` folder, so that source folder
