@@ -28,9 +28,9 @@ For project dependencies list see `conanfile.txt` bundled with this project.
 Optional prerequisites are:
 
 - Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
-- Static analysis tool for C/C++ code: [Cpplint][cpplint]
-- CMake formatting tool: [cmake-format][cmake-format]
-- C, C++ formatting tool: [clang-format][clang-format]
+- Static analysis tool for C/C++ code: [Cpplint][cpplint] >= 1.5
+- CMake formatting tool: [cmake-format][cmake-format] >= 0.6
+- C, C++ formatting tool: [clang-format][clang-format] >= 10.0
 
 If you're using Ubuntu, you can install the required packages this way:
 
@@ -69,7 +69,6 @@ using [pip][pip]:
 
 - `conan`
 - `cmakelang`
-- `clang-format`
 - `cpplint`
 
 They can be installed using pip as follows:
@@ -114,24 +113,25 @@ $ brew install cppcheck
 
 ### Build
 
-You may want to install optional dependencies to perform additional code style checks.
-To install them use `pip` from the project directory as follows:
+You may want to install optional dependencies to perform additional code style
+checks. To install them use `pip` from the project directory as follows:
 
 ```shell script
 $ pip install --user -r requirements.txt
 ```
 
-**Note:** On macOS to install `clang-format` you'll need use `brew`:
+**Note:** To be able automatic reformatting C/C++ code you'll need to install
+[clang-format][clang-format]. The `clang-format` tool itself has already been
+included in the repositories of popular Linux distributions for a long time.
+Search for `clang-format` in your repositories.  Otherwise, you can either
+download pre-built LLVM/clang binaries or build the source code from
+https://releases.llvm.org/download.html.
 
-```shell script
-$ brew install clang-format
-```
-
-Initialize project with `conan` - this is using the `conanfile.txt` specifying
+Next, initialize project with `conan` - this is using the `conanfile.txt` specifying
 that SQLite is an dependency and that `conan` should integrate with CMake:
 
 ```shell script
-$ conan install . -if=$(pwd)/build --build=missing
+$ conan install . -if=build --build=missing
 ```
 
 This example establishes out-of-source `build/` folder, so that source folder

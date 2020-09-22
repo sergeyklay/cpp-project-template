@@ -12,8 +12,22 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-find_program(CLANG_FORMAT_EXE "clang-format")
+if(UNIX)
+  find_program(
+    CLANG_FORMAT_EXE
+    NAMES clang-format
+    PATHS /usr /usr/local
+    PATH_SUFFIXES bin)
+elseif(WIN32)
+  find_program(
+    CLANG_FORMAT_EXE
+    NAMES clang-format.exe
+    PATHS C:/
+    PATH_SUFFIXES "")
+endif()
+
 mark_as_advanced(FORCE CLANG_FORMAT_EXE)
+
 if(CLANG_FORMAT_EXE)
   message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
 else()

@@ -183,7 +183,7 @@ jobs:
           profile="${profile}-debug$( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-ninja' )"
 
           echo "Installs the requirements using profile: $profile"
-          conan install $(pwd) -if=$(pwd)/build -pr=$profile --build=missing
+          conan install . -if=build -pr=$profile --build=missing
 
       - name: Configure x64 Debug
         working-directory: ${{ matrix.project }}

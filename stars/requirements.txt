@@ -1,5 +1,4 @@
 conan ~= 1.29
 cmakelang ~= 0.6
-clang-format ~= 9.0 ; sys_platform == 'linux'
 cpplint ~= 1.5
 PyYAML
