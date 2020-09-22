@@ -37,6 +37,7 @@ jobs:
           - linux-gcc-7
           - linux-clang-5.0
           - macos-clang-11.0
+          - windows-msvc-16
 
         include:
           - toolchain: linux-gcc-7
@@ -58,6 +59,13 @@ jobs:
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
+            build_type: Debug
+
+          - toolchain: windows-msvc-16
+            os: windows-2019
+            compiler: msvc
+            arch: x86_64
+            version: '16'
             build_type: Debug
 
     steps:
@@ -103,6 +111,24 @@ jobs:
 
           # Install common tools
           brew install cppcheck
+
+      - name: Setup chocolatey Cache
+        uses: actions/cache@v2
+        with:
+          path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
+          key: ${{ runner.os }}-chocolatey-${{ matrix.os }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-chocolatey-${{ matrix.os }}-
+            ${{ runner.os }}-chocolatey-
+
+      - name: Setup Common Prerequisites (Windows)
+        if: startsWith(runner.os, 'Windows')
+        run: |
+          echo "::set-env name=INSTALL_PREFIX::C:\Stars"
+
+          # Install common tools
+          choco install --no-progress -y cppcheck
+          echo "::set-env name=PATH::C:\Program Files\Cppcheck;$env:Path"
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -179,16 +205,25 @@ jobs:
       - name: Build with ${{ matrix.compiler }}
         run: cmake --build build
 
-      - name: Analyze Build
+      - name: Analyze Build (Unix)
+        if: startsWith(runner.os, 'Windows') == false
         run: bash .ci/objanalyze.sh stars
 
-      - name: Install Program
+      - name: Install Program (Unix)
+        if: startsWith(runner.os, 'Windows') == false
         run: sudo cmake --build build --target install
 
-      - name: Analyze Install
+      - name: Install Program (Windows)
+        if: startsWith(runner.os, 'Windows')
+        working-directory: ${{ matrix.project }}
+        run: cmake --build build --target install
+
+      - name: Analyze Install (Unix)
+        if: startsWith(runner.os, 'Windows') == false
         run: bash .ci/objanalyze.sh stars ${{ env.INSTALL_PREFIX }}
 
-      - name: Minimal Load Test
+      - name: Minimal Load Test (Unix)
+        if: startsWith(runner.os, 'Windows') == false
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
         run: ./stars
 

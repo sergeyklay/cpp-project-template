@@ -48,3 +48,18 @@ else()
       "There's a problem determining the processor count. Set fallback to: 2")
   set(BUILD_JOBS 2)
 endif()
+
+# ~~~
+# When you create a shared library or DLL with the MSVC compiler, you
+# have to tell it what symbols you want exported from the library.
+# UNIX compilers default to exporting all symbols.  Windows defaults
+# to NONE.   When you create a DLL, you get two files a <LIB>.dll and
+# IF you have exports a <LIB>.lib.
+#
+# The following config will enable UNIX-like behavior in Windows and
+# forces to export all symbols.
+#
+# For more see:
+# https://cmake.org/cmake/help/latest/prop_tgt/WINDOWS_EXPORT_ALL_SYMBOLS.html
+# ~~~
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
