@@ -47,18 +47,21 @@ jobs:
             compiler: gcc
             arch: x86_64
             version: '7'
+            build_type: Debug
 
           - toolchain: linux-clang-5.0
             os: ubuntu-18.04
             compiler: clang
             arch: x86_64
             version: '5.0'
+            build_type: Debug
 
           - toolchain: macos-clang-11.0
             os: macos-10.15
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
+            build_type: Debug
 
     steps:
       - name: Checkout Code
@@ -193,16 +196,16 @@ jobs:
           conan
           install .
           -if=build
-          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-debug${{ env.BUILD_PREFIX }}
+          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}{{ env.BUILD_PREFIX }}
           --build=missing
 
-      - name: 'Configure (${{ matrix.arch }} Debug)'
+      - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
         working-directory: ${{ matrix.project }}
         run: >-
           cmake
           -S .
           -Bbuild ${{ env.CMAKE_GENERATOR }}
-          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCPPCHECK=ON
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
