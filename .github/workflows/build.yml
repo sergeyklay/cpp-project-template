@@ -160,10 +160,10 @@ jobs:
       - name: Setting Up Build Vars
         run: |
           if [ "${{ env.WITH_NINJA }}" = 1 ]; then
-            echo "::set-env name=BUILD_PREFIX::-ninja"
+            echo "::set-env name=BUILD_SUFFIX::-ninja"
             echo "::set-env name=CMAKE_GENERATOR::-G Ninja"
           else
-            echo "::set-env name=BUILD_PREFIX::"
+            echo "::set-env name=BUILD_SUFFIX::"
             echo "::set-env name=CMAKE_GENERATOR::"
           fi
 
@@ -196,7 +196,7 @@ jobs:
           conan
           install .
           -if=build
-          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}{{ env.BUILD_PREFIX }}
+          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}${{ env.BUILD_SUFFIX }}
           --build=missing
 
       - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
