@@ -107,11 +107,6 @@ jobs:
       - name: Setup Project Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
-          # Install SQLite
-          if [ ${{ env.WITH_SQLITE }} -eq 1 ]; then
-            sudo apt-get install --no-install-recommends -q -y sqlite3
-          fi
-
           # Install Ninja
           if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
             sudo apt-get install --no-install-recommends -q -y ninja-build
