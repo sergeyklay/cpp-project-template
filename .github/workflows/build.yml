@@ -36,8 +36,8 @@ jobs:
         toolchain:
           - linux-gcc-7
           - linux-clang-5.0
-          - macOS-latest
-
+          - macos-apple-clang
+          - windows-msvc
         project:
           - stars
 
@@ -54,8 +54,8 @@ jobs:
             arch: x86_64
             version: '5.0'
 
-          - toolchain: macOS-latest
-            os: macOS-latest
+          - toolchain: macos-apple-clang
+            os: macos-10.15
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
@@ -120,11 +120,11 @@ jobs:
             brew install ninja
           fi
 
-#      - name: Setup Python
-#        uses: actions/setup-python@v2
-#        with:
-#          python-version: 3.x
-#          architecture: x64
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          architecture: x64
 
       - name: Get PIP Cache Key
         id: pip-cache
