@@ -49,7 +49,7 @@ jobs:
           sudo apt-get update --quiet --yes 1>/dev/null
 
           # Install clang tools
-          sudo apt-get install --no-install-recommends -q -y clang-tools-10
+          sudo apt-get install --no-install-recommends -q -y clang-format-10
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -59,9 +59,10 @@ jobs:
 
       - name: Get PIP Cache Key
         id: pip-cache
-        run: |
-          python -c "from pip._internal.locations import USER_CACHE_DIR; \
-                  print('::set-output name=dir::' + USER_CACHE_DIR)"
+        run: >-
+          python
+          -c "from pip._internal.locations import USER_CACHE_DIR;
+              print('::set-output name=dir::' + USER_CACHE_DIR)"
 
       - name: Setup pip Cache
         uses: actions/cache@v2
@@ -89,8 +90,10 @@ jobs:
       - name: Run C++ Coding Style Check
         if: always()
         working-directory: ${{ matrix.project }}
+        env:
+          PATH: "/usr/lib/llvm-10/bin:${{ env.PATH }}"
         run: |
-          clang-format-10 --version
+          clang-format --version
 
           clang-format -i $(find ./src -name '*.[hc]pp')
           clang-format -i $(find ./include -name '*.[hc]pp')
