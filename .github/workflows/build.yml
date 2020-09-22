@@ -76,6 +76,8 @@ jobs:
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
 
+          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
+
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
@@ -95,6 +97,8 @@ jobs:
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
+
+          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
@@ -148,14 +152,16 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verify Toolchain Version
-        run: $CC --version && cmake --version && conan --version
+        run: cmake --version && conan --version
 
       - name: Setting Up Build Vars
         run: |
           if [ "${{ env.WITH_NINJA }}" = 1 ]; then
             echo "::set-env name=BUILD_PREFIX::-ninja"
+            echo "::set-env name=CMAKE_GENERATOR::-GNinja"
           else
             echo "::set-env name=BUILD_PREFIX::"
+          echo "::set-env name=CMAKE_GENERATOR::"
           fi
 
           echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
@@ -190,16 +196,16 @@ jobs:
           -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-debug${{ env.BUILD_PREFIX }}
           --build=missing
 
-      - name: Configure x64 Debug
+      - name: 'Configure (${{ matrix.arch }} Debug)'
         working-directory: ${{ matrix.project }}
         run: >-
           cmake
           -S .
-          -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' )
+          -Bbuild ${{ env.CMAKE_GENERATOR }}
           -DCMAKE_BUILD_TYPE=Debug
           -DCPPCHECK=ON
           -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }}
+          -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
@@ -216,10 +222,10 @@ jobs:
 
       - name: Analyze Install
         working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
+        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} ${{ env.INSTALL_PREFIX }}
 
       - name: Minimal Load Test
-        working-directory: /opt/${{ matrix.project }}/bin
+        working-directory: ${{ env.INSTALL_PREFIX }}/bin
         run: ./${{ matrix.project }}
 
       - name: Success Reporting
