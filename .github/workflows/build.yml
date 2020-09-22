@@ -173,6 +173,11 @@ jobs:
         working-directory: ${{ matrix.project }}
         run: |
           mkdir -p "${{ env.CONAN_USER_HOME }}/profiles"
+          ls -al ~/.conan
+          ls -al ${{ env.CONAN_USER_HOME }}
+
+          ls -al ~/.conan/profiles
+          ls -al ${{ env.CONAN_USER_HOME }}/profiles
 
           # WARN: Remotes registry file missing, creating default one
           cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/remotes.json"
