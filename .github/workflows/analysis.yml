@@ -49,7 +49,7 @@ jobs:
           sudo apt-get update --quiet --yes 1>/dev/null
 
           # Install clang tools
-          sudo apt-get install --no-install-recommends -q -y clang-tools
+          sudo apt-get install --no-install-recommends -q -y clang-tools-10
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -90,7 +90,7 @@ jobs:
         if: always()
         working-directory: ${{ matrix.project }}
         run: |
-          clang-format --version
+          clang-format-10 --version
 
           clang-format -i $(find ./src -name '*.[hc]pp')
           clang-format -i $(find ./include -name '*.[hc]pp')
