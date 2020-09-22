@@ -89,13 +89,11 @@ jobs:
       - name: Run C++ Coding Style Check
         if: always()
         working-directory: ${{ matrix.project }}
-        env:
-          PATH: "/usr/lib/llvm-10/bin:${{ env.PATH }}"
         run: |
-          clang-format --version
+          /usr/lib/llvm-10/bin/clang-format --version
 
-          clang-format -i $(find ./src -name '*.[hc]pp')
-          clang-format -i $(find ./include -name '*.[hc]pp')
+          /usr/lib/llvm-10/bin/clang-format -i $(find ./src -name '*.[hc]pp')
+          /usr/lib/llvm-10/bin/clang-format -i $(find ./include -name '*.[hc]pp')
           git diff --exit-code
 
       - name: Run Cpplint Check
