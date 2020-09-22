@@ -36,7 +36,7 @@ jobs:
         toolchain:
           - linux-gcc-7
           - linux-clang-5.0
-          - macos-apple-clang
+          - macos-clang-11.0
 
         project:
           - stars
@@ -47,18 +47,21 @@ jobs:
             compiler: gcc
             arch: x86_64
             version: '7'
+            build_type: Debug
 
           - toolchain: linux-clang-5.0
             os: ubuntu-18.04
             compiler: clang
             arch: x86_64
             version: '5.0'
+            build_type: Debug
 
-          - toolchain: macos-apple-clang
+          - toolchain: macos-clang-11.0
             os: macos-10.15
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
+            build_type: Debug
 
     steps:
       - name: Checkout Code
@@ -75,6 +78,8 @@ jobs:
         run: |
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
+
+          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
 
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -95,6 +100,8 @@ jobs:
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
+
+          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
@@ -148,13 +155,25 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verify Toolchain Version
-        run: $CC --version && cmake --version && conan --version
+        run: cmake --version && conan --version
+
+      - name: Setting Up Build Vars
+        run: |
+          if [ "${{ env.WITH_NINJA }}" = 1 ]; then
+            echo "::set-env name=BUILD_SUFFIX::-ninja"
+            echo "::set-env name=CMAKE_GENERATOR::-G Ninja"
+          else
+            echo "::set-env name=BUILD_SUFFIX::"
+            echo "::set-env name=CMAKE_GENERATOR::"
+          fi
+
+          echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
       - name: Setup Conan Cache
         id: conan-cache
         uses: actions/cache@v2
         with:
-          path: ~/.conan/data
+          path: ${{ env.CONAN_USER_HOME }}/.conan/data
           key: ${{ runner.os }}-conan-${{ matrix.compiler }}-${{ hashFiles('**/conanfile.txt') }}
           restore-keys: |
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
@@ -162,39 +181,39 @@ jobs:
       - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
-          mkdir -p ~/.conan/profiles
+          mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
           # WARN: Remotes registry file missing, creating default one
-          cp tools/conan/remotes.json ~/.conan/remotes.json
+          cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/.conan/remotes.json"
 
           # Install conan profiles
-          cp tools/conan/profiles/* ~/.conan/profiles
+          cp tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/.conan/profiles/"
           conan profile list
 
       - name: Install The Requirements Using Conan
         working-directory: ${{ matrix.project }}
-        run: |
-          profile="${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}"
-          profile="${profile}-debug$( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-ninja' )"
+        run: >-
+          conan
+          install .
+          -if=build
+          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}${{ env.BUILD_SUFFIX }}
+          --build=missing
 
-          echo "Installs the requirements using profile: $profile"
-          conan install . -if=build -pr=$profile --build=missing
-
-      - name: Configure x64 Debug
+      - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
         working-directory: ${{ matrix.project }}
         run: >-
           cmake
           -S .
-          -Bbuild $( (( "${{ env.WITH_NINJA }}" == 1 )) && printf %s '-GNinja' )
-          -DCMAKE_BUILD_TYPE=Debug
+          -Bbuild ${{ env.CMAKE_GENERATOR }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCPPCHECK=ON
           -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX=/opt/${{ matrix.project }}
+          -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
-        run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
+        run: cmake --build build
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
@@ -206,10 +225,10 @@ jobs:
 
       - name: Analyze Install
         working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} /opt/${{ matrix.project }}
+        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} ${{ env.INSTALL_PREFIX }}
 
       - name: Minimal Load Test
-        working-directory: /opt/${{ matrix.project }}/bin
+        working-directory: ${{ env.INSTALL_PREFIX }}/bin
         run: ./${{ matrix.project }}
 
       - name: Success Reporting
