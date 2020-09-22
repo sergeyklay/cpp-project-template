@@ -3,7 +3,6 @@ spdlog/1.8.0
 sqlite3/3.32.3
 
 [options]
-sqlite3:fPIC=True
 
 [generators]
 cmake
