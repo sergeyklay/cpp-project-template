@@ -158,10 +158,10 @@ jobs:
         run: |
           if [ "${{ env.WITH_NINJA }}" = 1 ]; then
             echo "::set-env name=BUILD_PREFIX::-ninja"
-            echo "::set-env name=CMAKE_GENERATOR::-GNinja"
+            echo "::set-env name=CMAKE_GENERATOR::-G Ninja"
           else
             echo "::set-env name=BUILD_PREFIX::"
-          echo "::set-env name=CMAKE_GENERATOR::"
+            echo "::set-env name=CMAKE_GENERATOR::"
           fi
 
           echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
