@@ -159,20 +159,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
-      - name: Setting Up Build Prefix
-        if: env.WITH_NINJA == 1
-        run: echo "::set-env name=BUILD_PREFIX::-ninja"
+      - name: Setting Up Build Vars
+        run: |
+          if [ "${{ env.WITH_NINJA }}" = 1 ]; then
+            echo "::set-env name=BUILD_PREFIX::-ninja"
+          else
+            echo "::set-env name=BUILD_PREFIX::"
+          fi
+
+          echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
       - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
-          mkdir -p ~/.conan/profiles
+          mkdir -p "${{ env.CONAN_USER_HOME }}/profiles"
 
           # WARN: Remotes registry file missing, creating default one
-          cp tools/conan/remotes.json ~/.conan/remotes.json
+          cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/remotes.json"
 
           # Install conan profiles
-          cp tools/conan/profiles/* ~/.conan/profiles
+          cp tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/profiles"
           conan profile list
 
       - name: Install The Requirements Using Conan
