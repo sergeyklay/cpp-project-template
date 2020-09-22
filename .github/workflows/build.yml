@@ -150,15 +150,6 @@ jobs:
       - name: Verify Toolchain Version
         run: $CC --version && cmake --version && conan --version
 
-      - name: Setup Conan Cache
-        id: conan-cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.conan/data
-          key: ${{ runner.os }}-conan-${{ matrix.compiler }}-${{ hashFiles('**/conanfile.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-conan-${{ matrix.compiler }}-
-
       - name: Setting Up Build Vars
         run: |
           if [ "${{ env.WITH_NINJA }}" = 1 ]; then
@@ -169,21 +160,25 @@ jobs:
 
           echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
+      - name: Setup Conan Cache
+        id: conan-cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.CONAN_USER_HOME }}/.conan/data
+          key: ${{ runner.os }}-conan-${{ matrix.compiler }}-${{ hashFiles('**/conanfile.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-conan-${{ matrix.compiler }}-
+
       - name: Configure Conan
         working-directory: ${{ matrix.project }}
         run: |
-          mkdir -p "${{ env.CONAN_USER_HOME }}/profiles"
-          ls -al ~/.conan
-          ls -al ${{ env.CONAN_USER_HOME }}
-
-          ls -al ~/.conan/profiles
-          ls -al ${{ env.CONAN_USER_HOME }}/profiles
+          mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
           # WARN: Remotes registry file missing, creating default one
-          cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/remotes.json"
+          cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/.conan/remotes.json"
 
           # Install conan profiles
-          cp --verbose tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/profiles"
+          cp --verbose tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/.conan/profiles/"
           conan profile list
 
       - name: Install The Requirements Using Conan
