@@ -178,7 +178,7 @@ jobs:
           cp tools/conan/remotes.json "${{ env.CONAN_USER_HOME }}/remotes.json"
 
           # Install conan profiles
-          cp tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/profiles"
+          cp --verbose tools/conan/profiles/* "${{ env.CONAN_USER_HOME }}/profiles"
           conan profile list
 
       - name: Install The Requirements Using Conan
@@ -204,7 +204,7 @@ jobs:
 
       - name: Build with ${{ matrix.compiler }}
         working-directory: ${{ matrix.project }}
-        run: cmake --build build -j "$(getconf _NPROCESSORS_ONLN)"
+        run: cmake --build build
 
       - name: Analyze Build
         working-directory: ${{ matrix.project }}
