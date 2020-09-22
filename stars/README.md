@@ -28,9 +28,9 @@ For project dependencies list see `conanfile.txt` bundled with this project.
 Optional prerequisites are:
 
 - Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
-- Static analysis tool for C/C++ code: [Cpplint][cpplint]
-- CMake formatting tool: [cmake-format][cmake-format]
-- C, C++ formatting tool: [clang-format][clang-format]
+- Static analysis tool for C/C++ code: [Cpplint][cpplint] >= 1.5
+- CMake formatting tool: [cmake-format][cmake-format] >= 0.6
+- C, C++ formatting tool: [clang-format][clang-format] >= 10.0
 
 If you're using Ubuntu, you can install the required packages this way:
 
