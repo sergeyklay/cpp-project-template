@@ -36,7 +36,7 @@ jobs:
         toolchain:
           - linux-gcc-7
           - linux-clang-5.0
-          - macos-apple-clang
+          - macos-clang-11.0
 
         project:
           - stars
@@ -54,7 +54,7 @@ jobs:
             arch: x86_64
             version: '5.0'
 
-          - toolchain: macos-apple-clang
+          - toolchain: macos-clang-11.0
             os: macos-10.15
             compiler: apple-clang
             arch: x86_64
