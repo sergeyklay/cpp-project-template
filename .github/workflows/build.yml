@@ -117,7 +117,6 @@ jobs:
                   print('::set-output name=dir::' + USER_CACHE_DIR)"
 
       - name: Setup pip Cache
-        id: analysis-tools-pip-cache
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
@@ -134,6 +133,7 @@ jobs:
         run: cmake --version && conan --version
 
       - name: Setting Up Build Vars
+        shell: bash
         run: echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
       - name: Setup Conan Cache
@@ -146,6 +146,7 @@ jobs:
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
       - name: Configure Conan
+        shell: bash
         run: |
           mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
