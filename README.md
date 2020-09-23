@@ -6,10 +6,13 @@
 This repository contains my personal boilerplate for C++ project.
 
 - Type: Shared Library
+  - `so` file on Linux
+  - `dylib` file on macOS
+  - `dll` file on Windows
 - Source: multiple files
 - C++ version: `C++17`
-- Tested OS: macOS, Ubuntu
-- C++ compiler: [GCC][gcc], [Clang][clang] or [Apple Clang][apple clang]
+- Tested OS: Linux, macOS and Windows
+- C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
 - Package manager: [Conan][conan]
 - Build system: [CMake][cmake]
 - Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
@@ -33,6 +36,7 @@ See the [LICENSE][license] file for more information.
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
+[vs]: https://visualstudio.microsoft.com
 [conan]: https://conan.io/
 [cmake]: https://cmake.org/
 [sqlite]: https://www.sqlite.org/index.html
