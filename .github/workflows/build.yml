@@ -26,6 +26,10 @@ on:
 
 jobs:
   simple_build:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
     name: ${{ matrix.toolchain }}
     runs-on: ${{ matrix.os }}
 
@@ -226,6 +230,11 @@ jobs:
         if: startsWith(runner.os, 'Windows') == false
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
         run: ./stars
+
+      - name: Minimal Load Test (Windows)
+        if: startsWith(runner.os, 'Windows')
+        working-directory: ${{ env.INSTALL_PREFIX }}\bin
+        run: .\stars.exe --version
 
       - name: Success Reporting
         if: success()
