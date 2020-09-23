@@ -27,7 +27,7 @@ target_include_directories(
 
 target_link_libraries(
   stars
-  PUBLIC ChuckNorris
+  PUBLIC chucknorris
   PRIVATE compilerwarnings)
 
 # cmake-format: off
