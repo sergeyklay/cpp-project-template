@@ -1,4 +1,4 @@
-# Stars
+# Stars: Getting Started
 
 This is a small C++ template program showing a project build using [CMake][cmake]
 as build generator with integrated [Conan][conan] package manager consuming (using
@@ -55,7 +55,7 @@ $ sudo dnf install ninja-build
 
 # Debian/Ubuntu
 $ sudo apt install ninja-build
- 
+
 # Gentoo
 $ sudo emerge dev-util/ninja
 
@@ -103,7 +103,7 @@ $ sudo snap install cppcheck
 
 # Debian
 $ sudo apt install cppcheck
- 
+
 # Gentoo
 $ sudo emerge dev-util/cppcheck
 
@@ -207,7 +207,7 @@ Expected output will something like:
 Chuck Norris can kill two stones with one bird.
 ```
 
-If you used a custom prefix, you'll need to use appropriate path: 
+If you used a custom prefix, you'll need to use appropriate path:
 
 ```shell script
 $ cmake -DCMAKE_INSTALL_PREFIX=~/.local build

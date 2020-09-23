@@ -58,7 +58,7 @@ set(STARS_PACKAGE_BUILD_DATE "${CURRENT_DATE_TIME}")
 set(PROJECT_VERSION ${STARS_VERSION})
 set(PROJECT_DESCRIPTION "A small C++ template program")
 
-get_filename_component(_MOD_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+get_filename_component(_MOD_DIR ProjectInfo.cmake PATH)
 configure_file("${_MOD_DIR}/Version.hpp.in"
                "${Stars_SOURCE_DIR}/include/stars/Version.hpp")
 

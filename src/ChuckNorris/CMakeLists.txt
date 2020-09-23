@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Database configuration
-get_filename_component(_MOD_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+get_filename_component(_MOD_DIR CMakeLists.txt PATH)
 configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 
 # Add definition for chucknorris library
