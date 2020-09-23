@@ -16,9 +16,18 @@ This repository contains my personal boilerplate for C++ project.
 - Package manager: [Conan][conan]
 - Build system: [CMake][cmake]
 - Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
-- Formatting tools: [cmake-format][cmake-format], [clang-format][clang-format]
+- Formatting tools: [clang-format][clang-format]
 - Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
 - CI: [GitHub Actions][actions]
+
+## Features:
+
+- Sources, headers and mains separated in distinct folders
+- [Modern CMake][modern-cmake] for much easier compiling
+- Continuous testing with GitHub Actions on al modern OSes, with support for C++17.
+- **[TODO]** Setup for tests using Google Test
+- **[TODO]** Code coverage reports, including automatic upload to Codecov.io
+- **[TODO]** Code documentation with Doxygen
 
 ## Getting Started
 
@@ -42,8 +51,8 @@ See the [LICENSE][license] file for more information.
 [sqlite]: https://www.sqlite.org/index.html
 [spdlog]: https://github.com/gabime/spdlog
 [actions]: https://github.com/features/actions
+[modern-cmake]: https://cliutils.gitlab.io/modern-cmake/
 [cpplint]: https://github.com/cpplint/cpplint
 [cppcheck]: https://github.com/danmar/cppcheck
-[cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
 [license]: https://github.com/sergeyklay/cpp-project-template/blob/master/LICENSE
