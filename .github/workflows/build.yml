@@ -26,7 +26,7 @@ on:
 
 jobs:
   simple_build:
-    name: "${{ matrix.project }}: ${{ matrix.toolchain }}"
+    name: ${{ matrix.toolchain }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -37,9 +37,6 @@ jobs:
           - linux-gcc-7
           - linux-clang-5.0
           - macos-clang-11.0
-
-        project:
-          - stars
 
         include:
           - toolchain: linux-gcc-7
@@ -75,7 +72,7 @@ jobs:
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
 
-          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
+          echo "::set-env name=INSTALL_PREFIX::/opt/stars"
 
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -97,7 +94,7 @@ jobs:
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
 
-          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
+          echo "::set-env name=INSTALL_PREFIX::/opt/stars"
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
@@ -129,7 +126,6 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install Python Dependencies
-        working-directory: ${{ matrix.project }}
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -150,7 +146,6 @@ jobs:
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
       - name: Configure Conan
-        working-directory: ${{ matrix.project }}
         run: |
           mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
@@ -162,7 +157,6 @@ jobs:
           conan profile list
 
       - name: Install The Requirements Using Conan
-        working-directory: ${{ matrix.project }}
         run: >-
           conan
           install .
@@ -171,7 +165,6 @@ jobs:
           --build=missing
 
       - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
-        working-directory: ${{ matrix.project }}
         run: >-
           cmake
           -S .
@@ -183,24 +176,20 @@ jobs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
-        working-directory: ${{ matrix.project }}
         run: cmake --build build
 
       - name: Analyze Build
-        working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }}
+        run: bash .ci/objanalyze.sh stars
 
       - name: Install Program
-        working-directory: ${{ matrix.project }}
         run: sudo cmake --build build --target install
 
       - name: Analyze Install
-        working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} ${{ env.INSTALL_PREFIX }}
+        run: bash .ci/objanalyze.sh stars ${{ env.INSTALL_PREFIX }}
 
       - name: Minimal Load Test
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
-        run: ./${{ matrix.project }}
+        run: ./stars
 
       - name: Success Reporting
         if: success()

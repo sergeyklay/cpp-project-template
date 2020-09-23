@@ -23,13 +23,8 @@ on:
 
 jobs:
   code_style:
-    name: "${{ matrix.project }}: analysis"
+    name: analysis
     runs-on: ubuntu-20.04
-
-    strategy:
-      matrix:
-        project:
-          - stars
 
     steps:
       - name: Checkout Code
@@ -72,13 +67,11 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install Dependencies
-        working-directory: ${{ matrix.project }}
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run CMake Coding Style Check
-        working-directory: ${{ matrix.project }}
         run: |
           cmake-format --version
 
@@ -88,7 +81,6 @@ jobs:
 
       - name: Run C++ Coding Style Check
         if: always()
-        working-directory: ${{ matrix.project }}
         run: |
           /usr/lib/llvm-10/bin/clang-format --version
 
