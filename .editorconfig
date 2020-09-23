@@ -27,7 +27,7 @@ indent_style             = space
 [Makefile]
 indent_style             = tab
 
-[*.{yml,sh}]
+[*.{yml,sh,cmake}]
 indent_size              = 2
 
 [*.json]

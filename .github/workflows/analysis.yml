@@ -75,14 +75,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run CMake Coding Style Check
-        run: |
-          cmake-format --version
-
-          cmake-format -i $(find ./cmake -name '*.cmake')
-          cmake-format -i $(find . -name CMakeLists.txt)
-          git diff --exit-code
-
       - name: Run C++ Coding Style Check
         if: always()
         run: |
@@ -95,3 +87,7 @@ jobs:
       - name: Run Cpplint Check
         if: always()
         run: cpplint --counting=detailed --recursive src include
+
+      - name: Run Shell Check
+        if: always()
+        run: shellcheck .ci/*.sh

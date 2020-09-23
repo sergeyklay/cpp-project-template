@@ -41,13 +41,11 @@ endif()
 # must be reachable from where the macro is called, or otherwise require a full
 # path for proper inheritance.
 #
-# ~~~
 # Required:
 # TARGET_NAME - The name of the target to create.
 #
 # Optional: ARGN - The list of targets OR files to format. Relative and absolute
 # paths are accepted.
-# ~~~
 function(clang_format TARGET_NAME)
   if(CLANG_FORMAT_EXE)
     set(FORMAT_FILES)

@@ -40,10 +40,8 @@ endif()
 set(PROJECT_PACKAGE_STRING "${PROJECT_VERSION}-${PROJECT_VERSION_SUFFIX}")
 set(PROJECT_PACKAGE_URL "https://serghei.blog")
 
-# cmake-format: off
 math(EXPR PROJECT_VERSION_ID
   ${PROJECT_VERSION_MAJOR}*10000+${PROJECT_VERSION_MINOR}*100+${PROJECT_VERSION_PATCH})
-# cmake-format: on
 
 set(PROJECT_PACKAGE_NAME stars)
 set(PROJECT_VERSION_FULL "${PROJECT_PACKAGE_NAME} ${PROJECT_PACKAGE_STRING}")
@@ -57,10 +55,7 @@ set(PROJECT_PACKAGE_BUILD_DATE "${CURRENT_DATE_TIME}")
 
 set(PROJECT_DESCRIPTION "A small C++ template program")
 
-set(input ${Stars_SOURCE_DIR}/cmake/ProjectInfo.cmake)
-get_filename_component(_MOD_DIR ${input} DIRECTORY)
-
-configure_file("${_MOD_DIR}/Version.hpp.in"
+configure_file("${Stars_SOURCE_DIR}/include/stars/Version.hpp.in"
                "${Stars_SOURCE_DIR}/include/stars/Version.hpp")
 
 unset(CURRENT_YEAR)

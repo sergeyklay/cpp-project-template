@@ -15,22 +15,18 @@
 # Stars libraries
 add_subdirectory(ChuckNorris)
 
-# Demo
+# Demo app
 add_executable(stars)
 target_sources(stars PRIVATE main.cpp)
 
-target_include_directories(
-  stars
-  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+target_include_directories(stars
+  PUBLIC  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
 
-target_link_libraries(
-  stars
-  PUBLIC chucknorris
-  PRIVATE compilerwarnings)
+target_link_libraries(stars
+  PRIVATE compilerwarnings chucknorris)
 
-# cmake-format: off
 file(RELATIVE_PATH _rel
   ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
   ${CMAKE_INSTALL_PREFIX})
@@ -59,7 +55,6 @@ set_target_properties(stars PROPERTIES
   INSTALL_RPATH_USE_LINK_PATH ON)
 
 install(TARGETS stars
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR}
+  ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# cmake-format: on

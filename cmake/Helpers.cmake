@@ -12,26 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-parse:
-  additional_commands:
-    target_include_directories:
-      pargs: 1
-      flags:
-        - SYSTEM
-        - BEFORE
-      kwargs:
-        INTERFACE: '*'
-        PUBLIC: '*'
-        PRIVATE: '*'
-markup:
-  bullet_char: '*'
-  enum_char: .
-  first_comment_is_literal: true
-misc:
-  per_command: {}
-
-# Local Variables:
-# mode: yaml
-# tab-width: 2
-# indent-tabs-mode: nil
-# End:
+# Prints a list of messages, each one in a new line
+#
+# Usage:
+#     file(GLOB_RECURSE cmake_files
+#       ${PROJECT_SOURCE_DIR}/cmake/*.cmake
+#       ${PROJECT_SOURCE_DIR}/src/CMakeLists.txt)
+#
+#     print_list(${config_files})
+function(print_list)
+  foreach(msg ${ARGV})
+    message("${msg}")
+  endforeach()
+endfunction()

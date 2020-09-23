@@ -29,7 +29,7 @@ unset(allowableBuildTypes)
 
 # Make sure developers do not run cmake in the main project directory, to keep
 # build artifacts from becoming clutter
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
   message(
     FATAL_ERROR
       "In-source builds not allowed. Please make a new directory "
@@ -49,7 +49,6 @@ else()
   set(BUILD_JOBS 2)
 endif()
 
-# ~~~
 # When you create a shared library or DLL with the MSVC compiler, you
 # have to tell it what symbols you want exported from the library.
 # UNIX compilers default to exporting all symbols.  Windows defaults
@@ -61,5 +60,4 @@ endif()
 #
 # For more see:
 # https://cmake.org/cmake/help/latest/prop_tgt/WINDOWS_EXPORT_ALL_SYMBOLS.html
-# ~~~
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
