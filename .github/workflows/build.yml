@@ -26,7 +26,7 @@ on:
 
 jobs:
   simple_build:
-    name: "${{ matrix.project }}: ${{ matrix.toolchain }}"
+    name: ${{ matrix.toolchain }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -37,9 +37,6 @@ jobs:
           - linux-gcc-7
           - linux-clang-5.0
           - macos-clang-11.0
-
-        project:
-          - stars
 
         include:
           - toolchain: linux-gcc-7
@@ -69,17 +66,13 @@ jobs:
         with:
           fetch-depth: 5
 
-      - name: Read Project Specification
-        working-directory: ${{ matrix.project }}
-        run: source "$GITHUB_WORKSPACE/.ci/export-spec-variables.sh"
-
       - name: Setup Common Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
 
-          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
+          echo "::set-env name=INSTALL_PREFIX::/opt/stars"
 
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -101,7 +94,7 @@ jobs:
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
 
-          echo "::set-env name=INSTALL_PREFIX::/opt/${{ matrix.project }}"
+          echo "::set-env name=INSTALL_PREFIX::/opt/stars"
 
           echo "::set-env name=CC::$(xcrun -f clang)"
           echo "::set-env name=CXX::$(xcrun -f clang++)"
@@ -110,22 +103,6 @@ jobs:
 
           # Install common tools
           brew install cppcheck
-
-      - name: Setup Project Prerequisites (Linux)
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          # Install Ninja
-          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
-            sudo apt-get install --no-install-recommends -q -y ninja-build
-          fi
-
-      - name: Setup Project Prerequisites (macOS)
-        if: startsWith(runner.os, 'macOS')
-        run: |
-          # Install Ninja
-          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
-            brew install ninja
-          fi
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -140,7 +117,6 @@ jobs:
                   print('::set-output name=dir::' + USER_CACHE_DIR)"
 
       - name: Setup pip Cache
-        id: analysis-tools-pip-cache
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
@@ -149,7 +125,6 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install Python Dependencies
-        working-directory: ${{ matrix.project }}
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
@@ -158,16 +133,8 @@ jobs:
         run: cmake --version && conan --version
 
       - name: Setting Up Build Vars
-        run: |
-          if [ "${{ env.WITH_NINJA }}" = 1 ]; then
-            echo "::set-env name=BUILD_SUFFIX::-ninja"
-            echo "::set-env name=CMAKE_GENERATOR::-G Ninja"
-          else
-            echo "::set-env name=BUILD_SUFFIX::"
-            echo "::set-env name=CMAKE_GENERATOR::"
-          fi
-
-          echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
+        shell: bash
+        run: echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
       - name: Setup Conan Cache
         id: conan-cache
@@ -179,7 +146,7 @@ jobs:
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
       - name: Configure Conan
-        working-directory: ${{ matrix.project }}
+        shell: bash
         run: |
           mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
@@ -191,20 +158,18 @@ jobs:
           conan profile list
 
       - name: Install The Requirements Using Conan
-        working-directory: ${{ matrix.project }}
         run: >-
           conan
           install .
           -if=build
-          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}${{ env.BUILD_SUFFIX }}
+          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}
           --build=missing
 
       - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
-        working-directory: ${{ matrix.project }}
         run: >-
           cmake
           -S .
-          -Bbuild ${{ env.CMAKE_GENERATOR }}
+          -Bbuild
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCPPCHECK=ON
           -DWARNINGS_AS_ERRORS=ON
@@ -212,24 +177,20 @@ jobs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
-        working-directory: ${{ matrix.project }}
         run: cmake --build build
 
       - name: Analyze Build
-        working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }}
+        run: bash .ci/objanalyze.sh stars
 
       - name: Install Program
-        working-directory: ${{ matrix.project }}
         run: sudo cmake --build build --target install
 
       - name: Analyze Install
-        working-directory: ${{ matrix.project }}
-        run: bash "$GITHUB_WORKSPACE/.ci/objanalyze.sh" ${{ matrix.project }} ${{ env.INSTALL_PREFIX }}
+        run: bash .ci/objanalyze.sh stars ${{ env.INSTALL_PREFIX }}
 
       - name: Minimal Load Test
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
-        run: ./${{ matrix.project }}
+        run: ./stars
 
       - name: Success Reporting
         if: success()

@@ -1,4 +1,4 @@
-# Stars
+# Stars: Getting Started
 
 This is a small C++ template program showing a project build using [CMake][cmake]
 as build generator with integrated [Conan][conan] package manager consuming (using
@@ -44,7 +44,7 @@ On macOS you most likely have a compiler and SQLite so you'll need only CMake:
 $ brew install cmake
 ```
 
-To use Ninja CMake's generator you will need to install `ninja-build`:
+To use Ninja CMake's generator you will need to install Ninja:
 
 ```shell script
 # Arch Linux
@@ -55,12 +55,15 @@ $ sudo dnf install ninja-build
 
 # Debian/Ubuntu
 $ sudo apt install ninja-build
- 
+
 # Gentoo
 $ sudo emerge dev-util/ninja
 
 # macOS
 $ brew install ninja
+
+# Windows
+$ choco install ninja
 ```
 
 Please note that specific versions of libraries and programs at the time of
@@ -103,7 +106,7 @@ $ sudo snap install cppcheck
 
 # Debian
 $ sudo apt install cppcheck
- 
+
 # Gentoo
 $ sudo emerge dev-util/cppcheck
 
@@ -160,7 +163,6 @@ build types are `Debug`, `Release`, `RelWithDebInfo` and `MinSizeRel`:
 $ cmake                    \
   -H.                      \
   -Bbuild                  \
-  -GNinja                  \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 ```
@@ -207,7 +209,7 @@ Expected output will something like:
 Chuck Norris can kill two stones with one bird.
 ```
 
-If you used a custom prefix, you'll need to use appropriate path: 
+If you used a custom prefix, you'll need to use appropriate path:
 
 ```shell script
 $ cmake -DCMAKE_INSTALL_PREFIX=~/.local build

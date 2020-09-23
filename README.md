@@ -1,24 +1,25 @@
-# Repository Templates for C++ Projects
+# Stars
 
 [![Build Status][build badge]][build link]
 [![Analysis Status][analysis badge]][analysis link]
 
-This repository contains my personal repository templates for C++ projects.
+This repository contains my personal repository template for C++ project.
 
-## Projects
+- Type: Shared Library
+- Source: multiple files
+- C++ version: `C++17`
+- Tested OS: macOS, Ubuntu
+- C++ compiler: [GCC][gcc], [Clang][clang] or [Apple Clang][apple clang]
+- Package manager: [Conan][conan]
+- Build system: [CMake][cmake]
+- Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
+- Formatting tools: [cmake-format][cmake-format], [clang-format][clang-format]
+- Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
+- CI: [GitHub Actions][actions]
 
-- [**Stars**](./stars)
-  - Type: Shared Library
-  - Source: multiple files
-  - C++ version: `C++17`
-  - Tested OS: macOS, Ubuntu
-  - C++ compiler: [GCC][gcc], [Clang][clang] or [Apple Clang][apple clang]
-  - Package manager: [Conan][conan]
-  - Build system: [CMake][cmake] with [Ninja][ninja]
-  - Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
-  - Formatting tools: [cmake-format][cmake-format], [clang-format][clang-format]
-  - Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
-  - CI: [GitHub Actions][actions]
+## Getting Started
+
+See [`docs/GettingStarted.md`](./docs/GettingStarted.md) for more.
 
 ## License
 
@@ -34,7 +35,6 @@ See the [LICENSE][license] file for more information.
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
 [conan]: https://conan.io/
 [cmake]: https://cmake.org/
-[ninja]: https://ninja-build.org/
 [sqlite]: https://www.sqlite.org/index.html
 [spdlog]: https://github.com/gabime/spdlog
 [actions]: https://github.com/features/actions

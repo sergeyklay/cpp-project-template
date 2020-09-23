@@ -22,9 +22,9 @@ int main() {
 
   std::string const fact = chuckNorris.getFact();
 
-  std::cout << STARS_VERSION_FULL << " (built: " << STARS_PACKAGE_BUILD_DATE
+  std::cout << PROJECT_VERSION_FULL << " (built: " << PROJECT_PACKAGE_BUILD_DATE
             << ") " << std::endl;
-  std::cout << "Copyright " << STARS_COPYRIGHT << " (" << STARS_PACKAGE_URL
+  std::cout << "Copyright " << PROJECT_COPYRIGHT << " (" << PROJECT_PACKAGE_URL
             << ")" << std::endl
             << std::endl;
 
