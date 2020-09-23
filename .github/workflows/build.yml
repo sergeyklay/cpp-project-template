@@ -229,12 +229,16 @@ jobs:
       - name: Minimal Load Test (Unix)
         if: startsWith(runner.os, 'Windows') == false
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
-        run: ./stars
+        run: |
+          ./stars --version
+          for i in {1..10}; do ./stars; done
 
       - name: Minimal Load Test (Windows)
         if: startsWith(runner.os, 'Windows')
         working-directory: ${{ env.INSTALL_PREFIX }}\bin
-        run: .\stars.exe --version
+        run: |
+          .\stars.exe --version
+          1..10 | % { .\stars.exe }
 
       - name: Success Reporting
         if: success()

@@ -13,7 +13,21 @@
 # limitations under the License.
 
 # cmake-format: off
+
 # Database configuration
+
+# We have to append an extra slash to URI in case of Windows builds.
+# This is needed because the following URI is invalid:
+#     file://c:/project/db/project.db
+# But this one is valid:
+#     file:///c:/project/db/project.db
+string(REGEX MATCH "^[A-Z]:.+$" drive_match "${CMAKE_INSTALL_PREFIX}")
+if (NOT "${drive_match}" STREQUAL "")
+  set(DB_INSTALL_PREFIX "/${CMAKE_INSTALL_PREFIX}")
+else ()
+  set(DB_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+endif ()
+
 set(input ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
 get_filename_component(_MOD_DIR ${input} DIRECTORY)
 configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
