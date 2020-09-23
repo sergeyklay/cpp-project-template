@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include <cstring>
 #include <iostream>
 
 #include <stars/ChuckNorris.hpp>
@@ -19,10 +20,10 @@
 
 int main(int argc, char** argv) {
   if (argc > 1 && strcmp(argv[1], "--version") == 0) {
-    std::cout << PROJECT_VERSION_FULL << " (built: " << PROJECT_PACKAGE_BUILD_DATE
-              << ") " << std::endl;
-    std::cout << "Copyright " << PROJECT_COPYRIGHT << " (" << PROJECT_PACKAGE_URL
-              << ")" << std::endl
+    std::cout << PROJECT_VERSION_FULL
+              << " (built: " << PROJECT_PACKAGE_BUILD_DATE << ") " << std::endl;
+    std::cout << "Copyright " << PROJECT_COPYRIGHT << " ("
+              << PROJECT_PACKAGE_URL << ")" << std::endl
               << std::endl;
 
     return 0;
