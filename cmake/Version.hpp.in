@@ -22,39 +22,39 @@
 /// \brief Provides application version information.
 
 /// \brief Represents compiler major version.
-#define STARS_VERSION_MAJOR "@STARS_VERSION_MAJOR@"
+#define PROJECT_VERSION_MAJOR "@PROJECT_VERSION_MAJOR@"
 
 /// \brief Represents compiler minor version.
-#define STARS_VERSION_MINOR "@STARS_VERSION_MINOR@"
+#define PROJECT_VERSION_MINOR "@PROJECT_VERSION_MINOR@"
 
 /// \brief Represents compiler patch version.
-#define STARS_VERSION_PATCH "@STARS_VERSION_PATCH@"
+#define PROJECT_VERSION_PATCH "@PROJECT_VERSION_PATCH@"
 
 /// \brief Represents compiler suffix version.
-#define STARS_VERSION_SUFFIX "@STARS_VERSION_SUFFIX@"
+#define PROJECT_VERSION_SUFFIX "@PROJECT_VERSION_SUFFIX@"
 
 /// \brief Represents compiler version string.
-#define STARS_VERSION "@STARS_VERSION@"
+#define PROJECT_VERSION "@PROJECT_VERSION@"
 
 /// \brief Represents full compiler version string.
-#define STARS_VERSION_FULL "@STARS_VERSION_FULL@"
+#define PROJECT_VERSION_FULL "@PROJECT_VERSION_FULL@"
 
 /// \brief Represents compiler version ID.
-#define STARS_VERSION_ID "@STARS_VERSION_ID@"
+#define PROJECT_VERSION_ID "@PROJECT_VERSION_ID@"
 
 /// \brief Represents project package string.
-#define STARS_PACKAGE_STRING "@STARS_PACKAGE_STRING@"
+#define PROJECT_PACKAGE_STRING "@PROJECT_PACKAGE_STRING@"
 
 /// \brief Represents project website.
-#define STARS_PACKAGE_URL "@STARS_PACKAGE_URL@"
+#define PROJECT_PACKAGE_URL "@PROJECT_PACKAGE_URL@"
 
 /// \brief Represents human readable name of this project.
-#define STARS_PACKAGE_NAME "@STARS_PACKAGE_NAME@"
+#define PROJECT_PACKAGE_NAME "@PROJECT_PACKAGE_NAME@"
 
 /// \brief Represents project build date.
-#define STARS_PACKAGE_BUILD_DATE "@STARS_PACKAGE_BUILD_DATE@"
+#define PROJECT_PACKAGE_BUILD_DATE "@PROJECT_PACKAGE_BUILD_DATE@"
 
 /// \brief Represents project copyright string.
-#define STARS_COPYRIGHT "@STARS_COPYRIGHT@"
+#define PROJECT_COPYRIGHT "@PROJECT_COPYRIGHT@"
 
 #endif  // STARS_VERSION_HPP_

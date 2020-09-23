@@ -46,7 +46,7 @@ file(TO_NATIVE_PATH
   message_RPATH)
 
 set_target_properties(stars PROPERTIES
-  VERSION ${STARS_VERSION}
+  VERSION ${PROJECT_VERSION}
   MACOSX_RPATH ON
   # Don't skip the full RPATH for the build tree.
   SKIP_BUILD_RPATH OFF
