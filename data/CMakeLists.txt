@@ -29,7 +29,8 @@ endif()
 mark_as_advanced(SQLITE3_EXE)
 
 if(SQLITE3_EXE)
-  get_filename_component(_DB_DIR CMakeLists.txt PATH)
+  set(input ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
+  get_filename_component(_DB_DIR ${input} DIRECTORY)
 
   execute_process(
     COMMAND ${SQLITE3_EXE} ${_DB_DIR}/stars.db ".read ${_DB_DIR}/stars.sqlite"

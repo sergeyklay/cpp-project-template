@@ -44,7 +44,7 @@ On macOS you most likely have a compiler and SQLite so you'll need only CMake:
 $ brew install cmake
 ```
 
-To use Ninja CMake's generator you will need to install `ninja-build`:
+To use Ninja CMake's generator you will need to install Ninja:
 
 ```shell script
 # Arch Linux
@@ -61,6 +61,9 @@ $ sudo emerge dev-util/ninja
 
 # macOS
 $ brew install ninja
+
+# Windows
+$ choco install ninja
 ```
 
 Please note that specific versions of libraries and programs at the time of
@@ -160,7 +163,6 @@ build types are `Debug`, `Release`, `RelWithDebInfo` and `MinSizeRel`:
 $ cmake                    \
   -H.                      \
   -Bbuild                  \
-  -GNinja                  \
   -DCMAKE_BUILD_TYPE=Debug \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 ```
