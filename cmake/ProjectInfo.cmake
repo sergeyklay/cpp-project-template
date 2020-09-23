@@ -55,10 +55,7 @@ set(PROJECT_PACKAGE_BUILD_DATE "${CURRENT_DATE_TIME}")
 
 set(PROJECT_DESCRIPTION "A small C++ template program")
 
-set(input ${Stars_SOURCE_DIR}/cmake/ProjectInfo.cmake)
-get_filename_component(_MOD_DIR ${input} DIRECTORY)
-
-configure_file("${_MOD_DIR}/Version.hpp.in"
+configure_file("${Stars_SOURCE_DIR}/include/stars/Version.hpp.in"
                "${Stars_SOURCE_DIR}/include/stars/Version.hpp")
 
 unset(CURRENT_YEAR)
