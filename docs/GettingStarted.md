@@ -2,8 +2,10 @@
 
 This is a small C++ template program showing a project build using [CMake][cmake]
 as build generator with integrated [Conan][conan] package manager consuming (using
-and linking) with [SQLite][sqlite] and [spdlog][spdlog] libraries. This project uses
-[Ninja][ninja] build tools, but it can build with other tools like [GNU Make][make].
+and linking) with [SQLite][sqlite] and [spdlog][spdlog] libraries. For UNIX-like
+systems this project uses [GNU Make][make] build tool, but it can build with other
+tools like [Ninja][ninja]. Actually there is no restriction for using Ninja even
+on Windows systems.
 
 ## How to try it out
 
@@ -18,6 +20,7 @@ To build and run Stars you'll need the following requirements:
   - [GCC][gcc] >= 7.0.0
   - [Clang][clang] >= 5.0.0
   - [Apple Clang][apple clang] >= 10.0.0
+  - [Visual Studio][vs] >= 2017 (15.7)
 - [CMake][cmake] 3.14 or later
 - Any build tool supported by CMake like [GNU Make][make], [Ninja][ninja] and so on
 - [Conan][conan] decentralized package manager with a client-server architecture
@@ -84,7 +87,7 @@ $ pip install --user -r requirements.txt
 
 To enable any feature use CMake flags at configure time.
 To enable `FEATURE` use `-DFEATURE=ON` and to disable `FEATURE` use `-DFEATURE=OFF`.
-Supported CMake flags are:
+Custom CMake flags are:
 
 | Flag                            | Description                                               |
 | ------------------------------- |-----------------------------------------------------------|
@@ -235,6 +238,7 @@ See the [LICENSE][license] file for more information.
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
+[vs]: https://visualstudio.microsoft.com
 [cmake]: https://cmake.org/
 [make]: https://www.gnu.org/software/make/
 [cppcheck]: https://github.com/danmar/cppcheck
