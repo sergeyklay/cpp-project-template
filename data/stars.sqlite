@@ -1,0 +1,17 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+
+DROP TABLE IF EXISTS `chucknorris`;
+CREATE TABLE `chucknorris` (
+    `id`   INTEGER PRIMARY KEY AUTOINCREMENT,
+    `fact` VARCHAR(500)
+);
+
+INSERT INTO `chucknorris` (`fact`) VALUES
+    ('Chuck Norris can slam a revolving door.'),
+    ('Chuck Norris can kill two stones with one bird.'),
+    ('Chuck Norris counted to infinity. Twice.'),
+    ('The easiest way to determine Chuck Norris''s age is to cut him in half and count the rings.'),
+    ('If, by some incredible space-time paradox, Chuck Norris would ever fight himself, he''d win. Period.');
+
+COMMIT;
