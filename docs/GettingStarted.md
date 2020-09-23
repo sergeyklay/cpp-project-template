@@ -32,7 +32,6 @@ Optional prerequisites are:
 
 - Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
 - Static analysis tool for C/C++ code: [Cpplint][cpplint] >= 1.5
-- CMake formatting tool: [cmake-format][cmake-format] >= 0.6
 - C, C++ formatting tool: [clang-format][clang-format] >= 10.0
 
 If you're using Ubuntu, you can install the required packages this way:
@@ -74,7 +73,6 @@ reading this guide may vary. The following dependencies is recommended install
 using [pip][pip]:
 
 - `conan`
-- `cmakelang`
 - `cpplint`
 
 They can be installed using pip as follows:
@@ -246,7 +244,6 @@ See the [LICENSE][license] file for more information.
 [make]: https://www.gnu.org/software/make/
 [cppcheck]: https://github.com/danmar/cppcheck
 [cpplint]: https://github.com/cpplint/cpplint
-[cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
 [pip]: https://pip.pypa.io/
 [cmake-cli]: https://cmake.org/cmake/help/latest/manual/cmake.1.html

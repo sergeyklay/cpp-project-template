@@ -30,7 +30,6 @@ target_link_libraries(
   PUBLIC chucknorris
   PRIVATE compilerwarnings)
 
-# cmake-format: off
 file(RELATIVE_PATH _rel
   ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
   ${CMAKE_INSTALL_PREFIX})
@@ -62,4 +61,3 @@ install(TARGETS stars
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-# cmake-format: on

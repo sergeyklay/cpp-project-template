@@ -31,29 +31,19 @@ endif()
 
 # CMake Script Includes
 include(Bootstrap)
+include(Helpers)
 include(CompilerWarnings)
 include(LanguageStandard)
 include(Cppcheck)
 include(ClangFormat)
-include(CMakeFormat)
 
-# cmake-format: off
 file(GLOB_RECURSE cpp_files
   ${Stars_SOURCE_DIR}/include/*.[hc]
   ${Stars_SOURCE_DIR}/include/*.[hc]pp
   ${Stars_SOURCE_DIR}/src/*.[hc]
   ${Stars_SOURCE_DIR}/src/*.[hc]pp)
 
-file(GLOB_RECURSE cmake_files
-  ${Stars_SOURCE_DIR}/cmake/*.cmake
-  ${Stars_SOURCE_DIR}/src/CMakeLists.txt)
-# cmake-format: on
-
-list(APPEND cmake_files ${Stars_SOURCE_DIR}/CMakeLists.txt)
-list(APPEND cmake_files ${Stars_SOURCE_DIR}/data/CMakeLists.txt)
-
 clang_format(cpp-format ${cpp_files})
-cmake_format(cmake-format "${cmake_files}")
 
 # Conan helpers
 include(ConanHelper)

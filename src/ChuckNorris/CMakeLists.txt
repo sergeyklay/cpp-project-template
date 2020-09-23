@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# cmake-format: off
-
 # Database configuration
 
 # We have to append an extra slash to URI in case of Windows builds.
@@ -67,4 +65,3 @@ install(TARGETS chucknorris
   ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
   INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
   RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
-# cmake-format: on

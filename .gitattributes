@@ -16,7 +16,6 @@
 * text=auto
 
 .clang-format  text linguist-language=YAML linguist-vendored
-.cmake-format  text linguist-language=YAML linguist-vendored
 .dir-locals.el text linguist-language=Emacs Lisp linguist-vendored
 conanfile.txt  text linguist-language=INI linguist-vendored
 cppcheck.supp  text

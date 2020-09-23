@@ -49,7 +49,6 @@ else()
   set(BUILD_JOBS 2)
 endif()
 
-# ~~~
 # When you create a shared library or DLL with the MSVC compiler, you
 # have to tell it what symbols you want exported from the library.
 # UNIX compilers default to exporting all symbols.  Windows defaults
@@ -61,5 +60,4 @@ endif()
 #
 # For more see:
 # https://cmake.org/cmake/help/latest/prop_tgt/WINDOWS_EXPORT_ALL_SYMBOLS.html
-# ~~~
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

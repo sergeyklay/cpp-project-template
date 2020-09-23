@@ -19,21 +19,17 @@ option(WARNINGS_AS_ERRORS "Turn all build warnings into errors")
 add_library(compilerwarnings INTERFACE)
 
 # Clang / GCC:
-# ~~~
 # -Wall             Baseline reasonable warnings
 # -Wextra           Reasonable and standard
 # -Wpedantic        Warn if non-standard C++ is used
 # -Wshadow          Warn if a variable declaration shadows one from a parent context
 # -Wsign-conversion Warn for implicit conversions that may change the sign of an integer value
 # -Wswitch-enum     Warn whenever a "switch" lacks a "case"
-# ~~~
 set(unix-warnings -Wall -Wextra -Wpedantic -Wshadow -Wsign-conversion
                   -Wswitch-enum)
 
 # MSVC:
-# ~~~
 # /WX Baseline reasonable warnings
-# ~~~
 set(msvc-warnings /W4)
 
 # This is recognized as a valid compiler flag only by GCC
@@ -43,10 +39,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 # Treat compiler warnings as errors
-# ~~~
 # MSVC:        /W4
 # Clang / GCC: -Werror
-# ~~~
 target_compile_options(
   compilerwarnings
   INTERFACE $<$<CXX_COMPILER_ID:MSVC>:${msvc-warnings}
