@@ -1,9 +1,9 @@
-# Stars
+# Boilerplate for C++ projects
 
 [![Build Status][build badge]][build link]
 [![Analysis Status][analysis badge]][analysis link]
 
-This repository contains my personal repository template for C++ project.
+This repository contains my personal boilerplate for C++ project.
 
 - Type: Shared Library
 - Source: multiple files
@@ -26,10 +26,10 @@ See [`docs/GettingStarted.md`](./docs/GettingStarted.md) for more.
 This project is open source software licensed under the Apache License 2.0.
 See the [LICENSE][license] file for more information.
 
-[build link]: https://github.com/sergeyklay/cpp-project-templates/actions?query=workflow%3Abuild
-[build badge]: https://github.com/sergeyklay/cpp-project-templates/workflows/build/badge.svg
-[analysis link]: https://github.com/sergeyklay/cpp-project-templates/actions?query=workflow%3Aanalysis
-[analysis badge]: https://github.com/sergeyklay/cpp-project-templates/workflows/analysis/badge.svg
+[build link]: https://github.com/sergeyklay/cpp-project-template/actions?query=workflow%3Abuild
+[build badge]: https://github.com/sergeyklay/cpp-project-template/workflows/build/badge.svg
+[analysis link]: https://github.com/sergeyklay/cpp-project-template/actions?query=workflow%3Aanalysis
+[analysis badge]: https://github.com/sergeyklay/cpp-project-template/workflows/analysis/badge.svg
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
@@ -42,4 +42,4 @@ See the [LICENSE][license] file for more information.
 [cppcheck]: https://github.com/danmar/cppcheck
 [cmake-format]: https://github.com/cheshirekow/cmake_format
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
-[license]: https://github.com/sergeyklay/cpp-project-templates/blob/master/LICENSE
+[license]: https://github.com/sergeyklay/cpp-project-template/blob/master/LICENSE

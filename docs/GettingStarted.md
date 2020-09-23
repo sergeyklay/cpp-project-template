@@ -244,4 +244,4 @@ See the [LICENSE][license] file for more information.
 [pip]: https://pip.pypa.io/
 [cmake-cli]: https://cmake.org/cmake/help/latest/manual/cmake.1.html
 [cmake-buildsystem]: https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html
-[license]: https://github.com/sergeyklay/cpp-project-templates/blob/master/LICENSE
+[license]: https://github.com/sergeyklay/cpp-project-template/blob/master/LICENSE
