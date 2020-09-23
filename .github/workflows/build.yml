@@ -69,10 +69,6 @@ jobs:
         with:
           fetch-depth: 5
 
-      - name: Read Project Specification
-        working-directory: ${{ matrix.project }}
-        run: source "$GITHUB_WORKSPACE/.ci/export-spec-variables.sh"
-
       - name: Setup Common Prerequisites (Linux)
         if: startsWith(runner.os, 'Linux')
         run: |
@@ -111,22 +107,6 @@ jobs:
           # Install common tools
           brew install cppcheck
 
-      - name: Setup Project Prerequisites (Linux)
-        if: startsWith(runner.os, 'Linux')
-        run: |
-          # Install Ninja
-          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
-            sudo apt-get install --no-install-recommends -q -y ninja-build
-          fi
-
-      - name: Setup Project Prerequisites (macOS)
-        if: startsWith(runner.os, 'macOS')
-        run: |
-          # Install Ninja
-          if [ ${{ env.WITH_NINJA }} -eq 1 ]; then
-            brew install ninja
-          fi
-
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -158,16 +138,7 @@ jobs:
         run: cmake --version && conan --version
 
       - name: Setting Up Build Vars
-        run: |
-          if [ "${{ env.WITH_NINJA }}" = 1 ]; then
-            echo "::set-env name=BUILD_SUFFIX::-ninja"
-            echo "::set-env name=CMAKE_GENERATOR::-G Ninja"
-          else
-            echo "::set-env name=BUILD_SUFFIX::"
-            echo "::set-env name=CMAKE_GENERATOR::"
-          fi
-
-          echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
+        run: echo "::set-env name=CONAN_USER_HOME::$(conan config home)"
 
       - name: Setup Conan Cache
         id: conan-cache
@@ -196,7 +167,7 @@ jobs:
           conan
           install .
           -if=build
-          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}${{ env.BUILD_SUFFIX }}
+          -pr=${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}
           --build=missing
 
       - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
@@ -204,7 +175,7 @@ jobs:
         run: >-
           cmake
           -S .
-          -Bbuild ${{ env.CMAKE_GENERATOR }}
+          -Bbuild
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCPPCHECK=ON
           -DWARNINGS_AS_ERRORS=ON
