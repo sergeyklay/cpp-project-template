@@ -227,6 +227,11 @@ jobs:
         working-directory: ${{ env.INSTALL_PREFIX }}/bin
         run: ./stars
 
+      - name: Minimal Load Test (Windows)
+        if: startsWith(runner.os, 'Windows')
+        working-directory: ${{ env.INSTALL_PREFIX }}\bin
+        run: stars.exe
+
       - name: Success Reporting
         if: success()
         run: git log --format=fuller -5

@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# cmake-format: off
 # Database configuration
 set(input ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
 get_filename_component(_MOD_DIR ${input} DIRECTORY)
@@ -20,14 +21,13 @@ configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 # Add definition for chucknorris library
 add_library(chucknorris SHARED ChuckNorris.cpp)
 
-target_link_libraries(
-  chucknorris
-  PUBLIC CONAN_PKG::sqlite3 CONAN_PKG::spdlog
+target_link_libraries(chucknorris
+  PUBLIC  CONAN_PKG::sqlite3 CONAN_PKG::spdlog
   PRIVATE compilerwarnings)
 
-target_include_directories(
-  chucknorris PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+target_include_directories(chucknorris
+  PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 # Version info
 set(CHUCKNORRIS_VERSION_MAJOR 1)
@@ -35,20 +35,22 @@ set(CHUCKNORRIS_VERSION_MINOR 13)
 set(CHUCKNORRIS_VERSION_PATCH 42)
 
 set(CHUCKNORRIS_VERSION_STRING
-    ${CHUCKNORRIS_VERSION_MAJOR}.${CHUCKNORRIS_VERSION_MINOR}.${CHUCKNORRIS_VERSION_PATCH}
-)
+    ${CHUCKNORRIS_VERSION_MAJOR}.${CHUCKNORRIS_VERSION_MINOR}.${CHUCKNORRIS_VERSION_PATCH})
 
 # The SOVERSION is not necessarily the same as the major version. The rule is
 # that any breakage of the ABI must be indicated by incrementing the SOVERSION.
 # So, adding e.g. functions is no problem, modifying argument lists or removing
 # functions would required the SOVERSION to be incremented. Similar rules hold
 # of course for non-opaque data-structures.
-set_target_properties(
-  chucknorris PROPERTIES VERSION ${CHUCKNORRIS_VERSION_STRING}
-                         SOVERSION ${CHUCKNORRIS_VERSION_MAJOR})
+set_target_properties(chucknorris PROPERTIES
+  VERSION   ${CHUCKNORRIS_VERSION_STRING}
+  SOVERSION ${CHUCKNORRIS_VERSION_MAJOR})
 
-# cmake-format: off
+# CMake treats shared libraries as runtime objects on "DLL platforms"
+# like Windows. Thus RUNTIME DESTINATION is required here.
 install(TARGETS chucknorris
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+  LIBRARY  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE  DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+  RUNTIME  DESTINATION ${CMAKE_INSTALL_BINDIR})
 # cmake-format: on

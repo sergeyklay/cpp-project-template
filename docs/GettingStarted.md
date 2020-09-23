@@ -80,7 +80,7 @@ using [pip][pip]:
 They can be installed using pip as follows:
 
 ```shell script
-$ pip install --user -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 #### Configure flags
@@ -115,6 +115,9 @@ $ sudo emerge dev-util/cppcheck
 
 # macOS
 $ brew install cppcheck
+
+# Windows
+$ choco install cppcheck
 ```
 
 ### Build
@@ -123,7 +126,7 @@ You may want to install optional dependencies to perform additional code style
 checks. To install them use `pip` from the project directory as follows:
 
 ```shell script
-$ pip install --user -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 **Note:** To be able automatic reformatting C/C++ code you'll need to install
