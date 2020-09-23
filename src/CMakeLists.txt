@@ -27,8 +27,7 @@ target_include_directories(
 
 target_link_libraries(
   stars
-  PUBLIC chucknorris
-  PRIVATE compilerwarnings)
+  PRIVATE compilerwarnings chucknorris)
 
 file(RELATIVE_PATH _rel
   ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
