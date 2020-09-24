@@ -14,9 +14,9 @@
 
 define_property(
   GLOBAL
-  PROPERTY STARS_TESTS
-  BRIEF_DOCS "All Stars tests"
-  FULL_DOCS "The full list of all Stars tests")
+  PROPERTY PROJECT_TESTS
+  BRIEF_DOCS "All project tests"
+  FULL_DOCS "The full list of all project tests")
 
 set(PROJECT_TESTS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -25,10 +25,10 @@ configure_file(Properties.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Properties.hpp")
 
 add_subdirectory(ChuckNorris)
 
-get_property(STARS_TESTS GLOBAL PROPERTY STARS_TESTS)
+get_property(PROJECT_TESTS GLOBAL PROPERTY PROJECT_TESTS)
 add_custom_target(
   check
   COMMAND ctest --output-on-failure
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-  DEPENDS ${STARS_TESTS}
+  DEPENDS ${PROJECT_TESTS}
   COMMENT "Run all tests...")

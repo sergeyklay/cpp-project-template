@@ -35,4 +35,4 @@ gtest_discover_tests(ChuckNorrisTest
   TEST_PREFIX Stars:
   PROPERTIES LABELS ChuckNorrisTest)
 
-set_property(GLOBAL APPEND PROPERTY STARS_TESTS ChuckNorrisTest)
+set_property(GLOBAL APPEND PROPERTY PROJECT_TESTS ChuckNorrisTest)
