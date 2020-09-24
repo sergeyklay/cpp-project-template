@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
   }
 
   stars::ChuckNorris chuckNorris;
-  std::string const fact = chuckNorris.getFact();
+  auto const fact = chuckNorris.getFact();
 
   if (chuckNorris.getStatus() == 1) {
     std::cout << fact << std::endl;

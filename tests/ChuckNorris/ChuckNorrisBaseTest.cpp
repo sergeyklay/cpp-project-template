@@ -13,8 +13,8 @@
 // limitations under the License.
 
 #include "ChuckNorrisBaseTest.hpp"
-#include "Properties.hpp"
 
-TEST_F(ChuckNorrisBaseTest, HelloWorld) {
-  EXPECT_EQ(1 + 2, 3);
-}
+#include "Properties.hpp"
+#include "stars/ChuckNorris.hpp"
+
+TEST_F(ChuckNorrisBaseTest, HelloWorld) { EXPECT_EQ(1 + 2, 3); }

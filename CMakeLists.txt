@@ -41,7 +41,9 @@ file(GLOB_RECURSE cpp_files
   ${Stars_SOURCE_DIR}/include/*.[hc]
   ${Stars_SOURCE_DIR}/include/*.[hc]pp
   ${Stars_SOURCE_DIR}/src/*.[hc]
-  ${Stars_SOURCE_DIR}/src/*.[hc]pp)
+  ${Stars_SOURCE_DIR}/src/*.[hc]pp
+  ${Stars_SOURCE_DIR}/tests/*.[hc]
+  ${Stars_SOURCE_DIR}/tests/*.[hc]pp)
 
 clang_format(cpp-format ${cpp_files})
 

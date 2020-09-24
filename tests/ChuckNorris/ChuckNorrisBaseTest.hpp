@@ -17,7 +17,6 @@
 
 #include <gtest/gtest.h>
 
-class ChuckNorrisBaseTest : public ::testing::Test {
-};
+class ChuckNorrisBaseTest : public ::testing::Test {};
 
 #endif  // STARS_TESTS_CHUCKNORRIS_CHUCKNORRIS_BASE_TEST_HPP_
