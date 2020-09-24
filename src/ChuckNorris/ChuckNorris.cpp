@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "stars/ChuckNorris.hpp"
+
 #include <spdlog/spdlog.h>
 #include <sqlite3.h>
-
-#include <stars/ChuckNorris.hpp>
 
 #include "Database.hpp"
 

@@ -15,8 +15,8 @@
 #include <cstring>
 #include <iostream>
 
-#include <stars/ChuckNorris.hpp>
-#include <stars/Version.hpp>
+#include "stars/ChuckNorris.hpp"
+#include "stars/Version.hpp"
 
 int main(int argc, char** argv) {
   if (argc > 1 && strcmp(argv[1], "--version") == 0) {
