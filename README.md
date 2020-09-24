@@ -19,7 +19,7 @@ and files as an existing repository. For more see:
 - **[TODO]** Code coverage reports, including automatic upload to Codecov.io
 - **[TODO]** Code documentation with Doxygen
 
-## Project Structure and Tools
+### Project Structure and Tools
 
 - Type: Shared Library
   - `so` file on Linux
@@ -59,7 +59,7 @@ See the [LICENSE][license] file for more information.
 [sqlite]: https://www.sqlite.org/index.html
 [spdlog]: https://github.com/gabime/spdlog
 [actions]: https://github.com/features/actions
-[modern-cmake]: https://cliutils.gitlab.io/modern-cmake/
+[modern-cmake]: https://gist.github.com/mbinna/c61dbb39bca0e4fb7d1f73b0d66a4fd1
 [cpplint]: https://github.com/cpplint/cpplint
 [cppcheck]: https://github.com/danmar/cppcheck
 [clang-format]: https://clang.llvm.org/docs/ClangFormat.html
