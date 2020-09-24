@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-option(CPPCHECK "Turns on cppcheck processing if it is found." OFF)
+option(CPPCHECK "Perform cppcheck during compilation." OFF)
 
 # Adds cppcheck to the compilation, with the given arguments being used as the
 # options set.
@@ -69,7 +69,7 @@ if(CPPCHECK_EXE)
         "--std=c++17"
         "--template={file}:{line}:{column}:\ {severity}:\ {message}\ [--suppress={id}]\\n{code}"
         "--inline-suppr"
-        "--suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck.supp"
+        "--suppressions-list=${PROJECT_SOURCE_DIR}/cppcheck.supp"
         "-j${BUILD_JOBS}"
         "--quiet"
         "--verbose"
