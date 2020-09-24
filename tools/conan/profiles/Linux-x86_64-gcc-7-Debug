@@ -13,4 +13,3 @@ os_build=Linux
 [build_requires]
 
 [env]
-CONAN_CMAKE_GENERATOR=Ninja

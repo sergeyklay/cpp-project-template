@@ -34,11 +34,11 @@ if(SQLITE3_EXE)
 
   execute_process(
     COMMAND ${SQLITE3_EXE} ${_DB_DIR}/stars.db ".read ${_DB_DIR}/stars.sqlite"
-    RESULT_VARIABLE SQLITE3_RESULT
-    ERROR_VARIABLE SQLITE3_ERROR)
+    RESULT_VARIABLE result
+    ERROR_VARIABLE error)
 
-  if(SQLITE3_RESULT)
-    message(FATAL_ERROR "${SQLITE3_ERROR}")
+  if(NOT ${result} EQUAL 0)
+    message(FATAL_ERROR "${error}")
   else()
     install(FILES stars.db DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/db/stars)
   endif()

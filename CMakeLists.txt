@@ -41,7 +41,9 @@ file(GLOB_RECURSE cpp_files
   ${Stars_SOURCE_DIR}/include/*.[hc]
   ${Stars_SOURCE_DIR}/include/*.[hc]pp
   ${Stars_SOURCE_DIR}/src/*.[hc]
-  ${Stars_SOURCE_DIR}/src/*.[hc]pp)
+  ${Stars_SOURCE_DIR}/src/*.[hc]pp
+  ${Stars_SOURCE_DIR}/tests/*.[hc]
+  ${Stars_SOURCE_DIR}/tests/*.[hc]pp)
 
 clang_format(cpp-format ${cpp_files})
 
@@ -56,3 +58,12 @@ include(GNUInstallDirs)
 
 add_subdirectory(src)
 add_subdirectory(data)
+
+option(WITH_TESTS "Enable testing support" OFF)
+if(MASTER_PROJECT)
+  include(CTest)
+
+  if(BUILD_TESTING AND WITH_TESTS)
+    add_subdirectory(tests)
+  endif()
+endif()

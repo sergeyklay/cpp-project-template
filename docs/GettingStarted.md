@@ -92,6 +92,7 @@ Custom CMake flags are:
 | `CPPCHECK`                      | Add `cppcheck` step to the compilation.                   |
 | `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation.      |
 | `WARNINGS_AS_ERRORS`            | Turn all build warnings into errors.                      |
+| `WITH_TESTS`                    | Enable testing support.                                   |
 
 To use `cppcheck` you will need to install it as follows:
 
@@ -177,7 +178,26 @@ Finally build project:
 $ cmake --build build
 ```
 
-#### Install
+### Running the tests
+
+To build with testing support, you have to configure project with special flags:
+
+```shell script
+$ cmake -H. \
+    -Bbuild \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DWITH_TESTS=ON
+
+cmake --build build
+```
+
+Run tests from the project root as follows:
+
+```shell script
+$ cmake --build build --target check
+```
+
+### Install
 
 To install program simple use `install` target:
 

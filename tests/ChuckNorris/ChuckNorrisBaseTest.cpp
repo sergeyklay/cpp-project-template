@@ -12,31 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <cstring>
-#include <iostream>
+#include "ChuckNorrisBaseTest.hpp"
 
+#include "Properties.hpp"
 #include "stars/ChuckNorris.hpp"
-#include "stars/Version.hpp"
 
-int main(int argc, char** argv) {
-  if (argc > 1 && strcmp(argv[1], "--version") == 0) {
-    std::cout << PROJECT_VERSION_FULL
-              << " (built: " << PROJECT_PACKAGE_BUILD_DATE << ") " << std::endl;
-    std::cout << "Copyright " << PROJECT_COPYRIGHT << " ("
-              << PROJECT_PACKAGE_URL << ")" << std::endl
-              << std::endl;
-
-    return 0;
-  }
-
+TEST_F(ChuckNorrisBaseTest, HelloWorld) {
   stars::ChuckNorris chuckNorris;
-  auto const fact = chuckNorris.getFact();
 
-  if (chuckNorris.getStatus() == 1) {
-    std::cout << fact << std::endl;
-
-    return 0;
-  }
-
-  return 1;
+  EXPECT_TRUE(chuckNorris.getStatus() > -2);
+  EXPECT_TRUE(chuckNorris.getStatus() < 2);
 }

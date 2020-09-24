@@ -14,8 +14,8 @@ and files as an existing repository. For more see:
 
 - Sources, headers and mains separated in distinct folders
 - [Modern CMake][modern-cmake] for much easier compiling
-- Continuous testing with GitHub Actions on al modern OSes, with support for C++17.
-- **[TODO]** Setup for tests using Google Test
+- Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
+- Setup for tests using Google's C++ test framework
 - **[TODO]** Code coverage reports, including automatic upload to Codecov.io
 - **[TODO]** Code documentation with Doxygen
 
