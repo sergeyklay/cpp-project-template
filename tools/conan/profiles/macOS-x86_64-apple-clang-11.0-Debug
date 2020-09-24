@@ -13,4 +13,3 @@ os_build=Macos
 [build_requires]
 
 [env]
-CONAN_CMAKE_GENERATOR=Ninja
