@@ -34,6 +34,7 @@ endif()
 mark_as_advanced(CPPCHECK_EXE)
 
 set(_base_message "Check for cppcheck")
+
 if(CPPCHECK_EXE)
   # Version number checking for '-std=c++17' compatibility
   execute_process(
@@ -55,10 +56,8 @@ if(CPPCHECK_EXE)
                ${CPPCHECK_VERSION_CALL_OUTPUT})
 
   if(CPPCHECK_VERSION VERSION_LESS "1.89")
-    message(
-      SEND_ERROR
-        "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89"
-    )
+    message(SEND_ERROR
+      "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89")
   endif()
 
   message(STATUS "${_base_message}: ${CPPCHECK_EXE}")
@@ -79,13 +78,10 @@ if(CPPCHECK_EXE)
 
 elseif(CPPCHECK)
   message(SEND_ERROR "${_base_message}: executable not found!")
-  set(CMAKE_CXX_CPPCHECK
-      ""
-      CACHE STRING "" FORCE) # delete it
+  set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 else()
   message(STATUS "${_base_message}: not found")
-  set(CMAKE_CXX_CPPCHECK
-      ""
-      CACHE STRING "" FORCE) # delete it
+  set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 endif()
+
 unset(_base_message)
