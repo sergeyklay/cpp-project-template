@@ -32,10 +32,11 @@ configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 
 # Add definition for chucknorris library
 add_library(chucknorris SHARED ChuckNorris.cpp)
+add_library(Stars::ChuckNorris ALIAS chucknorris)
 
 target_link_libraries(chucknorris
   PUBLIC  CONAN_PKG::sqlite3 CONAN_PKG::spdlog
-  PRIVATE compilerwarnings)
+  PRIVATE Stars::CompilerWarnings)
 
 target_include_directories(chucknorris
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
