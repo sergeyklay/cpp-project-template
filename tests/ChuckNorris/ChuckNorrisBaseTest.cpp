@@ -17,4 +17,9 @@
 #include "Properties.hpp"
 #include "stars/ChuckNorris.hpp"
 
-TEST_F(ChuckNorrisBaseTest, HelloWorld) { EXPECT_EQ(1 + 2, 3); }
+TEST_F(ChuckNorrisBaseTest, HelloWorld) {
+  stars::ChuckNorris chuckNorris;
+
+  EXPECT_TRUE(chuckNorris.getStatus() > -2);
+  EXPECT_TRUE(chuckNorris.getStatus() < 2);
+}
