@@ -15,13 +15,29 @@
 # Automatically normalize line endings for all text-based files
 * text=auto
 
-.clang-format  text linguist-language=YAML linguist-vendored
-.dir-locals.el text linguist-language=Emacs Lisp linguist-vendored
-conanfile.txt  text linguist-language=INI linguist-vendored
-cppcheck.supp  text
+# Force LF checkout for all source files
+*.cpp          text eol=lf diff=cpp linguist-language=C++
+*.hpp.in       text eol=lf diff=cpp linguist-language=C++ linguist-detectable=true
+*.json         text eol=lf
+*.sh           text eol=lf
+*.sqlite       text eol=lf linguist-language=SQL linguist-detectable=true
+*.txt          text eol=lf
+.clang-format  text eol=lf linguist-language=YAML linguist-vendored
+.dir-locals.el text eol=lf linguist-language=Emacs Lisp linguist-vendored
+.editorconfig  text eol=lf
+.gitattributes text eol=lf
+.gitignore     text eol=lf
+conanfile.txt  text eol=lf linguist-language=INI linguist-vendored
+cppcheck.supp  text eol=lf
+CPPLINT.cfg    text eol=lf
 
-*.hpp.in       text diff=cpp linguist-language=C++ linguist-detectable=true
-*.sqlite       text linguist-language=SQL linguist-detectable=true
+# Force LF checkout for documentation
+*.md           text eol=lf
+CODE_OWNERS.*  text eol=lf
+LICENSE        text eol=lf
+
+# Force LF checkout for the conan profiles
+/tools/conan/profiles/* text eol=lf
 
 .ci            export-ignore
 .github        export-ignore
