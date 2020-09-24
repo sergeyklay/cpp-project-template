@@ -55,8 +55,8 @@ set(PROJECT_PACKAGE_BUILD_DATE "${CURRENT_DATE_TIME}")
 
 set(PROJECT_DESCRIPTION "A small C++ template program")
 
-configure_file("${Stars_SOURCE_DIR}/include/stars/Version.hpp.in"
-               "${Stars_SOURCE_DIR}/include/stars/Version.hpp")
+configure_file("${PROJECT_SOURCE_DIR}/include/stars/Version.hpp.in"
+               "${PROJECT_SOURCE_DIR}/include/stars/Version.hpp")
 
 unset(CURRENT_YEAR)
 unset(CURRENT_DATE_TIME)
