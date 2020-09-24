@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-message(STATUS "Searching conanbuildinfo.cmake in ${Stars_BINARY_DIR}")
-find_file(CONANBUILDINFO "conanbuildinfo.cmake" PATHS ${Stars_BINARY_DIR})
+message(STATUS "Searching conanbuildinfo.cmake in ${PROJECT_BINARY_DIR}")
+find_file(CONANBUILDINFO "conanbuildinfo.cmake" PATHS ${PROJECT_BINARY_DIR})
 
 if(NOT CONANBUILDINFO)
   message(FATAL_ERROR "The \"conanbuildinfo.cmake\" file is missing!"
@@ -24,6 +24,7 @@ message(STATUS "Conan: Found conanbuildinfo.cmake at ${CONANBUILDINFO}")
 
 set(CONAN_CMAKE_CXX_STANDARD ${CMAKE_CXX_STANDARD})
 set(CONAN_CMAKE_CXX_EXTENSIONS ${CMAKE_CXX_EXTENSIONS})
+
 include(${CONANBUILDINFO})
 
 conan_basic_setup(TARGETS KEEP_RPATHS)
