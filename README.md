@@ -3,7 +3,23 @@
 [![Build Status][build badge]][build link]
 [![Analysis Status][analysis badge]][analysis link]
 
-This repository contains my personal boilerplate for C++ project.
+This repository contains my personal boilerplate for C++ projects.
+
+You can generate a new repository with the same directory structure
+and files as an existing repository. For more see:
+
+- [Creating a repository from a template][gh-template]
+
+## Features
+
+- Sources, headers and mains separated in distinct folders
+- [Modern CMake][modern-cmake] for much easier compiling
+- Continuous testing with GitHub Actions on al modern OSes, with support for C++17.
+- **[TODO]** Setup for tests using Google Test
+- **[TODO]** Code coverage reports, including automatic upload to Codecov.io
+- **[TODO]** Code documentation with Doxygen
+
+## Project Structure and Tools
 
 - Type: Shared Library
   - `so` file on Linux
@@ -20,15 +36,6 @@ This repository contains my personal boilerplate for C++ project.
 - Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
 - CI: [GitHub Actions][actions]
 
-## Features:
-
-- Sources, headers and mains separated in distinct folders
-- [Modern CMake][modern-cmake] for much easier compiling
-- Continuous testing with GitHub Actions on al modern OSes, with support for C++17.
-- **[TODO]** Setup for tests using Google Test
-- **[TODO]** Code coverage reports, including automatic upload to Codecov.io
-- **[TODO]** Code documentation with Doxygen
-
 ## Getting Started
 
 See [`docs/GettingStarted.md`](./docs/GettingStarted.md) for more.
@@ -42,6 +49,7 @@ See the [LICENSE][license] file for more information.
 [build badge]: https://github.com/sergeyklay/cpp-project-template/workflows/build/badge.svg
 [analysis link]: https://github.com/sergeyklay/cpp-project-template/actions?query=workflow%3Aanalysis
 [analysis badge]: https://github.com/sergeyklay/cpp-project-template/workflows/analysis/badge.svg
+[gh-template]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
