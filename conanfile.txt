@@ -1,8 +1,11 @@
 [requires]
 spdlog/1.8.0
 sqlite3/3.32.3
+gtest/1.10.0
 
 [options]
+gtest:shared=False
+gtest:no_main=True
 
 [generators]
 cmake

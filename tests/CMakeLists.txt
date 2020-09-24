@@ -12,11 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Set the compiler standard to C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+define_property(
+  GLOBAL
+  PROPERTY STARS_TESTS
+  BRIEF_DOCS "All Stars tests"
+  FULL_DOCS "The full list of all Stars tests")
 
-if(MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
-endif(MSVC)
+set(PROJECT_TESTS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Global tests properties
+configure_file(Properties.hpp.in "${CMAKE_CURRENT_SOURCE_DIR}/Properties.hpp")
+
+add_subdirectory(ChuckNorris)
+
+get_property(STARS_TESTS GLOBAL PROPERTY STARS_TESTS)
+add_custom_target(
+  check
+  COMMAND ctest --output-on-failure
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  DEPENDS ${STARS_TESTS}
+  COMMENT "Run all tests...")

@@ -56,3 +56,12 @@ include(GNUInstallDirs)
 
 add_subdirectory(src)
 add_subdirectory(data)
+
+option(WITH_TESTS "Enable testing support" OFF)
+if(MASTER_PROJECT)
+  include(CTest)
+
+  if(BUILD_TESTING AND WITH_TESTS)
+    add_subdirectory(tests)
+  endif()
+endif()
