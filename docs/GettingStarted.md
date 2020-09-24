@@ -89,7 +89,7 @@ Custom CMake flags are:
 
 | Flag                            | Description                                               |
 | ------------------------------- |-----------------------------------------------------------|
-| `CPPCHECK`                      | Add `cppcheck` step to the compilation.                   |
+| `CPPCHECK`                      | Perform `cppcheck` during compilation.                    |
 | `CMAKE_EXPORT_COMPILE_COMMANDS` | Enable output of compile commands during generation.      |
 | `WARNINGS_AS_ERRORS`            | Turn all build warnings into errors.                      |
 | `WITH_TESTS`                    | Enable testing support.                                   |

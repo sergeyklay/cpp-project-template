@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(Stars LANGUAGES CXX)
 
 # Provide path for additional CMake scripts
-list(APPEND CMAKE_MODULE_PATH ${Stars_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # Determine if Stars is built as a subproject (using add_subdirectory) or if it
 # is the master project.
@@ -38,12 +38,12 @@ include(Cppcheck)
 include(ClangFormat)
 
 file(GLOB_RECURSE cpp_files
-  ${Stars_SOURCE_DIR}/include/*.[hc]
-  ${Stars_SOURCE_DIR}/include/*.[hc]pp
-  ${Stars_SOURCE_DIR}/src/*.[hc]
-  ${Stars_SOURCE_DIR}/src/*.[hc]pp
-  ${Stars_SOURCE_DIR}/tests/*.[hc]
-  ${Stars_SOURCE_DIR}/tests/*.[hc]pp)
+  ${PROJECT_SOURCE_DIR}/include/*.[hc]
+  ${PROJECT_SOURCE_DIR}/include/*.[hc]pp
+  ${PROJECT_SOURCE_DIR}/src/*.[hc]
+  ${PROJECT_SOURCE_DIR}/src/*.[hc]pp
+  ${PROJECT_SOURCE_DIR}/tests/*.[hc]
+  ${PROJECT_SOURCE_DIR}/tests/*.[hc]pp)
 
 clang_format(cpp-format ${cpp_files})
 

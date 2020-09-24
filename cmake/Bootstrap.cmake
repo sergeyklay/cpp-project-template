@@ -16,25 +16,27 @@ set(allowableBuildTypes Debug Release RelWithDebInfo MinSizeRel)
 
 # Specify the build type
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE
-      Debug
-      CACHE STRING
-            "Specify the build type: Debug Release RelWithDebInfo MinSizeRel"
-            FORCE)
+  message(STATUS "Setting build type to 'Debug' as none was specified.")
+  set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build." FORCE)
 elseif(NOT CMAKE_BUILD_TYPE IN_LIST allowableBuildTypes)
   message(FATAL_ERROR "Invalid build type: ${CMAKE_BUILD_TYPE}")
 endif()
 
 unset(allowableBuildTypes)
 
-# Make sure developers do not run cmake in the main project directory, to keep
-# build artifacts from becoming clutter
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
-  message(
-    FATAL_ERROR
-      "In-source builds not allowed. Please make a new directory "
-      "(called a build directory) and run CMake from there. "
-      "You may need to remove CMakeCache.txt.")
+# Make sure developers do not run cmake in the main project directory,
+# to keep build artifacts from becoming clutter
+get_filename_component(srcdir "${CMAKE_SOURCE_DIR}" REALPATH)
+get_filename_component(bindir "${CMAKE_BINARY_DIR}" REALPATH)
+
+if("${srcdir}" STREQUAL "${bindir}")
+  message(FATAL_ERROR
+    "In-source builds not allowed. They are unsupportable in practice, they spill "
+    "their guts into .gitignore, and they turn buildsystem bugs into damage to sources. "
+    "Instead, build the project out-of source: Create a "
+    "separate directory for the build *outside of the source folder*, and run "
+    "cmake <path to the source dir> and build from there."
+    "You may need to remove CMakeCache.txt.")
 endif()
 
 include(ProcessorCount)
@@ -43,9 +45,8 @@ ProcessorCount(N)
 if(NOT N EQUAL 0)
   set(BUILD_JOBS ${N})
 else()
-  message(
-    WARNING
-      "There's a problem determining the processor count. Set fallback to: 2")
+  message(WARNING
+    "There's a problem determining the processor count. Set fallback to: 2")
   set(BUILD_JOBS 2)
 endif()
 

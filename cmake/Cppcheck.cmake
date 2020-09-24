@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-option(CPPCHECK "Turns on cppcheck processing if it is found." OFF)
+option(CPPCHECK "Perform cppcheck during compilation." OFF)
 
 # Adds cppcheck to the compilation, with the given arguments being used as the
 # options set.
@@ -34,6 +34,7 @@ endif()
 mark_as_advanced(CPPCHECK_EXE)
 
 set(_base_message "Check for cppcheck")
+
 if(CPPCHECK_EXE)
   # Version number checking for '-std=c++17' compatibility
   execute_process(
@@ -55,10 +56,8 @@ if(CPPCHECK_EXE)
                ${CPPCHECK_VERSION_CALL_OUTPUT})
 
   if(CPPCHECK_VERSION VERSION_LESS "1.89")
-    message(
-      SEND_ERROR
-        "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89"
-    )
+    message(SEND_ERROR
+      "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89")
   endif()
 
   message(STATUS "${_base_message}: ${CPPCHECK_EXE}")
@@ -70,7 +69,7 @@ if(CPPCHECK_EXE)
         "--std=c++17"
         "--template={file}:{line}:{column}:\ {severity}:\ {message}\ [--suppress={id}]\\n{code}"
         "--inline-suppr"
-        "--suppressions-list=${CMAKE_SOURCE_DIR}/cppcheck.supp"
+        "--suppressions-list=${PROJECT_SOURCE_DIR}/cppcheck.supp"
         "-j${BUILD_JOBS}"
         "--quiet"
         "--verbose"
@@ -79,13 +78,10 @@ if(CPPCHECK_EXE)
 
 elseif(CPPCHECK)
   message(SEND_ERROR "${_base_message}: executable not found!")
-  set(CMAKE_CXX_CPPCHECK
-      ""
-      CACHE STRING "" FORCE) # delete it
+  set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 else()
   message(STATUS "${_base_message}: not found")
-  set(CMAKE_CXX_CPPCHECK
-      ""
-      CACHE STRING "" FORCE) # delete it
+  set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 endif()
+
 unset(_base_message)

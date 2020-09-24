@@ -25,7 +25,8 @@ target_include_directories(stars
   PRIVATE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/src>)
 
 target_link_libraries(stars
-  PRIVATE Stars::CompilerWarnings Stars::ChuckNorris)
+  PRIVATE Stars::CompilerWarnings
+          Stars::ChuckNorris)
 
 file(RELATIVE_PATH _rel
   ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}
