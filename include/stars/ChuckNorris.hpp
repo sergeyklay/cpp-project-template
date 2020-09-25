@@ -18,17 +18,17 @@
 #ifndef STARS_CHUCKNORRIS_HPP_
 #define STARS_CHUCKNORRIS_HPP_
 
-#include <sqlite3.h>
-
 #include <string>
 
 namespace stars {
 
-/// \brief Chuck Norris class.
+/// \brief Chuck Norris Implementation class.
+class ChuckNorrisImpl;
+
+/// \brief Public Chuck Norris class.
 class ChuckNorris {
  public:
   ChuckNorris();
-  ~ChuckNorris();
 
   // Make sure you cannot copy Chuck Norris
   ChuckNorris(ChuckNorris const &) = delete;
@@ -42,8 +42,7 @@ class ChuckNorris {
   [[nodiscard]] int getStatus() const;
 
  private:
-  sqlite3 *db = nullptr;
-  int dbStatus = 0;
+  stars::ChuckNorrisImpl *pimpl;
 };
 }  // namespace stars
 

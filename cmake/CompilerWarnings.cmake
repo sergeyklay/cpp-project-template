@@ -17,7 +17,7 @@ include(CMakeDependentOption)
 option(WARNINGS_AS_ERRORS "Turn all build warnings into errors")
 
 add_library(compilerwarnings INTERFACE)
-add_library(Stars::CompilerWarnings ALIAS compilerwarnings)
+add_library(stars::CompilerWarnings ALIAS compilerwarnings)
 
 # Clang / GCC:
 # -Wall             Baseline reasonable warnings
