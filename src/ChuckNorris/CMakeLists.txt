@@ -31,19 +31,21 @@ get_filename_component(_MOD_DIR ${input} DIRECTORY)
 configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 
 # Add definition for chucknorris library
-add_library(chucknorris SHARED ChuckNorris.cpp)
-add_library(Stars::ChuckNorris ALIAS chucknorris)
+add_library(chucknorris SHARED
+  ChuckNorris.cpp
+  ChuckNorrisImpl.cpp)
+add_library(stars::ChuckNorris ALIAS chucknorris)
 
 target_link_libraries(chucknorris
-  PUBLIC  CONAN_PKG::sqlite3
-          CONAN_PKG::spdlog
-  PRIVATE Stars::CompilerWarnings)
+  PUBLIC  CONAN_PKG::spdlog
+  PRIVATE CONAN_PKG::sqlite3
+          stars::CompilerWarnings)
 
 target_include_directories(chucknorris
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-# Version info
+# Library version info
 set(CHUCKNORRIS_VERSION_MAJOR 1)
 set(CHUCKNORRIS_VERSION_MINOR 13)
 set(CHUCKNORRIS_VERSION_PATCH 42)

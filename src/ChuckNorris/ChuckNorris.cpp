@@ -15,66 +15,37 @@
 #include "stars/ChuckNorris.hpp"
 
 #include <spdlog/spdlog.h>
-#include <sqlite3.h>
 
-#include "Database.hpp"
+#include "ChuckNorrisImpl.hpp"
 
-stars::ChuckNorris::ChuckNorris() {
-  int flags = SQLITE_OPEN_URI | SQLITE_OPEN_READONLY;
-  if (sqlite3_open_v2(STARS_DB_URI, &db, flags, nullptr) != SQLITE_OK) {
-    spdlog::critical("Can't open database: {}", sqlite3_errmsg(db));
-    dbStatus = -1;
-    sqlite3_close(db);
-  } else {
-    dbStatus = 1;
+stars::ChuckNorris::ChuckNorris() : pimpl(new stars::ChuckNorrisImpl) {
+  if (getStatus() == -1) {
+    spdlog::error("Can't open database: {}", pimpl->getDbMessage());
   }
 }
 
-stars::ChuckNorris::~ChuckNorris() {
-  if (dbStatus == 1) {
-    spdlog::debug("Closing a database connection...");
-    sqlite3_close(db);
-  }
-}
-int stars::ChuckNorris::getStatus() const { return dbStatus; }
+int stars::ChuckNorris::getStatus() const { return pimpl->getDbStatus(); }
 
 std::string stars::ChuckNorris::getFact() {
-  if (dbStatus != 1) {
-    return "";
-  }
+  auto fact = pimpl->getFact();
+  auto stat = getStatus();
 
-  sqlite3_stmt* stmt;
-  int rc;
-  std::string res;
-  auto const q = R"(SELECT fact FROM chucknorris ORDER BY RANDOM() LIMIT 1;)";
-
-  rc = sqlite3_prepare_v2(db, q, -1, &stmt, nullptr);
-  if (rc != SQLITE_OK) {
-    spdlog::error("Failed to prepare database query: {}", sqlite3_errmsg(db));
-    dbStatus = -2;
-
-    sqlite3_finalize(stmt);
-    return "";
-  }
-
-  rc = sqlite3_step(stmt);
-  if (rc != SQLITE_ROW) {
-    if (rc != SQLITE_DONE) {
-      spdlog::error("Failed to select fact: {}", sqlite3_errmsg(db));
-      dbStatus = -2;
-    } else {
-      spdlog::info("Unable to select fact: database is empty");
-      dbStatus = -1;
+  if (stat < 0) {
+    auto message = pimpl->getDbMessage();
+    switch (getStatus()) {
+      case -2:
+        spdlog::error("Failed to prepare database query: {}", message);
+        break;
+      case -3:
+        spdlog::error("Failed to select fact: {}", message);
+        break;
+      case -4:
+        spdlog::error("Unable to select fact: database is empty");
+        break;
+      default:
+        spdlog::error("Something went wrong");
     }
-
-    sqlite3_finalize(stmt);
-    return "";
   }
 
-  auto sqlite_row = sqlite3_column_text(stmt, 0);
-  auto row = reinterpret_cast<const char*>(sqlite_row);
-  res = std::string(row);
-
-  sqlite3_finalize(stmt);
-  return res;
+  return fact;
 }
