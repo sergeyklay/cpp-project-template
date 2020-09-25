@@ -17,13 +17,21 @@ your local machine for development and testing purposes.
 To build and run Stars you'll need the following requirements:
 
 -   A C++17 compatible compiler such as
+
     -   [GCC][gcc] >= 7.0.0
+
     -   [Clang][clang] >= 5.0.0
+
     -   [Apple Clang][apple clang] >= 10.0.0
+
     -   [Visual Studio][vs] >= 2017 (15.7)
+
 -   [CMake][cmake] 3.14 or later
+
 -   Any build tool supported by CMake like [GNU Make][make], [Ninja][ninja] and so on
+
 -   [Conan][conan] decentralized package manager with a client-server architecture
+
 -   [SQLite][sqlite] >= 3.0
 
 For project dependencies list see `conanfile.txt` bundled with this project.
