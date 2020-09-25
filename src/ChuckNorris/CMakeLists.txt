@@ -36,9 +36,11 @@ add_library(chucknorris SHARED
   ChuckNorrisImpl.cpp)
 add_library(stars::ChuckNorris ALIAS chucknorris)
 
+# These libraries should be accessible from the outside,
+# thus we link them as PRIVATE
 target_link_libraries(chucknorris
-  PUBLIC  CONAN_PKG::spdlog
-  PRIVATE CONAN_PKG::sqlite3
+  PRIVATE CONAN_PKG::spdlog
+          CONAN_PKG::sqlite3
           stars::CompilerWarnings)
 
 target_include_directories(chucknorris
