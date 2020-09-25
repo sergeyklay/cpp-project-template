@@ -17,13 +17,15 @@ and files as an existing repository. For more see:
 -   [x] [Modern CMake][modern-cmake] for much easier compiling
 -   [x] Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
 -   [x] Setup for tests using Google's C++ test framework
+-   [ ] x86 and x64 builds
 -   [ ] Code coverage reports, including automatic upload to Codecov.io
 -   [ ] Code documentation with Doxygen
+-   [ ] Create releases and attach artifacts using GitHub Actions
 
 ### Project Structure and Tools
 
--   Type: Shared Library (`so` on Linux, `dylib` on macOS and `dll` on Windows)
 -   Source: multiple files
+-   Type: Shared Library (`so` on Linux, `dylib` on macOS and `dll` on Windows) with [Pimpl][pimpl] implementation
 -   C++ version: `C++17`
 -   Tested OS: Linux, macOS and Windows
 -   C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
@@ -50,6 +52,7 @@ See the [LICENSE][license] file for more information.
 [codacy badge]: https://app.codacy.com/project/badge/Grade/817c63485ffe441bbbdab2a4e2229ac1
 [codacy link]: https://www.codacy.com/manual/klay/cpp-project-template/dashboard
 [gh-template]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
+[pimpl]: https://en.cppreference.com/w/cpp/language/pimpl
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
 [apple clang]: https://apps.apple.com/us/app/xcode/id497799835
