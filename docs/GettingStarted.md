@@ -16,23 +16,23 @@ your local machine for development and testing purposes.
 
 To build and run Stars you'll need the following requirements:
 
-- A C++17 compatible compiler such as
-  - [GCC][gcc] >= 7.0.0
-  - [Clang][clang] >= 5.0.0
-  - [Apple Clang][apple clang] >= 10.0.0
-  - [Visual Studio][vs] >= 2017 (15.7)
-- [CMake][cmake] 3.14 or later
-- Any build tool supported by CMake like [GNU Make][make], [Ninja][ninja] and so on
-- [Conan][conan] decentralized package manager with a client-server architecture
-- [SQLite][sqlite] >= 3.0
+-   A C++17 compatible compiler such as
+    -   [GCC][gcc] >= 7.0.0
+    -   [Clang][clang] >= 5.0.0
+    -   [Apple Clang][apple clang] >= 10.0.0
+    -   [Visual Studio][vs] >= 2017 (15.7)
+-   [CMake][cmake] 3.14 or later
+-   Any build tool supported by CMake like [GNU Make][make], [Ninja][ninja] and so on
+-   [Conan][conan] decentralized package manager with a client-server architecture
+-   [SQLite][sqlite] >= 3.0
 
 For project dependencies list see `conanfile.txt` bundled with this project.
 
 Optional prerequisites are:
 
-- Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
-- Static analysis tool for C/C++ code: [Cpplint][cpplint] >= 1.5
-- C, C++ formatting tool: [clang-format][clang-format] >= 10.0
+-   Static analysis tool for C/C++ code: [Cppcheck][cppcheck] >= 1.89
+-   Static analysis tool for C/C++ code: [Cpplint][cpplint] >= 1.5
+-   C, C++ formatting tool: [clang-format][clang-format] >= 10.0
 
 If you're using Ubuntu, you can install the required packages this way:
 
@@ -244,7 +244,7 @@ $ ~/.local/bin/stars
 
 ### Further Reading
 
-- [`cmake-buildsystem(7)`][cmake-buildsystem]
+-   [`cmake-buildsystem(7)`][cmake-buildsystem]
 
 ## License
 

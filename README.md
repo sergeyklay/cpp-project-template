@@ -2,39 +2,37 @@
 
 [![Build Status][build badge]][build link]
 [![Analysis Status][analysis badge]][analysis link]
+[![Code Analytics][codacy badge]][codacy link]
 
 This repository contains my personal boilerplate for C++ projects.
 
 You can generate a new repository with the same directory structure
 and files as an existing repository. For more see:
 
-- [Creating a repository from a template][gh-template]
+-   [Creating a repository from a template][gh-template]
 
 ## Features
 
-- Sources, headers and mains separated in distinct folders
-- [Modern CMake][modern-cmake] for much easier compiling
-- Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
-- Setup for tests using Google's C++ test framework
-- **[TODO]** Code coverage reports, including automatic upload to Codecov.io
-- **[TODO]** Code documentation with Doxygen
+-   [x] Sources, headers and mains separated in distinct folders
+-   [x] [Modern CMake][modern-cmake] for much easier compiling
+-   [x] Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
+-   [x] Setup for tests using Google's C++ test framework
+-   [ ] Code coverage reports, including automatic upload to Codecov.io
+-   [ ] Code documentation with Doxygen
 
 ### Project Structure and Tools
 
-- Type: Shared Library
-  - `so` file on Linux
-  - `dylib` file on macOS
-  - `dll` file on Windows
-- Source: multiple files
-- C++ version: `C++17`
-- Tested OS: Linux, macOS and Windows
-- C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
-- Package manager: [Conan][conan]
-- Build system: [CMake][cmake]
-- Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
-- Formatting tools: [clang-format][clang-format]
-- Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
-- CI: [GitHub Actions][actions]
+-   Type: Shared Library (`so` on Linux, `dylib` on macOS and `dll` on Windows)
+-   Source: multiple files
+-   C++ version: `C++17`
+-   Tested OS: Linux, macOS and Windows
+-   C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
+-   Package manager: [Conan][conan]
+-   Build system: [CMake][cmake]
+-   Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
+-   Formatting tools: [clang-format][clang-format]
+-   Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
+-   CI: [GitHub Actions][actions]
 
 ## Getting Started
 
@@ -49,6 +47,8 @@ See the [LICENSE][license] file for more information.
 [build badge]: https://github.com/sergeyklay/cpp-project-template/workflows/build/badge.svg
 [analysis link]: https://github.com/sergeyklay/cpp-project-template/actions?query=workflow%3Aanalysis
 [analysis badge]: https://github.com/sergeyklay/cpp-project-template/workflows/analysis/badge.svg
+[codacy badge]: https://app.codacy.com/project/badge/Grade/817c63485ffe441bbbdab2a4e2229ac1
+[codacy link]: https://www.codacy.com/manual/klay/cpp-project-template/dashboard
 [gh-template]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
