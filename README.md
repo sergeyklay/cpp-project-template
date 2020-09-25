@@ -2,6 +2,7 @@
 
 [![Build Status][build badge]][build link]
 [![Analysis Status][analysis badge]][analysis link]
+[![Code Analytics][codacy badge]][codacy link]
 
 This repository contains my personal boilerplate for C++ projects.
 
@@ -49,6 +50,8 @@ See the [LICENSE][license] file for more information.
 [build badge]: https://github.com/sergeyklay/cpp-project-template/workflows/build/badge.svg
 [analysis link]: https://github.com/sergeyklay/cpp-project-template/actions?query=workflow%3Aanalysis
 [analysis badge]: https://github.com/sergeyklay/cpp-project-template/workflows/analysis/badge.svg
+[codacy badge]: https://app.codacy.com/project/badge/Grade/817c63485ffe441bbbdab2a4e2229ac1
+[codacy link]: https://www.codacy.com/manual/klay/cpp-project-template/dashboard
 [gh-template]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template
 [gcc]: https://gcc.gnu.org/
 [clang]: https://clang.llvm.org/
