@@ -13,12 +13,12 @@ and files as an existing repository. For more see:
 
 ## Features
 
-- Sources, headers and mains separated in distinct folders
-- [Modern CMake][modern-cmake] for much easier compiling
-- Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
-- Setup for tests using Google's C++ test framework
-- **[TODO]** Code coverage reports, including automatic upload to Codecov.io
-- **[TODO]** Code documentation with Doxygen
+- [x] Sources, headers and mains separated in distinct folders
+- [x] [Modern CMake][modern-cmake] for much easier compiling
+- [x] Continuous testing with GitHub Actions on all modern platforms, with support for C++17.
+- [x] Setup for tests using Google's C++ test framework
+- [ ] Code coverage reports, including automatic upload to Codecov.io
+- [ ] Code documentation with Doxygen
 
 ### Project Structure and Tools
 
