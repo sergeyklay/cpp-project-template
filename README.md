@@ -9,7 +9,7 @@ This repository contains my personal boilerplate for C++ projects.
 You can generate a new repository with the same directory structure
 and files as an existing repository. For more see:
 
-- [Creating a repository from a template][gh-template]
+-   [Creating a repository from a template][gh-template]
 
 ## Features
 
@@ -22,20 +22,17 @@ and files as an existing repository. For more see:
 
 ### Project Structure and Tools
 
-- Type: Shared Library
-  - `so` file on Linux
-  - `dylib` file on macOS
-  - `dll` file on Windows
-- Source: multiple files
-- C++ version: `C++17`
-- Tested OS: Linux, macOS and Windows
-- C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
-- Package manager: [Conan][conan]
-- Build system: [CMake][cmake]
-- Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
-- Formatting tools: [clang-format][clang-format]
-- Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
-- CI: [GitHub Actions][actions]
+-   Type: Shared Library (`so` on Linux, `dylib` on macOS and `dll` on Windows)
+-   Source: multiple files
+-   C++ version: `C++17`
+-   Tested OS: Linux, macOS and Windows
+-   C++ compiler: [GCC][gcc], [Clang][clang], [Apple Clang][apple clang] or [Visual Studio][vs]
+-   Package manager: [Conan][conan]
+-   Build system: [CMake][cmake]
+-   Libraries: STL, [`sqlite3`][sqlite], [`spdlog`][spdlog]
+-   Formatting tools: [clang-format][clang-format]
+-   Static analysis tools: [Cpplint][cpplint], [Cppcheck][cppcheck]
+-   CI: [GitHub Actions][actions]
 
 ## Getting Started
 
