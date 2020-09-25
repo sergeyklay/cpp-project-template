@@ -72,8 +72,8 @@ Please note that specific versions of libraries and programs at the time of
 reading this guide may vary. The following dependencies is recommended install
 using [pip][pip]:
 
-- `conan`
-- `cpplint`
+-   `conan`
+-   `cpplint`
 
 They can be installed using pip as follows:
 
@@ -133,7 +133,7 @@ $ pip install -r requirements.txt
 included in the repositories of popular Linux distributions for a long time.
 Search for `clang-format` in your repositories.  Otherwise, you can either
 download pre-built LLVM/clang binaries or build the source code from
-https://releases.llvm.org/download.html.
+<https://releases.llvm.org/download.html>.
 
 Next, initialize project with `conan` - this is using the `conanfile.txt` specifying
 that SQLite is an dependency and that `conan` should integrate with CMake:
@@ -229,7 +229,7 @@ $ /usr/local/bin/stars
 
 Expected output will something like:
 
-```
+```text
 Chuck Norris can kill two stones with one bird.
 ```
 
