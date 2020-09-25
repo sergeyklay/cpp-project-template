@@ -16,7 +16,7 @@
 
 #include "Database.hpp"
 
-stars::ChuckNorrisImpl::ChuckNorrisImpl() {
+stars::ChuckNorrisImpl::ChuckNorrisImpl() : dbMessage() {
   int flags = SQLITE_OPEN_URI | SQLITE_OPEN_READONLY;
   if (sqlite3_open_v2(STARS_DB_URI, &db, flags, nullptr) != SQLITE_OK) {
     dbStatus = -1;
@@ -38,41 +38,34 @@ int stars::ChuckNorrisImpl::getDbStatus() const { return dbStatus; }
 std::string stars::ChuckNorrisImpl::getDbMessage() const { return dbMessage; }
 
 std::string stars::ChuckNorrisImpl::getFact() {
-  if (dbStatus != 1) {
-    return "";
-  }
-
+  std::string res;
   sqlite3_stmt* stmt;
   int rc;
-  std::string res;
-  auto const q = R"(SELECT fact FROM chucknorris ORDER BY RANDOM() LIMIT 1;)";
 
+  if (dbStatus != 1) {
+    return res;
+  }
+
+  auto const q = R"(SELECT fact FROM chucknorris ORDER BY RANDOM() LIMIT 1;)";
   rc = sqlite3_prepare_v2(db, q, -1, &stmt, nullptr);
+
   if (rc != SQLITE_OK) {
     dbMessage = std::string(sqlite3_errmsg(db));
     dbStatus = -2;
-
-    sqlite3_finalize(stmt);
-    return "";
-  }
-
-  rc = sqlite3_step(stmt);
-  if (rc != SQLITE_ROW) {
-    if (rc != SQLITE_DONE) {
-      dbMessage = std::string(sqlite3_errmsg(db));
-      dbStatus = -3;
-    } else {
+  } else {
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_ROW) {
       dbMessage = std::string(sqlite3_errmsg(db));
       dbStatus = -4;
+      if (rc != SQLITE_DONE) {
+        dbStatus = -3;
+      }
+    } else {
+      auto sqlite_row = sqlite3_column_text(stmt, 0);
+      auto row = reinterpret_cast<const char*>(sqlite_row);
+      res = std::string(row);
     }
-
-    sqlite3_finalize(stmt);
-    return "";
   }
-
-  auto sqlite_row = sqlite3_column_text(stmt, 0);
-  auto row = reinterpret_cast<const char*>(sqlite_row);
-  res = std::string(row);
 
   sqlite3_finalize(stmt);
   return res;
