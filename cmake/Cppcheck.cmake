@@ -14,8 +14,8 @@
 
 option(CPPCHECK "Perform cppcheck during compilation." OFF)
 
-# Adds cppcheck to the compilation, with the given arguments being used as the
-# options set.
+# Adds cppcheck to the compilation, with the given
+# arguments being used as the options set.
 
 if(UNIX)
   find_program(
@@ -33,7 +33,10 @@ endif()
 
 mark_as_advanced(CPPCHECK_EXE)
 
-set(_base_message "Check for cppcheck")
+# A tiny wrapper around message()
+function(cppcheck_message TYPE MESSAGE)
+  message(${TYPE} "Check for cppcheck: ${MESSAGE}")
+endfunction()
 
 if(CPPCHECK_EXE)
   # Version number checking for '-std=c++17' compatibility
@@ -60,7 +63,7 @@ if(CPPCHECK_EXE)
       "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89")
   endif()
 
-  message(STATUS "${_base_message}: ${CPPCHECK_EXE}")
+  cppcheck_message(STATUS "${CPPCHECK_EXE}")
   if(CPPCHECK)
     set(CMAKE_CXX_CPPCHECK
         "${CPPCHECK_EXE}"
@@ -77,11 +80,9 @@ if(CPPCHECK_EXE)
   endif()
 
 elseif(CPPCHECK)
-  message(SEND_ERROR "${_base_message}: executable not found!")
+  cppcheck_message(SEND_ERROR "executable not found!")
   set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 else()
-  message(STATUS "${_base_message}: not found")
+  cppcheck_message(STATUS "not found")
   set(CMAKE_CXX_CPPCHECK "" CACHE STRING "" FORCE) # delete it
 endif()
-
-unset(_base_message)
