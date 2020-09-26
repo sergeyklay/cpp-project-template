@@ -33,14 +33,14 @@ if(SQLITE3_EXE)
   get_filename_component(_DB_DIR ${input} DIRECTORY)
 
   execute_process(
-    COMMAND ${SQLITE3_EXE} ${_DB_DIR}/stars.db ".read ${_DB_DIR}/stars.sqlite"
+    COMMAND ${SQLITE3_EXE} ${_DB_DIR}/${PROJECT_PACKAGE_NAME}.db ".read ${_DB_DIR}/stars.sqlite"
     RESULT_VARIABLE result
-    ERROR_VARIABLE error)
+    ERROR_VARIABLE  error)
 
   if(NOT ${result} EQUAL 0)
     message(FATAL_ERROR "${error}")
   else()
-    install(FILES stars.db DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/db/stars)
+    install(FILES stars.db DESTINATION ${CMAKE_INSTALL_LOCALSTATEDIR}/db/${PROJECT_PACKAGE_NAME})
   endif()
 else()
   message(SEND_ERROR "sqlite3 executable not found!")
