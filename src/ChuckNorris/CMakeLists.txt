@@ -26,8 +26,7 @@ else ()
   set(DB_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 endif ()
 
-set(input ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt)
-get_filename_component(_MOD_DIR ${input} DIRECTORY)
+get_filename_component(_MOD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt DIRECTORY)
 configure_file("${_MOD_DIR}/Database.hpp.in" "${_MOD_DIR}/Database.hpp")
 
 # Add definition for chucknorris library
