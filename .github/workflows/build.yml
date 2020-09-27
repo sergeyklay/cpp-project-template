@@ -205,7 +205,6 @@ jobs:
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
-          -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
       - name: Build with ${{ matrix.compiler }}
         run: cmake --build build

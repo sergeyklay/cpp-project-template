@@ -62,3 +62,15 @@ endif()
 # For more see:
 # https://cmake.org/cmake/help/latest/prop_tgt/WINDOWS_EXPORT_ALL_SYMBOLS.html
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+# Generate a "compile_commands.json" file containing the exact compiler
+# calls for all translation units of the project in machine-readable form.
+# This is useful  for all sorts of tools ("clang-tidy", "cppcheck", "oclint",
+# "include-what-you-use", etc).
+#
+# Note This option is implemented only by Makefile Generators and the Ninja.
+# It is ignored on other generators.
+#
+# For more see:
+# https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
