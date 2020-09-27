@@ -151,6 +151,15 @@ This example establishes out-of-source `build/` folder, so that source folder
 is not polluted. For a detailed instruction on how to use and customize `conan`
 please refer [here][conan-start].
 
+In fact, the default behavior when doing `conan install` is to try to download a binary,
+and fail if otherwise. If `--build=xxxx` argument is provided, then it will build it from
+sources instead of downloading the binary. You can use `--build` option w/o argument to
+force conan build packages from source and don't use binary ones:
+
+```shell script
+$ conan install . -if=build --build
+```
+
 Next, generate the build files using CMake:
 
 ```shell script
@@ -163,18 +172,14 @@ To use Ninja CMake's generator, simply use CMake's `-G` [command-line option][cm
 $ cmake -H. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
 ```
 
-You can use `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON` when generating the build
-to have CMake create a `compile_commands.json` file for you. This is useful
-for all sorts of tools (`clang-tidy`, `cppcheck`, `oclint`, `include-what-you-use`,
-etc). Also you can specify the build type by using `CMAKE_BUILD_TYPE`. Supported
+You can specify the build type by using `CMAKE_BUILD_TYPE`. Supported
 build types are `Debug`, `Release`, `RelWithDebInfo` and `MinSizeRel`:
 
 ```shell script
-$ cmake                    \
-  -H.                      \
-  -Bbuild                  \
-  -DCMAKE_BUILD_TYPE=Debug \
-  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+$ cmake   \
+  -H.     \
+  -Bbuild \
+  -DCMAKE_BUILD_TYPE=Debug
 ```
 
 Finally build project:
@@ -188,12 +193,13 @@ $ cmake --build build
 To build with testing support, you have to configure project with special flags:
 
 ```shell script
-$ cmake -H. \
-    -Bbuild \
-    -DCMAKE_BUILD_TYPE=Debug \
-    -DWITH_TESTS=ON
+$ cmake             \
+    -H.             \
+    -Bbuild         \
+    -DWITH_TESTS=ON \
+    -DCMAKE_BUILD_TYPE=Debug
 
-cmake --build build
+$ cmake --build build
 ```
 
 Run tests from the project root as follows:
