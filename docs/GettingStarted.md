@@ -147,15 +147,18 @@ that SQLite is an dependency and that `conan` should integrate with CMake:
 $ conan install . -if=build --build=missing
 ```
 
-In fact, the default behavior when doing `conan install` is to try to download a binary,
-and fail if otherwise. If `--build=xxxx` argument is provided, then it will build it from
-sources instead of downloading the binary. If you want compile dependencies from
-source (ex. to have debug symbols), use `--build` option, w/o arguments. This will
-force conan always build packages from source and don't use binary ones.
-
 This example establishes out-of-source `build/` folder, so that source folder
 is not polluted. For a detailed instruction on how to use and customize `conan`
 please refer [here][conan-start].
+
+In fact, the default behavior when doing `conan install` is to try to download a binary,
+and fail if otherwise. If `--build=xxxx` argument is provided, then it will build it from
+sources instead of downloading the binary. You can use `--build` option w/o argument to
+force conan build packages from source and don't use binary ones:
+
+```shell script
+$ conan install . -if=build --build
+```
 
 Next, generate the build files using CMake:
 
