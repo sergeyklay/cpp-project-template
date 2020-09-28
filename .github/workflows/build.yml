@@ -19,10 +19,10 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
-    pull_request:
-      branches:
-        - master
-        - development
+  pull_request:
+    branches:
+      - master
+      - development
 
 jobs:
   simple_build:
