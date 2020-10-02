@@ -115,7 +115,7 @@ jobs:
           # Install common tools
           brew install cppcheck
 
-      - name: Setup chocolatey Cache
+      - name: Setup chocolatey Cache (Windows)
         if: startsWith(runner.os, 'Windows')
         uses: actions/cache@v2
         with:
@@ -196,11 +196,27 @@ jobs:
           --settings build_type=${{ matrix.build_type }}
           --build missing
 
-      - name: 'Configure (${{ matrix.arch }} ${{ matrix.build_type }})'
+      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build_type }})'
+        if: startsWith(runner.os, 'Windows') == false
         run: >-
           cmake
           -S .
           -Bbuild
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCPPCHECK=ON
+          -DWITH_TESTS=ON
+          -DWARNINGS_AS_ERRORS=ON
+          -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
+
+      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build_type }} ${{ matrix.arch }})'
+        if: startsWith(runner.os, 'Windows')
+        # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
+        run: >-
+          cmake
+          -S .
+          -Bbuild
+          -G "Visual Studio 16 2019"
+          -A x64
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
