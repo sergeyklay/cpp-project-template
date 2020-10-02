@@ -14,22 +14,24 @@
 
 if(UNIX)
   find_program(
-    CLANG_FORMAT_EXE
-    NAMES clang-format
+    CLANG_FORMAT_EXECUTABLE
+    NAMES clang-format clang-format-10
     PATHS /usr /usr/local
-    PATH_SUFFIXES bin)
+    PATH_SUFFIXES bin
+    DOC "clang-format executable")
 elseif(WIN32)
   find_program(
-    CLANG_FORMAT_EXE
+    CLANG_FORMAT_EXECUTABLE
     NAMES clang-format.exe
     PATHS C:/
-    PATH_SUFFIXES "")
+    PATH_SUFFIXES ""
+    DOC "clang-format executable")
 endif()
 
-mark_as_advanced(FORCE CLANG_FORMAT_EXE)
+mark_as_advanced(FORCE CLANG_FORMAT_EXECUTABLE)
 
-if(CLANG_FORMAT_EXE)
-  message(STATUS "clang-format found: ${CLANG_FORMAT_EXE}")
+if(CLANG_FORMAT_EXECUTABLE)
+  message(STATUS "clang-format found: ${CLANG_FORMAT_EXECUTABLE}")
 else()
   message(STATUS "clang-format not found!")
 endif()
@@ -47,7 +49,7 @@ endif()
 # Optional: ARGN - The list of targets OR files to format. Relative and absolute
 # paths are accepted.
 function(clang_format TARGET_NAME)
-  if(CLANG_FORMAT_EXE)
+  if(CLANG_FORMAT_EXECUTABLE)
     set(FORMAT_FILES)
     # Check through the ARGN's, determine existent files
     foreach(item IN LISTS ARGN)
@@ -82,7 +84,7 @@ function(clang_format TARGET_NAME)
           ERROR
           "Cannot create clang-format target '${TARGET_NAME}', already exists.")
       else()
-        add_custom_target(${TARGET_NAME} COMMAND ${CLANG_FORMAT_EXE} -i
+        add_custom_target(${TARGET_NAME} COMMAND ${CLANG_FORMAT_EXECUTABLE} -i
                                                  -style=file ${FORMAT_FILES})
 
         if(NOT TARGET format)

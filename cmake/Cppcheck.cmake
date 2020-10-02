@@ -19,29 +19,29 @@ option(CPPCHECK "Perform cppcheck during compilation." OFF)
 
 if(UNIX)
   find_program(
-    CPPCHECK_EXE
+    CPPCHECK_EXECUTABLE
     NAMES cppcheck
     PATHS /usr /usr/local
     PATH_SUFFIXES bin)
 elseif(WIN32)
   find_program(
-    CPPCHECK_EXE
+    CPPCHECK_EXECUTABLE
     NAMES cppcheck.exe
     PATHS C:/
     PATH_SUFFIXES "")
 endif()
 
-mark_as_advanced(CPPCHECK_EXE)
+mark_as_advanced(FORCE CPPCHECK_EXECUTABLE)
 
 # A tiny wrapper around message()
 function(cppcheck_message TYPE MESSAGE)
   message(${TYPE} "Check for cppcheck: ${MESSAGE}")
 endfunction()
 
-if(CPPCHECK_EXE)
+if(CPPCHECK_EXECUTABLE)
   # Version number checking for '-std=c++17' compatibility
   execute_process(
-    COMMAND ${CPPCHECK_EXE} --version
+    COMMAND ${CPPCHECK_EXECUTABLE} --version
     OUTPUT_VARIABLE CPPCHECK_VERSION_CALL_OUTPUT
     RESULT_VARIABLE CPPCHECK_VERSION_RESULT
     ERROR_VARIABLE CPPCHECK_VERSION_ERROR
@@ -49,7 +49,7 @@ if(CPPCHECK_EXE)
 
   if(CPPCHECK_VERSION_RESULT)
     string(CONCAT CPPCHECK_FIND_ERROR
-                  "Command \"${CPPCHECK_EXE} --version\" failed "
+                  "Command \"${CPPCHECK_EXECUTABLE} --version\" failed "
                   "with output:\n${CPPCHECK_VERSION_ERROR}")
 
     message(FATAL_ERROR "${CPPCHECK_FIND_ERROR}")
@@ -63,10 +63,10 @@ if(CPPCHECK_EXE)
       "Cppcheck ${CPPCHECK_VERSION} require option --std=c++17 which is available on cppcheck >= 1.89")
   endif()
 
-  cppcheck_message(STATUS "${CPPCHECK_EXE}")
+  cppcheck_message(STATUS "${CPPCHECK_EXECUTABLE}")
   if(CPPCHECK)
     set(CMAKE_CXX_CPPCHECK
-        "${CPPCHECK_EXE}"
+        "${CPPCHECK_EXECUTABLE}"
         "--enable=warning,performance,portability,missingInclude"
         "--language=c++"
         "--std=c++17"
