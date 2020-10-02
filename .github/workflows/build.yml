@@ -116,6 +116,7 @@ jobs:
           brew install cppcheck
 
       - name: Setup chocolatey Cache
+        if: startsWith(runner.os, 'Windows')
         uses: actions/cache@v2
         with:
           path: C:\Users\runneradmin\AppData\Local\Temp\chocolatey
