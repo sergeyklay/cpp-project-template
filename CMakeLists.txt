@@ -32,7 +32,7 @@ endif()
 # CMake Script Includes
 include(Bootstrap)
 include(Helpers)
-include(CompilerWarnings)
+include(CompilerFlags)
 include(LanguageStandard)
 include(Cppcheck)
 include(ClangFormat)
