@@ -49,8 +49,6 @@ target_compile_options(
             $<$<BOOL:${WARNINGS_AS_ERRORS}>:-Werror>>)
 
 # Verify compiler flags
-if(CMAKE_BUILD_TYPE IN_LIST ALLOWABLE_BUILD_TYPES)
-  string(TOUPPER ${CMAKE_BUILD_TYPE} _build_type)
-  message(STATUS "Used compiler flags: ${CMAKE_CXX_FLAGS_${_build_type}}")
-  unset(_build_type)
-endif()
+string(TOUPPER ${CMAKE_BUILD_TYPE} _build_type)
+message(STATUS "Used compiler flags: ${CMAKE_CXX_FLAGS_${_build_type}}")
+unset(_build_type)
