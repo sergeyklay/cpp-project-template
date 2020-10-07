@@ -16,8 +16,8 @@ include(CMakeDependentOption)
 
 option(WARNINGS_AS_ERRORS "Turn all build warnings into errors")
 
-add_library(compilerwarnings INTERFACE)
-add_library(stars::CompilerWarnings ALIAS compilerwarnings)
+add_library(compilerflags INTERFACE)
+add_library(stars::CompilerFlags ALIAS compilerflags)
 
 # Clang / GCC
 # For "-Werror" see target_compile_options() bellow
@@ -42,7 +42,7 @@ endif()
 
 # Enable all flags
 target_compile_options(
-  compilerwarnings
+  compilerflags
   INTERFACE $<$<CXX_COMPILER_ID:MSVC>:${msvc-warnings}
             $<$<BOOL:${WARNINGS_AS_ERRORS}>:/WX>>
             $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${unix-warnings}

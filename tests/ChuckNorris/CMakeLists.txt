@@ -27,7 +27,7 @@ target_include_directories(ChuckNorrisTest
           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 target_link_libraries(ChuckNorrisTest
-  PRIVATE stars::CompilerWarnings
+  PRIVATE stars::CompilerFlags
           stars::ChuckNorris
           CONAN_PKG::gtest)
 

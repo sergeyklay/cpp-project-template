@@ -40,7 +40,7 @@ add_library(stars::ChuckNorris ALIAS chucknorris)
 target_link_libraries(chucknorris
   PRIVATE CONAN_PKG::spdlog
           CONAN_PKG::sqlite3
-          stars::CompilerWarnings)
+          stars::CompilerFlags)
 
 target_include_directories(chucknorris
   PUBLIC $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
