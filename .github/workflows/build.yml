@@ -129,7 +129,7 @@ jobs:
       - name: Setup Common Prerequisites (Windows)
         if: startsWith(runner.os, 'Windows')
         run: |
-          echo "INSTALL_PREFIX=C:\Stars" >> $GITHUB_ENV
+          echo "INSTALL_PREFIX=C:\Stars" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
 
           # Install common tools
           choco install --no-progress -y cppcheck
