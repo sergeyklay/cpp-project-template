@@ -129,11 +129,11 @@ jobs:
       - name: Setup Common Prerequisites (Windows)
         if: startsWith(runner.os, 'Windows')
         run: |
-          echo "INSTALL_PREFIX=C:\Stars" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+          Write-Output "INSTALL_PREFIX=C:\Stars" | Out-File -FilePath $env:GITHUB_ENV
 
           # Install common tools
           choco install --no-progress -y cppcheck
-          echo "C:\Program Files\Cppcheck" >> $GITHUB_PATH
+          Write-Output "C:\Program Files\Cppcheck" | Out-File -FilePath $env:GITHUB_PATH
 
       - name: Setup Python
         uses: actions/setup-python@v2
