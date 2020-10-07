@@ -50,5 +50,5 @@ target_compile_options(
 
 # Verify compiler flags
 string(TOUPPER ${CMAKE_BUILD_TYPE} _build_type)
-message(STATUS "Used compiler flags: ${CMAKE_CXX_FLAGS_${_build_type}}")
+message(STATUS "Used compiler flags at configure time: ${CMAKE_CXX_FLAGS_${_build_type}}")
 unset(_build_type)
