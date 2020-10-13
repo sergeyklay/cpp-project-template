@@ -198,18 +198,33 @@ jobs:
           --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
           --build missing
 
-      - name: 'Configure (${{ matrix.arch }} ${{ matrix.build-type }})'
-        shell: bash
-        # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
+      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
+        if: startsWith(runner.os, 'Windows') == false
         run: >-
-          cmake -S .
+          cmake
+          -S .
           -B build
-          -G "${{ matrix.generator }}" $( (( "${{ matrix.generator }}" = "Visual Studio 16 2019" )) && printf %s '-A x64' )
+          -G "${{ matrix.generator }}"
           -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
+          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install"
+
+      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
+        shell: bash
+        # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
+        run: >-
+          cmake
+          -S .
+          -B build
+          -G "${{ matrix.generator }}"
+          -A x64
+          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+          -DCPPCHECK=ON
+          -DWITH_TESTS=ON
+          -DWARNINGS_AS_ERRORS=ON
+          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}\install"
 
       - name: Build with ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
