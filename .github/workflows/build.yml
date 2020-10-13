@@ -30,7 +30,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.toolchain }}: ${{ matrix.build_type }}"
+    name: "${{ matrix.toolchain }}: ${{ matrix.build-type }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -203,23 +203,23 @@ jobs:
           conan
           install .
           --install-folder build
-          --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}
-          --settings build_type=${{ matrix.build_type }}
+          --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
+          --settings build-type=${{ matrix.build-type }}
           --build missing
 
-      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build_type }})'
+      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
         if: startsWith(runner.os, 'Windows') == false
         run: >-
           cmake
           -S .
           -Bbuild
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_build-type=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
 
-      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build_type }} ${{ matrix.arch }})'
+      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }} ${{ matrix.arch }})'
         if: startsWith(runner.os, 'Windows')
         # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
         run: >-
@@ -228,7 +228,7 @@ jobs:
           -Bbuild
           -G "Visual Studio 16 2019"
           -A x64
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_build-type=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
