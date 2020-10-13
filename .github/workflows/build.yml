@@ -14,15 +14,7 @@
 
 name: build
 
-on:
-  push:
-    paths-ignore:
-      - '**.md'
-      - '**.txt'
-  pull_request:
-    branches:
-      - master
-      - development
+on: [push, pull_request]
 
 jobs:
   simple_build:
@@ -30,7 +22,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.build-type }}: ${{ matrix.toolchain }} ${{ matrix.generator }}"
+    name: "${{ matrix.toolchain }}: ${{ matrix.build-type }} ${{ matrix.generator }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -212,12 +204,12 @@ jobs:
         run: >-
           cmake -S .
           -B build
-          -G "${{ matrix.generator }}" $( (( "${{ matrix.generator }}" = 'Visual Studio 16 2019' )) && printf %s '-A x64' )
+          -G "${{ matrix.generator }}" $( (( "${{ matrix.generator }}" = "Visual Studio 16 2019" )) && printf %s '-A x64' )
           -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install
+          -DCMAKE_INSTALL_PREFIX="$(pwd)/install"
 
       - name: Build with ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
@@ -236,18 +228,18 @@ jobs:
 
       - name: Analyze Install (Unix)
         if: startsWith(runner.os, 'Windows') == false
-        run: bash .ci/objanalyze.sh stars ${{ github.workspace }}\install
+        run: bash .ci/objanalyze.sh stars ${{ github.workspace }}/install
 
       - name: Minimal Load Test (Unix)
         if: startsWith(runner.os, 'Windows') == false
-        working-directory: ${{ github.workspace }}/install/bin
+        working-directory: ./install/bin
         run: |
           ./stars --version
           for i in {1..10}; do ./stars; done
 
       - name: Minimal Load Test (Windows)
         if: startsWith(runner.os, 'Windows')
-        working-directory: ${{ github.workspace }}\install\bin
+        working-directory: .\install\bin
         run: |
           .\stars.exe --version
           1..10 | % { .\stars.exe }
