@@ -234,7 +234,10 @@ jobs:
         run: bash .ci/objanalyze.sh stars
 
       - name: Install Program
-        run: cmake --build build --target install
+        shell: bash
+        run: |
+          cmake --build build --target install
+          find ${{ github.workspace }}/install
 
       - name: Analyze Install (Unix)
         if: startsWith(runner.os, 'Windows') == false
