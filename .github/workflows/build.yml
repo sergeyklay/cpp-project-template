@@ -212,7 +212,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install"
 
       - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
-        shell: bash
+        if: startsWith(runner.os, 'Windows')
         # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
         run: >-
           cmake
