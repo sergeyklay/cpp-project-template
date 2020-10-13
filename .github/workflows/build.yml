@@ -243,19 +243,12 @@ jobs:
         if: startsWith(runner.os, 'Windows') == false
         run: bash .ci/objanalyze.sh stars ${{ github.workspace }}/install
 
-      - name: Minimal Load Test (Unix)
-        if: startsWith(runner.os, 'Windows') == false
+      - name: Minimal Load Test
         working-directory: ./install/bin
+        shell: bash
         run: |
           ./stars --version
           for i in {1..10}; do ./stars; done
-
-      - name: Minimal Load Test (Windows)
-        if: startsWith(runner.os, 'Windows')
-        working-directory: .\install\bin
-        run: |
-          .\stars.exe --version
-          1..10 | % { .\stars.exe }
 
       - name: Success Reporting
         if: success()
