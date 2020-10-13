@@ -1,2 +1,2 @@
-conan ~= 1.29
+conan ~= 1.30
 cpplint ~= 1.5
