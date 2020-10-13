@@ -229,11 +229,11 @@ jobs:
       - name: Build Using ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
 
-      - name: Install Program
+      - name: Install
         shell: bash
         run: |
-          cmake --build build --target install
-          find install
+          cmake --build build --config ${{ matrix.build-type }} --target install
+          echo -e "Intall tree:\n$(find install)"
 
       - name: Minimal Install Test
         working-directory: ./install/bin
