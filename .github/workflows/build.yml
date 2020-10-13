@@ -37,35 +37,45 @@ jobs:
       fail-fast: false
 
       matrix:
-        toolchain:
-          - linux-gcc-7
-          - linux-clang-5.0
-          - macos-clang-11.0
-          - windows-msvc-16
-
-        build_type:
-          - Debug
 
         include:
           - toolchain: linux-gcc-7
+            build-type: Debug
+            os: ubuntu-18.04
+            compiler: gcc
+            arch: x86_64
+            version: '7'
+
+          - toolchain: linux-gcc-7
+            build-type: Asan
+            os: ubuntu-18.04
+            compiler: gcc
+            arch: x86_64
+            version: '7'
+
+          - toolchain: linux-gcc-7
+            build-type: Ubsan
             os: ubuntu-18.04
             compiler: gcc
             arch: x86_64
             version: '7'
 
           - toolchain: linux-clang-5.0
+            build-type: Debug
             os: ubuntu-18.04
             compiler: clang
             arch: x86_64
             version: '5.0'
 
           - toolchain: macos-clang-11.0
+            build-type: Debug
             os: macos-10.15
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
 
           - toolchain: windows-msvc-16
+            build-type: Debug
             os: windows-2019
             compiler: msvc
             arch: x86_64
