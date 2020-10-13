@@ -229,19 +229,11 @@ jobs:
       - name: Build Using ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
 
-      - name: Analyze Build (Unix)
-        if: startsWith(runner.os, 'Windows') == false
-        run: bash .ci/objanalyze.sh stars
-
       - name: Install Program
         shell: bash
         run: |
           cmake --build build --target install
           find install
-
-      - name: Analyze Install (Unix)
-        if: startsWith(runner.os, 'Windows') == false
-        run: bash .ci/objanalyze.sh stars ${{ github.workspace }}/install
 
       - name: Minimal Install Test
         working-directory: ./install/bin
