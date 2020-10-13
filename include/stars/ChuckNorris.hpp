@@ -29,6 +29,7 @@ class ChuckNorrisImpl;
 class ChuckNorris {
  public:
   ChuckNorris();
+  ~ChuckNorris();
 
   // Make sure you cannot copy Chuck Norris
   ChuckNorris(ChuckNorris const &) = delete;

@@ -24,6 +24,11 @@ stars::ChuckNorris::ChuckNorris() : pimpl(new stars::ChuckNorrisImpl) {
   }
 }
 
+stars::ChuckNorris::~ChuckNorris() {
+  delete pimpl;
+  pimpl = nullptr;
+}
+
 int stars::ChuckNorris::getStatus() const { return pimpl->getDbStatus(); }
 
 std::string stars::ChuckNorris::getFact() {
