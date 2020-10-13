@@ -204,7 +204,7 @@ jobs:
           install .
           --install-folder build
           --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
-          --settings build-type=${{ matrix.build-type }}
+          --settings build_type=${{ matrix.build-type }}
           --build missing
 
       - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
