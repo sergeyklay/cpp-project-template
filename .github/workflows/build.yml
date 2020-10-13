@@ -31,7 +31,7 @@ jobs:
       matrix:
 
         include:
-          - toolchain: linux-gcc-7
+          - toolchain: linux-gcc
             build-type: Debug
             os: ubuntu-18.04
             compiler: gcc
@@ -39,7 +39,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-gcc-7
+          - toolchain: linux-gcc
             build-type: Asan
             os: ubuntu-18.04
             compiler: gcc
@@ -47,7 +47,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-gcc-7
+          - toolchain: linux-gcc
             build-type: Ubsan
             os: ubuntu-18.04
             compiler: gcc
@@ -55,7 +55,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-clang-5.0
+          - toolchain: linux-clang
             build-type: Debug
             os: ubuntu-18.04
             compiler: clang
@@ -71,7 +71,7 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
-          - toolchain: windows-msvc-16
+          - toolchain: windows-msvc
             build-type: Debug
             os: windows-2019
             compiler: msvc
@@ -237,13 +237,13 @@ jobs:
         shell: bash
         run: |
           cmake --build build --target install
-          find ${{ github.workspace }}/install
+          find install
 
       - name: Analyze Install (Unix)
         if: startsWith(runner.os, 'Windows') == false
         run: bash .ci/objanalyze.sh stars ${{ github.workspace }}/install
 
-      - name: Minimal Load Test
+      - name: Minimal Install Test
         working-directory: ./install/bin
         shell: bash
         run: |
