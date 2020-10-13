@@ -212,8 +212,7 @@ jobs:
         run: >-
           cmake -S .
           -B build
-          -G "${{ matrix.generator }}"
-          -A x64
+          -G "${{ matrix.generator }}" $( (( "${{ runner.os }}" = 'Visual Studio 16 2019' )) && printf %s '-A x64' )
           -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
