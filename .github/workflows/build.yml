@@ -226,19 +226,14 @@ jobs:
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}\install"
 
-      - name: Build with ${{ matrix.compiler }}
+      - name: Build Using ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
 
       - name: Analyze Build (Unix)
         if: startsWith(runner.os, 'Windows') == false
         run: bash .ci/objanalyze.sh stars
 
-      - name: Install Program (Unix)
-        if: startsWith(runner.os, 'Windows') == false
-        run: sudo cmake --build build --target install
-
-      - name: Install Program (Windows)
-        if: startsWith(runner.os, 'Windows')
+      - name: Install Program
         run: cmake --build build --target install
 
       - name: Analyze Install (Unix)
