@@ -30,7 +30,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.toolchain }}: ${{ matrix.build-type }}"
+    name: "${{ matrix.build-type }}: ${{ matrix.toolchain }} ${{ matrix.generator }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -45,6 +45,7 @@ jobs:
             compiler: gcc
             arch: x86_64
             version: '7'
+            generator: Ninja
 
           - toolchain: linux-gcc-7
             build-type: Asan
@@ -52,6 +53,7 @@ jobs:
             compiler: gcc
             arch: x86_64
             version: '7'
+            generator: Ninja
 
           - toolchain: linux-gcc-7
             build-type: Ubsan
@@ -59,6 +61,7 @@ jobs:
             compiler: gcc
             arch: x86_64
             version: '7'
+            generator: Unix Makefiles
 
           - toolchain: linux-clang-5.0
             build-type: Debug
@@ -66,6 +69,7 @@ jobs:
             compiler: clang
             arch: x86_64
             version: '5.0'
+            generator: Unix Makefiles
 
           - toolchain: macos-clang-11.0
             build-type: Debug
@@ -73,6 +77,7 @@ jobs:
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
+            generator: Unix Makefiles
 
           - toolchain: windows-msvc-16
             build-type: Debug
@@ -80,6 +85,7 @@ jobs:
             compiler: msvc
             arch: x86_64
             version: '16'
+            generator: Visual Studio 16 2019
 
     steps:
       - name: Checkout Code
@@ -92,8 +98,6 @@ jobs:
         run: |
           # Prune unneeded ppas
           bash .ci/prune-ppas.sh
-
-          echo "INSTALL_PREFIX=/opt/stars" >> $GITHUB_ENV
 
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -114,8 +118,6 @@ jobs:
         if: startsWith(runner.os, 'macOS')
         run: |
           sudo xcode-select -switch /Applications/Xcode.app
-
-          echo "INSTALL_PREFIX=/opt/stars" >> $GITHUB_ENV
 
           echo "CC=$(xcrun -f clang)" >> $GITHUB_ENV
           echo "CXX=$(xcrun -f clang++)" >> $GITHUB_ENV
@@ -139,8 +141,6 @@ jobs:
       - name: Setup Common Prerequisites (Windows)
         if: startsWith(runner.os, 'Windows')
         run: |
-          Add-Content -Path $env:GITHUB_ENV -Value 'INSTALL_PREFIX=C:\Stars'
-
           # Install common tools
           choco install --no-progress -y cppcheck
           Add-Content -Path $env:GITHUB_PATH -Value 'C:\Program Files\Cppcheck'
@@ -206,35 +206,22 @@ jobs:
           --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
           --build missing
 
-      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
-        if: startsWith(runner.os, 'Windows') == false
-        run: >-
-          cmake
-          -S .
-          -Bbuild
-          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
-          -DCPPCHECK=ON
-          -DWITH_TESTS=ON
-          -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
-
-      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
-        if: startsWith(runner.os, 'Windows')
+      - name: 'Configure (${{ matrix.arch }} ${{ matrix.build-type }})'
+        shell: bash
         # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
         run: >-
-          cmake
-          -S .
-          -Bbuild
-          -G "Visual Studio 16 2019"
+          cmake -S .
+          -B build
+          -G "${{ matrix.generator }}"
           -A x64
           -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
+          -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/install
 
       - name: Build with ${{ matrix.compiler }}
-        run: cmake --build build
+        run: cmake --build build --config ${{ matrix.build-type }}
 
       - name: Analyze Build (Unix)
         if: startsWith(runner.os, 'Windows') == false
@@ -246,23 +233,22 @@ jobs:
 
       - name: Install Program (Windows)
         if: startsWith(runner.os, 'Windows')
-        working-directory: ${{ matrix.project }}
         run: cmake --build build --target install
 
       - name: Analyze Install (Unix)
         if: startsWith(runner.os, 'Windows') == false
-        run: bash .ci/objanalyze.sh stars ${{ env.INSTALL_PREFIX }}
+        run: bash .ci/objanalyze.sh stars ${{ github.workspace }}\install
 
       - name: Minimal Load Test (Unix)
         if: startsWith(runner.os, 'Windows') == false
-        working-directory: ${{ env.INSTALL_PREFIX }}/bin
+        working-directory: ${{ github.workspace }}/install/bin
         run: |
           ./stars --version
           for i in {1..10}; do ./stars; done
 
       - name: Minimal Load Test (Windows)
         if: startsWith(runner.os, 'Windows')
-        working-directory: ${{ env.INSTALL_PREFIX }}\bin
+        working-directory: ${{ github.workspace }}\install\bin
         run: |
           .\stars.exe --version
           1..10 | % { .\stars.exe }
