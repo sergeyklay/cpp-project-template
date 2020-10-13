@@ -204,7 +204,6 @@ jobs:
           install .
           --install-folder build
           --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
-          --settings build_type=${{ matrix.build-type }}
           --build missing
 
       - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
@@ -213,13 +212,13 @@ jobs:
           cmake
           -S .
           -Bbuild
-          -DCMAKE_build-type=${{ matrix.build-type }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
 
-      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }} ${{ matrix.arch }})'
+      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
         if: startsWith(runner.os, 'Windows')
         # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
         run: >-
@@ -228,7 +227,7 @@ jobs:
           -Bbuild
           -G "Visual Studio 16 2019"
           -A x64
-          -DCMAKE_build-type=${{ matrix.build-type }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
