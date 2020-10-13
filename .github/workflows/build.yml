@@ -30,42 +30,52 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.toolchain }}: ${{ matrix.build_type }}"
+    name: "${{ matrix.toolchain }}: ${{ matrix.build-type }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
       fail-fast: false
 
       matrix:
-        toolchain:
-          - linux-gcc-7
-          - linux-clang-5.0
-          - macos-clang-11.0
-          - windows-msvc-16
-
-        build_type:
-          - Debug
 
         include:
           - toolchain: linux-gcc-7
+            build-type: Debug
+            os: ubuntu-18.04
+            compiler: gcc
+            arch: x86_64
+            version: '7'
+
+          - toolchain: linux-gcc-7
+            build-type: Asan
+            os: ubuntu-18.04
+            compiler: gcc
+            arch: x86_64
+            version: '7'
+
+          - toolchain: linux-gcc-7
+            build-type: Ubsan
             os: ubuntu-18.04
             compiler: gcc
             arch: x86_64
             version: '7'
 
           - toolchain: linux-clang-5.0
+            build-type: Debug
             os: ubuntu-18.04
             compiler: clang
             arch: x86_64
             version: '5.0'
 
           - toolchain: macos-clang-11.0
+            build-type: Debug
             os: macos-10.15
             compiler: apple-clang
             arch: x86_64
             version: '11.0'
 
           - toolchain: windows-msvc-16
+            build-type: Debug
             os: windows-2019
             compiler: msvc
             arch: x86_64
@@ -193,23 +203,22 @@ jobs:
           conan
           install .
           --install-folder build
-          --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build_type }}
-          --settings build_type=${{ matrix.build_type }}
+          --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
           --build missing
 
-      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build_type }})'
+      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
         if: startsWith(runner.os, 'Windows') == false
         run: >-
           cmake
           -S .
           -Bbuild
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
           -DCMAKE_INSTALL_PREFIX=${{ env.INSTALL_PREFIX }}
 
-      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build_type }} ${{ matrix.arch }})'
+      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
         if: startsWith(runner.os, 'Windows')
         # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
         run: >-
@@ -218,7 +227,7 @@ jobs:
           -Bbuild
           -G "Visual Studio 16 2019"
           -A x64
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
           -DCPPCHECK=ON
           -DWITH_TESTS=ON
           -DWARNINGS_AS_ERRORS=ON
