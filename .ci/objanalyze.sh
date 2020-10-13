@@ -16,7 +16,7 @@
 
 if [ "$#" -lt 1 ]; then
   echo "Illegal number of parameters" 1>&2
-  echo "Usage: objanalyze.sh <PROJECT_NAME> [ PREFIX ]" 1>&2
+  echo "Usage: objanalyze.sh <BIN_NAME> [ INSTALL_PREFIX ]" 1>&2
   exit 1
 fi
 
