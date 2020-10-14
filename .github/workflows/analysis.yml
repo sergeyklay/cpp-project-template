@@ -38,9 +38,6 @@ jobs:
 
       - name: Setup Common Prerequisites
         run: |
-          # Prune unneeded ppas
-          bash .ci/prune-ppas.sh
-
           # Add more toolchains
           echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key| sudo apt-key add -
