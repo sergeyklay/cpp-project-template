@@ -43,6 +43,14 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
+          - name: linux-gcc-debug
+            build-type: Release
+            os: ubuntu-18.04
+            compiler: gcc
+            arch: x64
+            version: '7'
+            generator: Unix Makefiles
+
           - name: linux-gcc-asan
             build-type: Asan
             os: ubuntu-18.04
@@ -67,6 +75,14 @@ jobs:
             version: '5.0'
             generator: Unix Makefiles
 
+          - name: linux-clang-debug
+            build-type: Release
+            os: ubuntu-18.04
+            compiler: clang
+            arch: x64
+            version: '5.0'
+            generator: Unix Makefiles
+
           - name: macos-clang-debug
             build-type: Debug
             os: macos-10.15
@@ -75,8 +91,24 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
+          - name: macos-clang-debug
+            build-type: Release
+            os: macos-10.15
+            compiler: apple-clang
+            arch: x64
+            version: '11.0'
+            generator: Unix Makefiles
+
           - name: windows-msvc-debug
             build-type: Debug
+            os: windows-2019
+            compiler: msvc
+            arch: x64
+            version: '16'
+            generator: Visual Studio 16 2019
+
+          - name: windows-msvc-debug
+            build-type: Release
             os: windows-2019
             compiler: msvc
             arch: x64
@@ -199,10 +231,12 @@ jobs:
           args=( -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} )
           args+=( -DCPPCHECK=ON -DWITH_TESTS=ON  -DWARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX="$(pwd)/install" )
 
-          # Platform specific stuff
-          args+=( -G "${{ matrix.generator }}" -DCMAKE_GENERATOR_PLATFORM=${{ matrix.arch }} )
+          # Generator's specific stuff
+          args+=( -G "${{ matrix.generator }}" )
+          [[ "${{ matrix.generator }}" = "Visual Studio 16 2019" ]] && \
+            args+=( -DCMAKE_GENERATOR_PLATFORM=${{ matrix.arch }} )
 
-          # Debug
+          # Print the resulting command line
           echo "cmake ${args[@]}"
 
           # Run
