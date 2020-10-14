@@ -16,13 +16,17 @@ name: build
 
 on: [push, pull_request]
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   simple_build:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.toolchain }}: ${{ matrix.build-type }} ${{ matrix.generator }}"
+    name: "${{ matrix.name }}: ${{ matrix.build-type }} ${{ matrix.generator }}"
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -31,7 +35,7 @@ jobs:
       matrix:
 
         include:
-          - toolchain: linux-gcc
+          - name: linux-gcc-debug
             build-type: Debug
             os: ubuntu-18.04
             compiler: gcc
@@ -39,7 +43,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-gcc
+          - name: linux-gcc-asan
             build-type: Asan
             os: ubuntu-18.04
             compiler: gcc
@@ -47,7 +51,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-gcc
+          - name: linux-gcc-ubsan
             build-type: Ubsan
             os: ubuntu-18.04
             compiler: gcc
@@ -55,7 +59,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - toolchain: linux-clang
+          - name: linux-clang-debug
             build-type: Debug
             os: ubuntu-18.04
             compiler: clang
@@ -63,7 +67,7 @@ jobs:
             version: '5.0'
             generator: Unix Makefiles
 
-          - toolchain: macos-clang-11.0
+          - name: macos-clang-debug
             build-type: Debug
             os: macos-10.15
             compiler: apple-clang
@@ -71,7 +75,7 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
-          - toolchain: windows-msvc
+          - name: windows-msvc-debug
             build-type: Debug
             os: windows-2019
             compiler: msvc
@@ -85,40 +89,40 @@ jobs:
         with:
           fetch-depth: 5
 
-      - name: Setup Common Prerequisites (Linux)
-        if: startsWith(runner.os, 'Linux')
+      - name: Setup Common Prerequisites
         run: |
-          # Prune unneeded ppas
-          bash .ci/prune-ppas.sh
+          case ${{ runner.os }} in
+            Linux*)
+              # Add more toolchains
+              echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+              sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
+              sudo apt-get update --quiet --yes 1>/dev/null
 
-          # Add more toolchains
-          echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test --yes
-          sudo apt-get update --quiet --yes 1>/dev/null
+              # Install compiler
+              source .ci/install-compiler-linux.sh \
+                "${{ matrix.compiler }}" "${{ matrix.version }}"
 
-          # Install compiler
-          source .ci/install-compiler-ubuntu.sh \
-            "${{ matrix.compiler }}" "${{ matrix.version }}"
+              # Install cppcheck
+              sudo snap install cppcheck
+              ;;
+            macOS*)
+              sudo xcode-select -switch /Applications/Xcode.app
 
-          # Install cppcheck
-          sudo snap install cppcheck
+              echo "CC=$(xcrun -f clang)" >> $GITHUB_ENV
+              echo "CXX=$(xcrun -f clang++)" >> $GITHUB_ENV
+              echo "SDKROOT=$(xcodebuild -version -sdk macosx Path)" >> $GITHUB_ENV
 
-          # Install common tools
-          sudo apt-get install --no-install-recommends -q -y chrpath
+              echo "$(xcodebuild -version -sdk macosx Path)" >> $GITHUB_PATH
 
-      - name: Setup Common Prerequisites (macOS)
-        if: startsWith(runner.os, 'macOS')
-        run: |
-          sudo xcode-select -switch /Applications/Xcode.app
-
-          echo "CC=$(xcrun -f clang)" >> $GITHUB_ENV
-          echo "CXX=$(xcrun -f clang++)" >> $GITHUB_ENV
-          echo "SDKROOT=$(xcodebuild -version -sdk macosx Path)" >> $GITHUB_ENV
-
-          echo "$(xcodebuild -version -sdk macosx Path)" >> $GITHUB_PATH
-
-          # Install common tools
-          brew install cppcheck
+              # Install common tools
+              brew install cppcheck
+              ;;
+            Windows*)
+              # Install common tools
+              choco install --no-progress -y cppcheck
+              # echo 'C:/Program Files/Cppcheck' >> $GITHUB_PATH
+              ;;
+          esac
 
       - name: Setup chocolatey Cache (Windows)
         if: startsWith(runner.os, 'Windows')
@@ -129,13 +133,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-chocolatey-${{ matrix.os }}-
             ${{ runner.os }}-chocolatey-
-
-      - name: Setup Common Prerequisites (Windows)
-        if: startsWith(runner.os, 'Windows')
-        run: |
-          # Install common tools
-          choco install --no-progress -y cppcheck
-          Add-Content -Path $env:GITHUB_PATH -Value 'C:\Program Files\Cppcheck'
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -166,7 +163,6 @@ jobs:
         run: cmake --version && conan --version
 
       - name: Setting Up Build Vars
-        shell: bash
         run: echo "CONAN_USER_HOME=$(conan config home)" >> $GITHUB_ENV
 
       - name: Setup Conan Cache
@@ -179,7 +175,6 @@ jobs:
             ${{ runner.os }}-conan-${{ matrix.compiler }}-
 
       - name: Configure Conan
-        shell: bash
         run: |
           mkdir -p "${{ env.CONAN_USER_HOME }}/.conan/profiles"
 
@@ -198,46 +193,35 @@ jobs:
           --profile ${{ runner.os }}-${{ matrix.arch }}-${{ matrix.compiler }}-${{ matrix.version }}-${{ matrix.build-type }}
           --build missing
 
-      - name: 'Configure (Unix ${{ matrix.arch }} ${{ matrix.build-type }})'
-        if: startsWith(runner.os, 'Windows') == false
-        run: >-
-          cmake
-          -S .
-          -B build
-          -G "${{ matrix.generator }}"
-          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
-          -DCPPCHECK=ON
-          -DWITH_TESTS=ON
-          -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install"
+      - name: Configure (${{ matrix.build-type }} ${{ matrix.arch }})
+        run: |
+          # Common CMake arguments
+          args=( -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} )
+          args+=( -DCPPCHECK=ON -DWITH_TESTS=ON  -DWARNINGS_AS_ERRORS=ON )
+          args+=( -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install" )
 
-      - name: 'Configure (Windows ${{ matrix.arch }} ${{ matrix.build-type }})'
-        if: startsWith(runner.os, 'Windows')
-        # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
-        run: >-
-          cmake
-          -S .
-          -B build
-          -G "${{ matrix.generator }}"
-          -A x64
-          -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
-          -DCPPCHECK=ON
-          -DWITH_TESTS=ON
-          -DWARNINGS_AS_ERRORS=ON
-          -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}\install"
+          # Generator specific stuff
+          # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
+          args+=( -G "${{ matrix.generator }}" )
+          [[ "${{ matrix.generator }}" = "Visual Studio 16 2019" ]] && \
+            args+=( -A x64 )
+
+          # Debug
+          echo "cmake ${args[@]}"
+
+          # Run
+          cmake "${args[@]}"
 
       - name: Build Using ${{ matrix.compiler }}
         run: cmake --build build --config ${{ matrix.build-type }}
 
       - name: Install
-        shell: bash
         run: |
           cmake --build build --config ${{ matrix.build-type }} --target install
-          echo -e "Intall tree:\n$(find install)"
+          echo -e "Install tree:\n$(find install | sed 's/^/-- /')"
 
       - name: Minimal Install Test
         working-directory: ./install/bin
-        shell: bash
         run: |
           ./stars --version
           for i in {1..10}; do ./stars; done
