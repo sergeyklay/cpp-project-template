@@ -43,7 +43,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - name: linux-gcc-debug
+          - name: linux-gcc-release
             build-type: Release
             os: ubuntu-18.04
             compiler: gcc
@@ -75,7 +75,7 @@ jobs:
             version: '5.0'
             generator: Unix Makefiles
 
-          - name: linux-clang-debug
+          - name: linux-clang-release
             build-type: Release
             os: ubuntu-18.04
             compiler: clang
@@ -91,7 +91,7 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
-          - name: macos-clang-debug
+          - name: macos-clang-release
             build-type: Release
             os: macos-10.15
             compiler: apple-clang
@@ -107,7 +107,7 @@ jobs:
             version: '16'
             generator: Visual Studio 16 2019
 
-          - name: windows-msvc-debug
+          - name: windows-msvc-release
             build-type: Release
             os: windows-2019
             compiler: msvc
