@@ -26,7 +26,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    name: "${{ matrix.name }}: ${{ matrix.build-type }} ${{ matrix.generator }}"
+    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -120,7 +120,7 @@ jobs:
             Windows*)
               # Install common tools
               choco install --no-progress -y cppcheck
-              # echo 'C:/Program Files/Cppcheck' >> $GITHUB_PATH
+              echo 'C:/Program Files/Cppcheck' >> $GITHUB_PATH
               ;;
           esac
 
@@ -197,14 +197,13 @@ jobs:
         run: |
           # Common CMake arguments
           args=( -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build-type }} )
-          args+=( -DCPPCHECK=ON -DWITH_TESTS=ON  -DWARNINGS_AS_ERRORS=ON )
-          args+=( -DCMAKE_INSTALL_PREFIX="${{ github.workspace }}/install" )
+          args+=( -DCPPCHECK=ON -DWITH_TESTS=ON  -DWARNINGS_AS_ERRORS=ON -DCMAKE_INSTALL_PREFIX="$(pwd)/install" )
 
-          # Generator specific stuff
-          # TODO(serghei): Replace hardcoded '-A x64' using matrix.arch
+          # Platform specific stuff
           args+=( -G "${{ matrix.generator }}" )
-          [[ "${{ matrix.generator }}" = "Visual Studio 16 2019" ]] && \
-            args+=( -A x64 )
+          [[ "${{ matrix.generator }}" = "Visual Studio 16 2019" ]] && {
+            [[ "${{ matrix.arch }}" = "x86_64" ]] && args+=( -DCMAKE_GENERATOR_PLATFORM=x64 ) || args+=( -DCMAKE_GENERATOR_PLATFORM=x86 )
+          }
 
           # Debug
           echo "cmake ${args[@]}"
