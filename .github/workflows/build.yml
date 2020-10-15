@@ -35,7 +35,7 @@ jobs:
       matrix:
 
         include:
-          - name: linux-gcc-debug
+          - name: linux-gcc-debug-make
             build-type: Debug
             os: ubuntu-18.04
             compiler: gcc
@@ -43,7 +43,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - name: linux-gcc-release
+          - name: linux-gcc-release-make
             build-type: Release
             os: ubuntu-18.04
             compiler: gcc
@@ -51,7 +51,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - name: linux-gcc-asan
+          - name: linux-gcc-asan-make
             build-type: Asan
             os: ubuntu-18.04
             compiler: gcc
@@ -59,7 +59,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - name: linux-gcc-ubsan
+          - name: linux-gcc-ubsan-make
             build-type: Ubsan
             os: ubuntu-18.04
             compiler: gcc
@@ -67,7 +67,7 @@ jobs:
             version: '7'
             generator: Unix Makefiles
 
-          - name: linux-clang-debug
+          - name: linux-clang-debug-make
             build-type: Debug
             os: ubuntu-18.04
             compiler: clang
@@ -75,7 +75,7 @@ jobs:
             version: '5.0'
             generator: Unix Makefiles
 
-          - name: linux-clang-release
+          - name: linux-clang-release-make
             build-type: Release
             os: ubuntu-18.04
             compiler: clang
@@ -83,7 +83,7 @@ jobs:
             version: '5.0'
             generator: Unix Makefiles
 
-          - name: macos-clang-debug
+          - name: macos-clang-debug-make
             build-type: Debug
             os: macos-10.15
             compiler: apple-clang
@@ -91,7 +91,15 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
-          - name: macos-clang-release
+          - name: macos-clang-debug-xcode
+            build-type: Debug
+            os: macos-10.15
+            compiler: apple-clang
+            arch: x64
+            version: '11.0'
+            generator: Xcode
+
+          - name: macos-clang-release-make
             build-type: Release
             os: macos-10.15
             compiler: apple-clang
@@ -99,7 +107,7 @@ jobs:
             version: '11.0'
             generator: Unix Makefiles
 
-          - name: windows-msvc-debug
+          - name: windows-msvc-debug-msvc
             build-type: Debug
             os: windows-2019
             compiler: msvc
@@ -107,7 +115,7 @@ jobs:
             version: '16'
             generator: Visual Studio 16 2019
 
-          - name: windows-msvc-release
+          - name: windows-msvc-release-msvc
             build-type: Release
             os: windows-2019
             compiler: msvc
