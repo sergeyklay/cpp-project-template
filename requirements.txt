@@ -1,2 +1,4 @@
 conan ~= 1.30
 cpplint ~= 1.5
+pygments>=2.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
+pyjwt>=2.4.0 # not directly required, pinned by Snyk to avoid a vulnerability
